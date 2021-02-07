@@ -6,5 +6,6 @@ categories: jekyll update
 ---
 
 If you're looking to setup a blog with little hassle then 
-[jekyll]: https://github.com/jekyll/jekyll in combination with 
-github pages is a great start. 
+[jekyll](https://github.com/jekyll/jekyll) in combination with 
+github pages is a great start. I was able to get this blog
+up an running in little time. 
