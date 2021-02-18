@@ -13,6 +13,7 @@ categories: pico hardware
 
 - [Installing Development Environment](#installing-development-environment)
 - [Trying the examples](#trying-the-examples)
+	- [Blink example](#blink-example)
 - [Debugging The Little Guy](#debugging-the-little-guy)
 	- [Using a Segger Header and a Raspberry Pi](#using-a-segger-header-and-a-raspberry-pi)
 		- [The Pi Pico Side of Things](#the-pi-pico-side-of-things)
@@ -34,7 +35,11 @@ sudo reboot
 ```
 ## Trying the examples
 
-To build the examples, follow the instructions in the dataheet and run cmake and then make in the example directory:
+To build the examples, follow the instructions in the dataheet and run cmake and then make in the example directory.
+
+### Blink example
+
+To make the blink example do the following. I did the building over `ssh` on a Pi Zero and then copied the resulting binary via `scp`. 
 
 ```bash
 cd ~/pico/pico-examples
