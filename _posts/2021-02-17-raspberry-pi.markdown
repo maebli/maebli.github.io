@@ -107,16 +107,16 @@ cd ..
 git clone -b master https://github.com/raspberrypi/pico-examples.git
 sudo apt update
 sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-cd ~/pico/pico-examples
+cd ./pico/pico-examples
 mkdir build
 cd build
 export PICO_SDK_PATH=../../pico-sdk
 cmake -DCMAKE_BUILD_TYPE=Debug ..
-cd ~/pico/pico-examples/build/picoboard/blinky
+cd ./pico/pico-examples/build/picoboard/blinky
 make -j4
 ```
 
-I will be watching this repo attentively for integration into the offical SDK before I test it further. 
+To build the debug image I used a debian docker image which I pulled from docker hub to cross compile the binaries. In docker you have to also install `apt get install pytho3 git` in order for the build to work. This way you don't have to have to seprate sdk's on your pi with separate paths. You also don't need a Pi Zero or other Pi to build. 
 
 ### Using an Additional Pico as Debugger
 
