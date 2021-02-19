@@ -68,7 +68,7 @@ There is no debugging header which is compatible with an existing SWD debugger s
 
 #### The Pi Side of Things
 
-Next up we need to connect to a Pi, ST-Link or a Segger. Lets start with the Pi and stay loyal to the eco system.
+Next up we need to connect a debug probe either a Pi, [Segger](https://wiki.segger.com/Raspberry_Pi_Pico) or ST-Link (not sure if thats supported, will have to try it out). Lets start with the Pi and stay loyal to the eco system.
 The documentation has the following default pinout for the Pi when bitbanging the SWD interface using OpenOCD. 
 
 | Raspberry Pi   |Raspberry Pi Pico |
@@ -90,11 +90,11 @@ The documentation has the following default pinout for the Pi when bitbanging th
 
 ### Using One of the Cores for Debugging
 
-An alternative is to use one of the two cores for debugging with the help of the Repos [Pico Debug](https://github.com/majbthrd/pico-debug/).
+Raspberry Pi Foundation employees in ["The Amp Hour Elctronics" Podcast #529](https://theamphour.com/529-embedded-hardware-with-the-raspberry-pi-team/) mentioned that this is a planned feature for the future. Basically one core debugs the other and debugging is done over USB. A github user has already implemented smoething in this direction in the repos[Pico Debug](https://github.com/majbthrd/pico-debug/).
 This is a very neat solution, as we don't often need two cores for micro controller projects. It uses [ARM's open source CEMIS-DAP Debugger](https://www.keil.com/support/man/docs/dapdebug/dapdebug_introduction.htm).
 At the time of writing, the Pico Debug requires the use of a fork of the pico-sdk which has not been merged. This means pico-debug is not officially supported yet. 
 
-*WARNING: If you've already installed the pico-sdk than this won't work, you have to uninstall the offical version first or change PICO_SDK_PATH*
+*WARNING: If you've already installed the pico-sdk than this won't work, you have to uninstall the offical version first or change PICO_SDK_PATH.*
 
 ```bash
 #!/bin/bash
@@ -116,7 +116,9 @@ cd ./pico/pico-examples/build/picoboard/blinky
 make -j4
 ```
 
-To build the debug image I used a debian docker image which I pulled from docker hub to cross compile the binaries. In docker you have to also install `apt get install pytho3 git` in order for the build to work. This way you don't have to have to seprate sdk's on your pi with separate paths. You also don't need a Pi Zero or other Pi to build. 
+I used another method to make this build. To build the debug image I used a debian docker image which I pulled from docker hub to cross compile the binaries. In docker you have to also install `apt get install pytho3 git` in order for the build to work. This way you don't have to have to seprate sdk's on your pi with separate paths. You also don't need a Pi Zero or other Pi to build. 
+
+You can download the image for the debug core from the [Pico Debug Release Page](https://github.com/majbthrd/pico-debug/releases.)
 
 ### Using an Additional Pico as Debugger
 
