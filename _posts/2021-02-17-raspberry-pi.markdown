@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Hands on with Raspberry Pi Pico"
+title:  "First Steps with Raspberry Pi Pico"
 date:   2021-02-17 21:00:00 +0100
 categories: pico hardware
 ---
@@ -55,9 +55,60 @@ Drag and drop the resulting	`blink.uf2` on to the drive that pops up when you pl
 
 ## Debugging The Little Guy
 
+Lets talk about debugging.
+
+![](/assets/img/segger-pi-debug.jpg)
+![](/assets/img/raspi-debug.jpg)
+
+*The images above show the finished pcb. On the left the pico is being debugged with a Segger and on the right the pico is being debugged by a pi zero.*
+
 ### Using a Segger Header and a Raspberry Pi
 
 This is my preferred way of debugging. I summarize the theory here and I have ordered a PCB. Once it arrives I will do further testing and talk about it in another blog post.
+The PCB I made is missing the Vref port. I had to add that in hindsight with a flying wire. Also what I had to realize it only works with the latest versions of segger software. I used a J-Link V10 firmware, a *v10.10 J-Link EDU Hardware* and a *V6.98b Segger DLL / Software* to get it runnning, I tested it in J-Link Commander as can be seen in the screenshot. Then selecting the devuce tyoe *RP2040_M0_1* or *RP2040_M0_0* a connection can be established as is seen in the command line log bellow:
+
+```cmd
+Type "connect" to establish a target connection, '?' for help
+J-Link>
+Unknown command. '?' for help.
+J-Link>con
+Please specify device / core. <Default>: RP2040_M0_1
+Type '?' for selection dialog
+Device>
+Please specify target interface:
+  J) JTAG (Default)
+  S) SWD
+  T) cJTAG
+TIF>S
+Specify target interface speed [kHz]. <Default>: 4000 kHz
+Speed>
+Device "RP2040_M0_1" selected.
+
+
+Connecting to target via SWD
+ConfigTargetSettings() start
+J-Link script: ConfigTargetSettings()
+ConfigTargetSettings() end
+InitTarget() start
+InitTarget() end
+Found SW-DP with ID 0x0BC12477
+DPIDR: 0x0BC12477
+Scanning AP map to find all available APs
+AP[1]: Stopped AP scan as end of AP map has been reached
+AP[0]: AHB-AP (IDR: 0x04770031)
+Iterating through AP map to find AHB-AP to use
+AP[0]: Core found
+AP[0]: AHB-AP ROM base: 0xE00FF000
+CPUID register: 0x410CC601. Implementer code: 0x41 (ARM)
+Found Cortex-M0 r0p1, Little endian.
+FPUnit: 4 code (BP) slots and 0 literal slots
+CoreSight components:
+ROMTbl[0] @ E00FF000
+ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB008 SCS
+ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 000BB00A DWT
+ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 000BB00B FPB
+Cortex-M0 identified.
+```
 
 #### The Pi Pico Side of Things
 
