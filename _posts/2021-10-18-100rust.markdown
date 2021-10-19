@@ -42,12 +42,16 @@ That is why I'm starting a 100 day 100 snippet challange in rust, to motivate my
 
 Screen scrape a random receipe name from chefkoch.de and display its name on the terminal
 
-From the site https://www.chefkoch.de/rezepte/was-koche-ich-heute/ random receipes are displayed, so what I must do is.
+From the site [](https://www.chefkoch.de/rezepte/was-koche-ich-heute/) random receipes are displayed, so what I must do is
 
 Lets test with bash, what needs to be done to screen scrape the right stuff
 
+	
+	
+	{% highlight bash %}
 	#!/bin/bash
 	curl -s https://www.chefkoch.de/rezepte/was-koche-ich-heute/|grep -Eo "(http|https)://www.chefkoch.de/rezepte/[a-zA-Z0-9./?=_%:-]*" | sort -u|cut -d/ -f6|cut -d. -f1|tr - " "|tail -1
+	{% endhighlight %}
 
 Will give us a menu suggestion
 
@@ -59,6 +63,8 @@ Do this in rust.
 
 First we need to download the web page `reqwest` crate seems suitable for this job. Next the document is parsed with `select`and filtered.
 
+
+	{% highlight rust %}
 	use select::document::Document;
 	use select::predicate::Name;
 
@@ -81,9 +87,10 @@ First we need to download the web page `reqwest` crate seems suitable for this j
 	    println!("{}", yum);
 	    Ok(())
 	}
+	{% endhighlight %}
 
 
-Next question, where can I have live demos of my code? For now I'll upload it to my github page, see https://github.com/maebli/100rustsnippets/blob/master/web-scrapper/src/main.rs
+Next question, where can I have live demos of my code? For now I'll upload it to my github page, see [](https://github.com/maebli/100rustsnippets/blob/master/web-scrapper/src/main.rs)
 
 
 
