@@ -6,7 +6,7 @@ categories: pico hardware
 ---
 
 
-*The new addition to the growing Raspberry familiy is the Raspberry Pi Pico. The board is well documented in the PDF [Getting Started with Pico](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf). I'm reporting here on my first uses of the board.*
+*The new addition to the growing Raspberry family is the Raspberry Pi Pico. The board is well documented in the PDF [Getting Started with Pico](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf). I'm reporting here on my first uses of the board.*
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
@@ -35,7 +35,7 @@ sudo reboot
 ```
 ## Trying the examples
 
-To build the examples, follow the instructions in the dataheet and run cmake and then make in the example directory.
+To build the examples, follow the instructions in the datasheet and run cmake and then make in the example directory.
 
 ### Blink example
 
@@ -65,7 +65,7 @@ Lets talk about debugging.
 ### Using a Segger Header and a Raspberry Pi
 
 This is my preferred way of debugging. I summarize the theory here and I have ordered a PCB. Once it arrives I will do further testing and talk about it in another blog post.
-The PCB I made is missing the Vref port. I had to add that in hindsight with a flying wire. Also what I had to realize it only works with the latest versions of segger software. I used a J-Link V10 firmware, a *v10.10 J-Link EDU Hardware* and a *V6.98b Segger DLL / Software* to get it runnning, I tested it in J-Link Commander as can be seen in the screenshot. Then selecting the devuce tyoe *RP2040_M0_1* or *RP2040_M0_0* a connection can be established as is seen in the command line log bellow:
+The PCB I made is missing the Vref port. I had to add that in hindsight with a flying wire. Also what I had to realize it only works with the latest versions of segger software. I used a J-Link V10 firmware, a *v10.10 J-Link EDU Hardware* and a *V6.98b Segger DLL / Software* to get it running, I tested it in J-Link Commander as can be seen in the screenshot. Then selecting the device type *RP2040_M0_1* or *RP2040_M0_0* a connection can be established as is seen in the command line log bellow:
 
 ```cmd
 Type "connect" to establish a target connection, '?' for help
@@ -112,14 +112,14 @@ Cortex-M0 identified.
 
 #### The Pi Pico Side of Things
 
-There is no debugging header which is compatible with an existing SWD debugger such as [10 pin header](https://www.segger.com/products/debug-probes/j-link/accessories/adapters/10-pin-needle-adapter/). The board exposes th SWDIO, SWDCLK and GND as reference on the far end of the board. SWO (Serial Wire Output) is not available for RP0240 as it is a feature of ARM M3 and above. The board will have to be powered, this can happen over USB, but will require at least two cables going to the board, which can become a bit of an annoyance. The documentation suggests to use a Raspberry Pi with jumper cables. I decided to make a little adapter pcb to the 10 pin Segger header. The Vsys I made to be attached by a cable via a schottkey diode, as it is on the far end of the pico and I don't want to cover that space with pcb. 
+There is no debugging header which is compatible with an existing SWD debugger such as [10 pin header](https://www.segger.com/products/debug-probes/j-link/accessories/adapters/10-pin-needle-adapter/). The board exposes the SWDIO, SWDCLK and GND as reference on the far end of the board. SWO (Serial Wire Output) is not available for RP0240 as it is a feature of ARM M3 and above. The board will have to be powered, this can happen over USB, but will require at least two cables going to the board, which can become a bit of an annoyance. The documentation suggests to use a Raspberry Pi with jumper cables. I decided to make a little adapter PCB to the 10 pin Segger header. The Vsys I made to be attached by a cable via a schottkey diode, as it is on the far end of the pico and I don't want to cover that space with pcb. 
 
 ![](/assets/img/pico-hat-segger.png)
 
 
 #### The Pi Side of Things
 
-Next up we need to connect a debug probe either a Pi, [Segger](https://wiki.segger.com/Raspberry_Pi_Pico) or ST-Link (not sure if thats supported, will have to try it out). Lets start with the Pi and stay loyal to the eco system.
+Next up we need to connect a debug probe either a Pi, [Segger](https://wiki.segger.com/Raspberry_Pi_Pico) or ST-Link (not sure if that's supported, will have to try it out). Lets start with the Pi and stay loyal to the eco system.
 The documentation has the following default pinout for the Pi when bitbanging the SWD interface using OpenOCD. 
 
 | Raspberry Pi   |Raspberry Pi Pico |
@@ -141,11 +141,11 @@ The documentation has the following default pinout for the Pi when bitbanging th
 
 ### Using One of the Cores for Debugging
 
-Raspberry Pi Foundation employees in ["The Amp Hour Elctronics" Podcast #529](https://theamphour.com/529-embedded-hardware-with-the-raspberry-pi-team/) mentioned that this is a planned feature for the future. Basically one core debugs the other and debugging is done over USB. A github user has already implemented smoething in this direction in the repos[Pico Debug](https://github.com/majbthrd/pico-debug/).
+Raspberry Pi Foundation employees in ["The Amp Hour Electronics" Podcast #529](https://theamphour.com/529-embedded-hardware-with-the-raspberry-pi-team/) mentioned that this is a planned feature for the future. Basically one core debugs the other and debugging is done over USB. A GitHub user has already implemented something in this direction in the repos [Pico Debug](https://github.com/majbthrd/pico-debug/).
 This is a very neat solution, as we don't often need two cores for micro controller projects. It uses [ARM's open source CEMIS-DAP Debugger](https://www.keil.com/support/man/docs/dapdebug/dapdebug_introduction.htm).
 At the time of writing, the Pico Debug requires the use of a fork of the pico-sdk which has not been merged. This means pico-debug is not officially supported yet. 
 
-*WARNING: If you've already installed the pico-sdk than this won't work, you have to uninstall the offical version first or change PICO_SDK_PATH.*
+*WARNING: If you've already installed the pico-sdk than this won't work, you have to uninstall the official version first or change PICO_SDK_PATH.*
 
 ```bash
 #!/bin/bash
@@ -167,7 +167,7 @@ cd ./pico/pico-examples/build/picoboard/blinky
 make -j4
 ```
 
-I used another method to make this build. To build the debug image I used a debian docker image which I pulled from docker hub to cross compile the binaries. In docker you have to also install `apt get install pytho3 git` in order for the build to work. This way you don't have to have to seprate sdk's on your pi with separate paths. You also don't need a Pi Zero or other Pi to build. 
+I used another method to make this build. To build the debug image I used a Debian docker image which I pulled from docker hub to cross compile the binaries. In docker you have to also install `apt get install pytho3 git` in order for the build to work. This way you don't have to have to separate sdk's on your pi with separate paths. You also don't need a Pi Zero or other Pi to build. 
 
 You can download the image for the debug core from the [Pico Debug Release Page](https://github.com/majbthrd/pico-debug/releases.)
 

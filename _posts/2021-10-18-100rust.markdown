@@ -5,15 +5,14 @@ date:   2021-10-18 21:00:00 +0100
 categories: rust
 ---
 
-* Starting out with Rust *
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
 - [Why Rust?](#why-rust)
-- [100 day challange](#100-day-challange)
-- [First challange](#first-challange)
-	- [Challange](#challange)
+- [100 day Challenge](#100-day-challenge)
+- [First challenge](#first-challenge)
+	- [Challenge](#challenge)
 	- [Solution](#solution)
 
 <!-- /MarkdownTOC -->
@@ -23,26 +22,26 @@ categories: rust
 Like many before me, I have gained interest in the rust programming language. My main interest comes from the fact that it can be used for embedded programming. There is a lot of activity on the topic, see [Embedded Rust](https://www.rust-lang.org/what/embedded) for more information. Before I feel comfortable diving into this world, I want to learn the basics. 
 
 
-## 100 day challange
+## 100 day Challenge
 
-That is why I'm starting a 100 day 100 snippet challange in rust, to motivate myself. Rules of this are:
+That is why I'm starting a 100 day 100 snippet challenge in rust, to motivate myself. Rules of this are:
 
 * 1 unique code snippet per day for 100 days
-* Come up with a challange
-* Solve the challange
+* Come up with a challenge
+* Solve the challenge
 * Upload and present
 * ???
 * Profit
 
 
-## First challange
+## First challenge
 
 
-### Challange
+### Challenge
 
-Screen scrape a random receipe name from chefkoch.de and display its name on the terminal
+Screen scrape a random recipe name from `chefkoch.de` and display its name on the terminal
 
-From the site [](https://www.chefkoch.de/rezepte/was-koche-ich-heute/) random receipes are displayed, so what I must do is
+From the site [](https://www.chefkoch.de/rezepte/was-koche-ich-heute/) random recipes are displayed, so what I must do is
 
 Lets test with bash, what needs to be done to screen scrape the right stuff
 
@@ -61,7 +60,7 @@ Do this in rust.
 
 ### Solution
 
-First we need to download the web page `reqwest` crate seems suitable for this job. Next the document is parsed with `select`and filtered.
+First we need to download the web page `reqwest` crate seems suitable for this job. Next the document is parsed with `select` and filtered.
 
 
 	{% highlight rust %}
