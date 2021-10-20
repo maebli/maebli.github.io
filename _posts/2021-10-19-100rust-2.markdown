@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Day 2 of 100 day rust challenge"
-date:   2021-10-18 21:00:00 +0100
+date:   2021-10-19 21:00:00 +0100
 categories: rust
 ---
 
@@ -28,7 +28,7 @@ New, task, do one rustling per day.
 ## 2nd Challenge
 ### Challenge
 
-I will try to make a challenge based on the chapter I'm reading in (the rust book)[https://doc.rust-lang.org/book/]. I read the chapter on `Strings` so the challenge
+I will try to make a challenge based on the chapter I'm reading in [the rust book](https://doc.rust-lang.org/book/). I read the chapter on `Strings` so the challenge
 is to parse an arbitrary hex String `0124342` using only the String type and String slices.
 
 
@@ -57,4 +57,4 @@ To convert an ASCII to a number we subtract `0x30` to convert a lower case lette
 	}
 	{% endhighlight %}
 
-	[Permalink running on Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=24fc659b4a242692cf060a5208224829)
+[Permalink running on Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=24fc659b4a242692cf060a5208224829)
