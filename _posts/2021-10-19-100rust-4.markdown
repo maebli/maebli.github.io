@@ -163,4 +163,4 @@ Checking the MIC was too much work, but the structure was parsed..
 	}
 	{% endhighlight %}
 
-[See source on github](https://github.com/maebli/100rustsnippets/tree/master/lorawan-uplink-parser) see running version on (rust playground)[https://play.rust-lang.org/?version=stable&edition=2018&gist=9ca7bc1049c262c70082e4388e7640ec]
+[See source on github](https://github.com/maebli/100rustsnippets/tree/master/lorawan-uplink-parser) see running version on [rust playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=9ca7bc1049c262c70082e4388e7640ec)
