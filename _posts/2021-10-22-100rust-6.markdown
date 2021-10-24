@@ -60,4 +60,4 @@ Here is my solution.
 	}
 	{% endhighlight %}
 
-	See [github](https://github.com/maebli/100rustsnippets/tree/master/sorter) and [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=eef058b0c37a02823a396c173354d526)
+See [github](https://github.com/maebli/100rustsnippets/tree/master/sorter) and [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=eef058b0c37a02823a396c173354d526)

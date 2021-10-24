@@ -88,5 +88,5 @@ OK this was very easy
 	}
 	{% endhighlight %}
 
-	Find the source on [github](https://github.com/maebli/100rustsnippets/tree/master/sentence-counter) and see it on [rust playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=ae3457d32ba375e90d5c2b09983d81d9). Note it seems to be not working on playground, not sure why as it works locally. 
+Find the source on [github](https://github.com/maebli/100rustsnippets/tree/master/sentence-counter) and see it on [rust playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=ae3457d32ba375e90d5c2b09983d81d9). Note it seems to be not working on playground, not sure why as it works locally. 
 
