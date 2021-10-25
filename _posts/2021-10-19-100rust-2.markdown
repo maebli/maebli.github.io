@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Day 2 of 100 day rust challenge"
+title:  "Rust challange 2/100 - Parsing hex"
 date:   2021-10-19 21:00:00 +0100
 categories: rust
 ---

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Day 5 of 100 day rust challenge"
+title:  "Rust challange 5/100 - Sentence Counter"
 date:   2021-10-22 21:00:00 +0100
 categories: rust
 ---
