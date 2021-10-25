@@ -1,0 +1,109 @@
+---
+layout: post
+title:  "Rust challange 8/100 - Math Tree Generator"
+date:   2021-10-255 21:00:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this?](#what-is-this)
+- [8th Challenge](#8th-challenge)
+	- [Challenge](#challenge)
+	- [Solution](#solution)
+
+<!-- /MarkdownTOC -->
+
+## What is this?
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html).
+
+## 8th Challenge
+### Challenge
+
+For helping teachers generate math problems for students, this script must generate math problems with
+
+* Operators `+,-,*`
+* Totals and sub totals must be in range `[0,100]`
+* Tree may have a depth of 1,2 or 3
+* Solution and problem must be generated
+* To generate the structures [Viz-JS](http://viz-js.com/) shall be used
+
+example: 
+
+	digraph G {
+    "1" -> "+"
+    "2" -> "+"
+    "+" -> "3"
+	}
+
+
+### Solution
+
+Here is my solution, didn't quite finish, might continue tomrrow if I feel like it. Division is not yet done and a depth of more than 1 of the tree is not supported. 
+
+	{% highlight rust %}
+	use rand::Rng;
+
+	fn main() {
+	    let mut rng = rand::thread_rng();
+	    let a = rng.gen_range(0..100);
+	    let t1 = generate_tree(a);
+
+	    println!("digraph G {{");
+	    print_tree(a,t1);
+	    println!("}}");
+	}
+
+
+	fn print_tree(root:i32,tree:(i32,char,i32)){
+	    println!("\"{}\"->\"{}\"",tree.0,tree.1);
+	    println!("\"{}\"->\"{}\"",tree.2,tree.1);
+	    println!("\"{}\"->\"{}\"",tree.1,root);
+	}
+
+	fn generate_tree(seed:i32) -> (i32,char,i32) {
+
+	    let mut rng = rand::thread_rng();
+	    let operators = ['+','-','*'];
+
+	    let operator = operators[rng.gen_range(0..operators.len())];
+
+	    let mut operator1= 0;
+	    let mut operator2 = 0;
+
+	    match operator {
+	        '+' => {
+	            operator1 = rng.gen_range(0..seed);
+	            operator2 = seed - operator1;
+	        },
+	        '-' => {
+	            operator1 = rng.gen_range(seed..100);
+	            operator2 = seed - operator2;
+	        },
+	        '*' => {
+	            operator1=find_a_random_factor(seed);
+	            operator2=seed/operator1;
+	        }
+	        _ => {}
+	    }
+
+	    (operator1,operator,operator2)
+	}
+
+	fn find_a_random_factor(num:i32) -> i32{
+
+	    let mut rng = rand::thread_rng();
+	    let mut x = 100;
+	    while num % x !=0 {
+	        x = rng.gen_range(1..((num / 2)+1));
+	    }
+	    return x;
+	}
+{% endhighlight %}
+
+See [github](https://github.com/maebli/100rustsnippets/tree/master/math-tree) and [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=2fbdaef1827d2eb2c93346fb3f91effa)
+
+{% include disqus.html %}
