@@ -105,5 +105,3 @@ Here is my solution, didn't quite finish, might continue tomrrow if I feel like 
 {% endhighlight %}
 
 See [github](https://github.com/maebli/100rustsnippets/tree/master/math-tree) and [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=2fbdaef1827d2eb2c93346fb3f91effa)
-
-{% include disqus.html %}

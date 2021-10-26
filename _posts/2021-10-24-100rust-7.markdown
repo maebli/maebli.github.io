@@ -77,5 +77,3 @@ Here is my solution.
 {% endhighlight %}
 
 See [github](https://github.com/maebli/100rustsnippets/tree/master/fibonacci) and [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=e851d7e7e21c1957293ff8b8339f1b77)
-
-{% include disqus.html %}
