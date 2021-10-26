@@ -22,7 +22,7 @@ title: Michael's Pages
 description: >- # this means to ignore newlines until "baseurl:"
   This is Michael Aebli's Blog.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: https://maebli.github.io# the base hostname & protocol for your site, e.g. http://example.com
 github_username:  maebli
 linkedin_username: aebli
 
@@ -38,6 +38,9 @@ defaults:
       path: "assets/img"
     values:
       image: true
+
+disqus:
+  shortname: maebli-github-io
 
 # Google Analytics
 google_analytics: G-QP4ZSMHQP9
