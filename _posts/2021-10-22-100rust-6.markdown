@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challange 6/100- Insertion Sort"
+title:  "Rust challenge 6/100- Insertion Sort"
 date:   2021-10-23 21:00:00 +0100
 categories: rust
 ---

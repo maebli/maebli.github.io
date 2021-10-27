@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challange 5/100 - Sentence Counter"
+title:  "Rust challenge 5/100 - Sentence Counter"
 date:   2021-10-22 21:00:00 +0100
 categories: rust
 ---
@@ -23,12 +23,12 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 5th Challenge
 ### Challenge
 
-Today I want something simple. Count the number of valid english senteces in a string. 
+Today I want something simple. Count the number of valid English sentences in a string. 
 
-A sentence, for the sake of this challange, is defined as follows: 
+A sentence, for the sake of this challenge, is defined as follows: 
 
 * a String starting with an Uppercase letter **and**
-* ending in a quesiton, exclemation or period
+* ending in a question, exclamation or period
 
 
 ### Solution

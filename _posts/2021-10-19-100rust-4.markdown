@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challange 4/100 - LoRaWAN PHYPayload Join-Request Parsing"
+title:  "Rust challenge 4/100 - LoRaWAN PHYPayload Join-Request Parsing"
 date:   2021-10-21 21:00:00 +0100
 categories: rust
 ---

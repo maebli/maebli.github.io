@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challange 9/100 - Celcius to Farenheit"
+title:  "Rust challenge 9/100 - Celcius to Farenheit"
 date:   2021-10-26 21:00:00 +0100
 categories: rust
 ---
@@ -23,7 +23,7 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 9th Challenge
 ### Challenge
 
-Todays challange is converting celcius to fahrenheit, reading the input from the commandline. Its a challange taken from Rust's offical documentation. 
+Today's challenge is converting celcius to fahrenheit, reading the input from the command-line. Its a challenge taken from Rust's official documentation. 
 
 ### Solution
 
