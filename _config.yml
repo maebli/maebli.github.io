@@ -30,6 +30,7 @@ linkedin_username: aebli
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 social_links:
     linkedin: aebli
     
