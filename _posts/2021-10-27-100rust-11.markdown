@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 11/100 - Queue Port"
+title:  "Rust challenge 11/100 - Christmas carol"
 date:   2021-10-28 21:00:00 +0100
 categories: rust
 ---
