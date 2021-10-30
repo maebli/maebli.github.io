@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 7/100 - Fibonacci"
-date:   2021-10-23 21:00:00 +0100
+date:   2021-10-24 21:00:00 +0100
 categories: rust
 ---
 
