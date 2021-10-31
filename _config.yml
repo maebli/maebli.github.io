@@ -47,6 +47,10 @@ disqus:
 # Google Analytics
 google_analytics: G-QP4ZSMHQP9
 
+paginate: 10
+paginate_path: "/page:num/"
+
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
