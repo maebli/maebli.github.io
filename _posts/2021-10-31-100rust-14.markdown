@@ -1,0 +1,95 @@
+---
+layout: post
+title:  "Rust challenge 14/100 - Project Euler Challange "
+date:   2021-11-01 21:00:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this?](#what-is-this)
+- [14th Challenge](#14th-challenge)
+	- [Challenge](#challenge)
+	- [Solution](#solution)
+
+<!-- /MarkdownTOC -->
+
+## What is this?
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 14th Challenge
+### Challenge
+
+[Euler Challange 4](https://projecteuler.net/problem=4) 
+
+	A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+	Find the largest palindrome made from the product of two 3-digit numbers.
+
+### Solution
+
+First I tried it with number manipulation and recursion, but somehow it was easier with strings. 
+
+
+	{% highlight rust %}
+
+	fn euler4(){
+
+	    let mut largest_prod = 0;
+	    let mut prod ;
+
+	    const RANGE: Range<u64> = 100..1000;
+
+	    for x in RANGE {
+	        for y in RANGE {
+	            prod =x*y;
+
+	            if prod > largest_prod && is_palindrome(prod){
+	                largest_prod = prod;
+
+	            }
+	        }
+	    }
+
+	    println!("largest palindrome which is product of two three digit numbers = {}",largest_prod)
+	}
+
+	#[test]
+	fn test_is_palindrome(){
+	    assert!(!is_palindrome(99002275));
+	    assert!(is_palindrome(332233));
+	    assert!(is_palindrome(332233332233));
+	    assert!(is_palindrome(99999999));
+	    assert!(!is_palindrome(94));
+	    assert!(!is_palindrome(994));
+	    assert!(!is_palindrome(12345678));
+	    assert!(!is_palindrome(971198));
+	    assert!(!is_palindrome(963342));
+
+	}
+
+	fn is_palindrome(x:u64) -> bool{
+	    let mut s = x.to_string();
+
+	    while s.len() >= 2 {
+	        if s.ends_with(s.chars().nth(0).unwrap()) {
+	            if s.len() == 2 {
+	                return s.chars().nth(0) == s.chars().nth(1)
+	            }
+	            s.remove(0);
+	            s.remove(s.len()-1);
+	            println!("{}",s)
+	        }else{
+	            return false
+	        }
+
+	    }
+
+	    false
+	}
+	{% endhighlight %}
+
+
+See [github](https://github.com/maebli/100rustsnippets/tree/master/euler) and [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=45e6977809102eab3c602211ea50e522)
