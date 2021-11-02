@@ -75,4 +75,4 @@ example content of `multicastsetup/mod.rs`
 
 	{% endhighlight %}
 
-See [github](https://github.com/maebli/100rustsnippets/tree/master/euler).
+See [github](https://github.com/maebli/100rustsnippets/tree/master/lorawan-project-structure).
