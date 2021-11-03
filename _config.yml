@@ -32,7 +32,8 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jemoji
-  - jekyll-pagenate
+  - jekyll-paginate
+
 social_links:
     linkedin: aebli
     
