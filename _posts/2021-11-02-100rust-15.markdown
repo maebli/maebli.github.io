@@ -28,10 +28,12 @@ Today's challenge is to familiarize myself with structuring and organizing rust 
 
 ### Solution
 
-First I tried it with number manipulation and recursion, but somehow it was easier with strings. Modules stuff is a tad confusing. I found the following post very helpful [on stackoverflow](https://stackoverflow.com/questions/26224947/how-do-i-do-a-basic-import-include-of-a-function-from-one-module-to-another-in-r?noredirect=1&lq=1).
+Organizing files and folders in Rust is a tad confusing. I found the following post very helpful [on stackoverflow](https://stackoverflow.com/questions/26224947/how-do-i-do-a-basic-import-include-of-a-function-from-one-module-to-another-in-r?noredirect=1&lq=1).
+
+The following is only the beginning of the structure:
 
 
-	{% highligh %}
+	{% highlight bash %}
 	.
 	├── airtime
 	│   └── calculator.rs
@@ -67,7 +69,7 @@ First I tried it with number manipulation and recursion, but somehow it was easi
 example content of `multicastsetup/mod.rs`
 
 
-	{% highligh %}
+	{% highligh rust %}
 
 	pub mod cid_string;
 	pub mod keys;
