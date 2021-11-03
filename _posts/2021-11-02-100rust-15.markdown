@@ -6,6 +6,8 @@ categories: rust
 ---
 
 
+<div markdown="span" class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note:</b> The solution on this page is outdated, and mod.rs is no longer needed. See [https://doc.rust-lang.org/edition-guide/rust-2018/path-changes.html](https://doc.rust-lang.org/edition-guide/rust-2018/path-changes.html)</div>
+
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
