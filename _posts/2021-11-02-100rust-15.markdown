@@ -69,7 +69,7 @@ The following is only the beginning of the structure:
 example content of `multicastsetup/mod.rs`
 
 
-	{% highligh rust %}
+	{% highlight rust %}
 
 	pub mod cid_string;
 	pub mod keys;
