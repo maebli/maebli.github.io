@@ -32,6 +32,65 @@ The new solution looks like this:
 
 
 	{% highlight rust %}
+	use std::cmp::max;
+	pub type CodingRate=u32;
+
+	pub enum CodingRates{
+	    CodingRate45,
+	    CodingRate46,
+	    CodingRate47,
+	    CodingRate48
+	}
+
+	pub struct Modulation {
+	    pub(crate) spreading_factor:u64,
+	    pub(crate) bandwidth:u64
+	}
+
+	pub struct FrameMetaInformation {
+	    pub(crate) payload_length:u64,
+	    pub(crate) preamble_length:u64,
+	    pub(crate) is_header_enabled:bool,
+	    pub(crate) is_low_data_rate_optimization_enabled:bool,
+	    pub(crate) modulation:Modulation,
+	    pub(crate) coding_rate:CodingRates,
+
+	}
+
+	impl CodingRates{
+	    fn value(&self) -> CodingRate {
+	        match self{
+	            CodingRates::CodingRate45 => 1,
+	            CodingRates::CodingRate46 => 2,
+	            CodingRates::CodingRate47 => 3,
+	            CodingRates::CodingRate48 => 4,
+	        }
+	    }
+	}
+
+	impl FrameMetaInformation{
+
+	    pub(crate) fn get_airtime(&self) -> u64{
+	        (self.get_preamble_duration() +
+	            self.modulation.get_symbol_duration() * self.get_payload_symbol_count() as f64) as u64
+	    }
+
+	    fn get_preamble_duration(&self) -> f64{
+	        self.modulation.get_preamble_duration(self.preamble_length)
+	    }
+
+	    fn get_payload_symbol_count(&self) -> u64 {
+	        let de = self.is_low_data_rate_optimization_enabled as u64;
+	        let h = (!self.is_low_data_rate_optimization_enabled) as u64;
+
+	        let a = (8 * self.payload_length + 28 + 16 - 20 * h) as f64;
+	        let b = (4 * (self.modulation.spreading_factor - 2 * de)) as f64;
+	        let c = (self.coding_rate.value() as f64) + 4.0;
+
+	        8 + max(((a / b).ceil() * c) as u64, 0)
+	    }
+
+	}
 
 	impl Modulation{
 	    fn get_symbol_duration(&self) -> f64{
