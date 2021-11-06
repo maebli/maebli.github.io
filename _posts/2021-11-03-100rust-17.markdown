@@ -30,7 +30,7 @@ Today's challenge is continuation of a [previous challenge](https://maebli.githu
 The new solution looks like this:
 
 
-	{% highlight bash %}
+	{% highlight rust %}
 	use std::cmp::max;
 	pub type CodingRate=u32;
 
@@ -98,23 +98,6 @@ The new solution looks like this:
 	    fn get_preamble_duration(&self,preamble_length:u64) -> f64{
 	        ((100.0 * preamble_length as f64 + 425.0) / 100.0 * self.get_symbol_duration())
 	    }
-	}
-
-	#[test]
-	fn test_get_payload_symbol_count(){
-	    let f = FrameMetaInformation{
-	        payload_length: 13,
-	        preamble_length: 0,
-	        is_header_enabled: true,
-	        is_low_data_rate_optimization_enabled: false,
-	        modulation: Modulation {
-	            spreading_factor: 12,
-	            bandwidth: 0
-	        },
-	        coding_rate: CodingRates::CodingRate45
-	    };
-
-	    assert_eq!(23,f.get_payload_symbol_count())
 	}
 
 	{% endhighlight %}
