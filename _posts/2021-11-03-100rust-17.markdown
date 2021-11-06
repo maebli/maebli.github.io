@@ -119,4 +119,4 @@ The new solution looks like this:
 
 	{% endhighlight %}
 
-To get a good feel for it see / clone [github](https://github.com/maebli/100rustsnippets/tree/master/lorawan-airtime-calculator).
+To get a good feel for it see / clone [github](https://github.com/maebli/100rustsnippets/tree/master/lorawan-project-structure-2).
