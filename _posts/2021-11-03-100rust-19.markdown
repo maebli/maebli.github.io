@@ -22,7 +22,7 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 19th Challenge
 ### challenge
 
-Today's challenge is continuation of a [previous challenge](https://maebli.github.io/rust/2021/11/03/100rust-18.html).
+Today's challenge is continuation of a [previous challenge](https://maebli.github.io/rust/2021/11/05/100rust-18.html).
 The task is to extend the existing project with tests
 
 
