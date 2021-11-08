@@ -42,6 +42,10 @@ defaults:
       path: "assets/img"
     values:
       image: true
+  - scope:
+      path: "assets/js"
+    values:
+      js: true
 
 disqus:
   shortname: maebli-github-io

@@ -55,7 +55,7 @@ is that crc is much simpler and faster in RUST.
 	}
 	{% endhighlight %}
 
-With a simple `html` the web assembly is tested. A Hex string of 50 million charcters is calculated within `800ms!` ::O:
+With a simple `html` the web assembly is tested. A Hex string of 50 million charcters is calculated within `800ms` :astonished:
 
 	{% highlight html %}
 	<!DOCTYPE html>
@@ -66,7 +66,7 @@ With a simple `html` the web assembly is tested. A Hex string of 50 million char
 	  </head>
 	  <body>
 	    <script type="module">
-	      import init, {crc16_en_13757} from "./pkg/crc16_en_13757.js";
+	      import init, {crc16_en_13757} from "./assets/pkg/crc16_en_13757.js";
 	      init()
 	        .then(() => {
 	          const genRanHex = size => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
@@ -82,5 +82,21 @@ With a simple `html` the web assembly is tested. A Hex string of 50 million char
 	{% endhighlight %}
 
 
+<script type="module">
+  import init, {crc16_en_13757} from "{{ site.baseurl }}{% link assets/js/crc16_EN_13757.js %}";
+  init()
+  document.getElementById('calculate').addEventListener('click', () => {
+  var x=crc16_en_13757(document.getElementById('inputstring').value);
+  document.getElementById("output").innerText=x;
+});
+</script>
+<form>
+<label for="inputstring">Input String:</label><br>
+<textarea rows="5" cols="80" id="inputstring"></textarea><br>
+<input id="calculate" type="button" value="calculate" />
+</form><br>
+Result:<br>
+<div id="output"></div>
+<br>
 
 To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/crc16-EN-13757).
