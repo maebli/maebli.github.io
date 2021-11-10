@@ -81,7 +81,7 @@ With a simple `html` the web assembly is tested. A Hex string of 50 million char
 
 
 <script type="module">
-  import init, {encrypt,decrypt} from "{{ site.baseurl }}{% link assets/pkg/wasm_encrypt.js %}";
+  import init, {encrypt,decrypt} from "{{ site.baseurl }}{% link assets/js/wasm_encrypt.js %}";
   init()
   document.getElementById('input').addEventListener('click', () => {
   var x=encrypt(document.getElementById('inputstring').value);
