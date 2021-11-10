@@ -54,7 +54,7 @@ Encrypt plaintext into aes128 encrypted text and back again, note this is curren
 	}
 	{% endhighlight %}
 
-With a simple `html` the web assembly is tested. A Hex string of 50 million charcters is calculated within `800ms` :astonished:
+With a simple `html` the web assembly is tested. 
 
 	{% highlight html %}
 	<!DOCTYPE html>
@@ -85,7 +85,7 @@ With a simple `html` the web assembly is tested. A Hex string of 50 million char
   init()
   document.getElementById('input').addEventListener('click', () => {
   var x=encrypt(document.getElementById('inputstring').value);
-  document.getElementById("output").innerText=x;
+  document.getElementById("encryptedtext").value=x;
 });
 </script>
 <form>
@@ -94,7 +94,7 @@ With a simple `html` the web assembly is tested. A Hex string of 50 million char
 <input id="input" type="button" value="encrypt" />
 </form><br>
 Result:<br>
-<div id="output"></div>
+<textarea rows="5" cols="80" id="encryptedtext"></textarea><br>
 <br>
 
 To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/crc16-EN-13757).
