@@ -5,6 +5,8 @@ date:   2021-11-09 21:00:00 +0100
 categories: rust
 ---
 
+*Note: This  example uses Brute force, which, while teachin me things about Rust's Functional Programming Features, is not a very elegant solution to the given problem. It will stop before computing the result if running in Debug Compiled mode.*
+
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
