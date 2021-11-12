@@ -83,17 +83,24 @@ With a simple `html` the web assembly is tested.
 <script type="module">
   import init, {encrypt,decrypt} from "{{ site.baseurl }}{% link assets/js/wasm_encrypt.js %}";
   init()
-  document.getElementById('input').addEventListener('click', () => {
+  document.getElementById('encrypt').addEventListener('click', () => {
   var x=encrypt(document.getElementById('inputstring').value);
   document.getElementById("encryptedtext").value=x;
-});
+	});
+	document.getElementById('decrypt').addEventListener('click', () => {
+  var x=decrypt(document.getElementById('encryptedtext').value);
+  document.getElementById("decryptedtext").value=x;
+	});
 </script>
 <form>
 <label for="inputstring">Input String:</label><br>
 <textarea rows="5" cols="80" id="inputstring"></textarea><br>
-<input id="input" type="button" value="encrypt" />
+<input id="encrypt" type="button" value="encrypt" />
+<input id="decrypt" type="button" value="decrypt" />
 </form><br>
-Result:<br>
+Encrypted Payload:<br>
+<textarea rows="5" cols="80" id="encryptedtext"></textarea><br>
+Decrypted Payload:<br>
 <textarea rows="5" cols="80" id="encryptedtext"></textarea><br>
 <br>
 
