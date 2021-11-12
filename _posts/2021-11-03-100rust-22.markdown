@@ -104,4 +104,4 @@ Decrypted Payload:<br>
 <textarea rows="5" cols="80" id="decryptedtext"></textarea><br>
 <br>
 
-To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/crc16-EN-13757).
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/wasm-encrypt).
