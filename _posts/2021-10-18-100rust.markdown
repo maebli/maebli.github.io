@@ -17,6 +17,8 @@ categories: rust
 
 <!-- /MarkdownTOC -->
 
+![](/assets/img/challenge.jpeg)
+
 ## Why Rust?
 
 Like many before me, I have gained interest in the rust programming language. My main interest comes from the fact that it can be used for embedded programming. There is a lot of activity on the topic, see [Embedded Rust](https://www.rust-lang.org/what/embedded) for more information. Before I feel comfortable diving into this world, I want to learn the basics. 
