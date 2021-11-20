@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 26/100 - advent of code 2020 day 1"
+title:  "Rust challenge 26/100 - advent of code 2020 day 2"
 date:   2021-11-17 21:00:00 +0100
 categories: rust
 ---
@@ -82,4 +82,4 @@ I have never part taken in Advent of Code. This year I might. To get used to the
 	{% endhighlight %}
 
 
-To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2020-2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=bc084fa32ca661cc1d5e813cf03bde40). 
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2020-2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=3ed935e6092623c5fe1fe52fd4bd835f). 
