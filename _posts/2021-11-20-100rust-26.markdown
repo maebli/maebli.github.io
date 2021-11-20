@@ -1,0 +1,85 @@
+---
+layout: post
+title:  "Rust challenge 26/100 - advent of code 2020 day 1"
+date:   2021-11-17 21:00:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [26th Challenge](#26th-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 26th Challenge
+### Challenge
+
+I have never part taken in Advent of Code. This year I might. To get used to the idea I'm solving last year's second challenge. Solve [AoC day 2 2020](ttps://adventofcode.com/2020/day/2).
+
+### Solution :white_check_mark:
+
+	{% highlight rust %}
+	fn main() {
+	    let answer = INPUT.lines()
+	        .filter(|&x| check_line(x))
+	        .count();
+
+	    println!("{}",answer);
+	}
+
+	fn check_line(line:&str) -> bool {
+
+	    let mut s:Vec<&str> = line
+	        .split(' ')
+	        .collect();
+
+	    let range = s
+	        .remove(0)
+	        .split_once('-')
+	        .unwrap();
+
+	    let min:usize = range
+	        .0
+	        .parse()
+	        .unwrap();
+
+	    let max:usize = range
+	        .1
+	        .parse()
+	        .unwrap();
+
+	    let letter = s
+	        .remove(0)
+	        .trim_end_matches(":")
+	        .chars()
+	        .nth(0)
+	        .unwrap();
+
+	    let password = s.remove(0);
+
+	    let num = password
+	        .chars()
+	        .filter(|c| c.eq(&letter))
+	        .count();
+
+
+	    num >= min && num <= max
+
+	}
+
+	const INPUT:&str = "1-3 a: abcde
+	1-3 b: cdefg
+	2-9 c: ccccccccc";
+	{% endhighlight %}
+
+
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2020-2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=bc084fa32ca661cc1d5e813cf03bde40). 
