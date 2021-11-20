@@ -82,4 +82,4 @@ I have never part taken in Advent of Code. This year I might. To get used to the
 	{% endhighlight %}
 
 
-To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2020-2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=3ed935e6092623c5fe1fe52fd4bd835f). 
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2020-2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=f0e96f31bdbc3b26b6cf1f5d91b74e20). 
