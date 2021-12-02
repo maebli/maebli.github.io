@@ -105,3 +105,6 @@ It has become a bit verbose, but its quite readable, here goes.
 
 
 To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2021-day2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=21f800bb34fcc1d5682fce7c36a8ed72). 
+
+My favorite solution [can be seen by clicking here.](https://www.reddit.com/r/adventofcode/comments/r6zd93/comment/hmyw5es/?utm_source=share&utm_medium=web2x&context=3)
+
