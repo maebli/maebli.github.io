@@ -104,4 +104,4 @@ It has become a bit verbose, but its quite readable, here goes.
 	{% endhighlight %}
 
 
-To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2021-day2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=21f800bb34fcc1d5682fce7c36a8ed72). 
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2021-day2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=21f800bb34fcc1d5682fce7c36a8ed72). 
