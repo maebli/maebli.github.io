@@ -74,4 +74,4 @@ it makes a tuple out of two iterators. Using this as well as `multizip` I was ab
 To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2021-day1) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=a29f5ab10ec865d5209ba0c286d62ca4). 
 
 
-My favorite solution [can be seen by clicking here.]https://www.reddit.com/r/adventofcode/comments/r6zd93/comment/hmyw5es/?utm_source=share&utm_medium=web2x&context=3)
+My favorite solution [can be seen by clicking here.](https://www.reddit.com/r/adventofcode/comments/r6zd93/comment/hmyw5es/?utm_source=share&utm_medium=web2x&context=3)
