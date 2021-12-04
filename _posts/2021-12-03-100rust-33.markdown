@@ -89,7 +89,7 @@ Today I'm solving today's [AoC day 3 2021](ttps://adventofcode.com/2021/day/1). 
 To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2021-day3) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=1843da9bd20744f2ef94f8bd5cee0f61). 
 
 
-Saying part to was a hassle is an under statement. The solution outputs to binary vector which need to be multiplied. I did that manually as I lost motivation in part two :star: unlocked!
+Saying part two was a hassle is an under statement. The solution outputs to binary vector which need to be multiplied. I did that manually as I lost motivation in part two :star: unlocked!
 Using transpose helps, starting to feel like this AOC stuff would be easier in Matlab / octave. 
 
 	{% highlight rust %}
