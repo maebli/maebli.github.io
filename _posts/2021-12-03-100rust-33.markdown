@@ -23,7 +23,7 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 33rd Challenge
 ### Challenge
 
-Today I'm solving today's [AoC day 3 2021](ttps://adventofcode.com/2021/day/3). So far only part one is done. Part two coming soon.. :sweat:.
+Today I'm solving today's [AoC day 3 2021](https://adventofcode.com/2021/day/3). So far only part one is done. Part two coming soon.. :sweat:.
 
 
 ### Solution :white_check_mark:

@@ -23,7 +23,7 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 31st Challenge
 ### Challenge
 
-Today I'm solving today's [AoC day 1 2021](ttps://adventofcode.com/2021/day/1). It took me longer than it I would have liked.
+Today I'm solving today's [AoC day 1 2021](https://adventofcode.com/2021/day/1). It took me longer than it I would have liked.
 I wanted to do it quickly with a `filter` or `fold` function, which didn't work. I ran out of time and had to leave for work :sweat:.
 
 
