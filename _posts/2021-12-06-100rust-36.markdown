@@ -75,7 +75,7 @@ This adds a string literal into the code source. I prefer to just create one in 
 
 #### bench()
 
-Used to benchmark a method, if you're interested in the speed of your code which I'm currently not at all :sweat:.
+Used to benchmark a method, if you're interested in the speed of your code which I'm currently not.
 
 
 #### let mut state = [0u64; 9];
