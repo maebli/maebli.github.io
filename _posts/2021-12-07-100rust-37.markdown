@@ -23,7 +23,7 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 37th Challenge
 ### Challenge
 
-Today I'm solving today's [AoC day 5 2021](https://adventofcode.com/2021/day/7).
+Today I'm solving today's [AoC day 7 2021](https://adventofcode.com/2021/day/7).
 
 ### Solution :white_check_mark:
 
