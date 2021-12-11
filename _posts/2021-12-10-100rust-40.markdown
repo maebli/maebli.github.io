@@ -23,11 +23,11 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ## 40th Challenge
 ### Challenge
 
-Today I'm solving today's [AoC day 8 2021](https://adventofcode.com/2021/day/10).
+Today I'm solving today's [AoC day 10 2021](https://adventofcode.com/2021/day/10).
 
 ### Solution :white_check_mark:
 
-part 1 easy, part 2 not so much.. there is a bug in here, which I will try to fix tomrrow.
+I have not gotten around to solving this challenge. Hopefully I'll get the time soon. 
 
 	{% highlight rust %}
 
