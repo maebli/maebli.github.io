@@ -38,21 +38,19 @@ oh the other hand ..
 
 > Static variables, on the other hand, point to a single location in memory, which all accesses share.
 
+Also, static variables are variables and can be changes, constants cannot be changed at runtime. 
 
 To me it seems this would be useful when implementing a singleton pattern in rust. So I did just that bellow.
 
 	{% highlight rust %}
-	   {
-
-	// Boilerplate for my singelton example
+	// Boilerplate for my singleton example
 	struct A;
-	static THING:A = A{};
+	static THING: A = A {};
 	fn getInstance() -> &'static A {
 	    &THING
 	}
 
 	fn main() {
-
 	    {
 	        // The following two lines are identical
 	        // due to static lifetime elision both
@@ -60,12 +58,15 @@ To me it seems this would be useful when implementing a singleton pattern in rus
 	        const X1: &str = "a";
 	        const X2: &'static str = "a";
 
-	        // The following will add three string literals
-	        // to the memory of the binary
-	        let _a = X1;
-	        let _b = X1;
-	        let _c = X1;
+	        // The following three lines are identical
+	        // X1 and X2 are replaced with the strings at
+	        // compile time
+	        let a = X1;
+	        let b = X1;
+	        let c = X2;
 
+	        assert_eq!(b.as_ptr(), a.as_ptr());
+	        assert_eq!(b.as_ptr(), c.as_ptr());
 	        // When  these constants go out of scope, their references
 	        // can no longer be used, but the data remains in the binary.
 	    }
@@ -76,25 +77,28 @@ To me it seems this would be useful when implementing a singleton pattern in rus
 	        static X2: &str = "a";
 
 	        // The following will add three references
-	        // non mutable borrows to X1 and NOT three
-	        // three new string literals to the binary
-	        let _a = X1;
-	        let _b = X1;
-	        let _c = X1;
+	        // non mutable borrows to X1
+	        let a = X1;
+	        let b = X1;
+	        let c = X2;
+
+	        assert_eq!(b.as_ptr(), a.as_ptr());
+	        assert_eq!(b.as_ptr(), c.as_ptr());
 	        // When  these constants go out of scope, their references
 	        // can no longer be used, but the data remains in the binary.
 	    }
-
 
 	    {
 	        // Implementing the singleton pattern
 	        let _a = getInstance();
 	        let _b = getInstance();
 	    }
-
-	}
+	
 	{% endhighlight %}
 
 
 [github](https://github.com/maebli/100rustsnippets/tree/master/lifetime)
 [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=501565652360d1cf64b596a2eb07fbd1)
+
+
+See also the[stackoverflow thread on the topic.](https://stackoverflow.com/questions/52751597/what-is-the-difference-between-a-constant-and-a-static-variable-and-which-should/52753798#52753798)
