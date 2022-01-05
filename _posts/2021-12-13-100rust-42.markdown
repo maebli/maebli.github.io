@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 42/100 - advent of code 2021 day 13 part 1"
-date:   2021-13-10 21:00:00 +0100
+date:   2021-10-13 21:00:00 +0100
 categories: rust
 ---
 
