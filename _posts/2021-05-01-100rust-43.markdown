@@ -1,0 +1,100 @@
+---
+layout: post
+title:  "Rust challenge 43/100 - rust lifetimes - static life times v.s. constants "
+date:   2022-05-01 21:00:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [43rd Challenge](#43rd-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+![](/assets/img/lifetimes.png)
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 43rd Challenge
+### Challenge
+
+Today I'm posting the first time this year. I had to take an unplanned break in the middle of AOC 2021. I plan to finish AOC 2021 and clean up my answers that are unfinished, but first I want to do some other things on other topics. Today's challeng is to explore the concept of `lifetimes` by example. 
+
+Today I want to answer the question, what is the difference between `const X:&str = "0"` and `let x: &'static str = "0"` ? 
+
+
+### Solution :white_check_mark:
+
+The difference between constant `const` and a variable is written in the [documentation](https://doc.rust-lang.org/std/keyword.const.html) for the `const` key word 
+
+> constants are inlined wherever they’re used, making using them identical to simply replacing the name of the const with its value
+
+oh the other hand ..
+
+> Static variables, on the other hand, point to a single location in memory, which all accesses share.
+
+
+To me it seems this would be useful when implementing a singleton pattern in rust. So I did just that bellow.
+
+	{% highlight rust %}
+	   {
+
+	// Boilerplate for my singelton example
+	struct A;
+	static THING:A = A{};
+	fn getInstance() -> &'static A {
+	    &THING
+	}
+
+	fn main() {
+
+	    {
+	        // The following two lines are identical
+	        // due to static lifetime elision both
+	        // variables have a 'static lifetime
+	        const X1: &str = "a";
+	        const X2: &'static str = "a";
+
+	        // The following will add three string literals
+	        // to the memory of the binary
+	        let _a = X1;
+	        let _b = X1;
+	        let _c = X1;
+
+	        // When  these constants go out of scope, their references
+	        // can no longer be used, but the data remains in the binary.
+	    }
+
+	    {
+	        // Two ways to make a constant with `'static` lifetime.
+	        let X1: &'static str = "a";
+	        static X2: &str = "a";
+
+	        // The following will add three references
+	        // non mutable borrows to X1 and NOT three
+	        // three new string literals to the binary
+	        let _a = X1;
+	        let _b = X1;
+	        let _c = X1;
+	        // When  these constants go out of scope, their references
+	        // can no longer be used, but the data remains in the binary.
+	    }
+
+
+	    {
+	        // Implementing the singleton pattern
+	        let _a = getInstance();
+	        let _b = getInstance();
+	    }
+
+	}
+	{% endhighlight %}
+
+
+[github](https://github.com/maebli/100rustsnippets/tree/master/lifetime)
+[playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=501565652360d1cf64b596a2eb07fbd1)
