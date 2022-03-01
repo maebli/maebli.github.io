@@ -24,6 +24,8 @@ The rules of the game are explained [in my original post](https://maebli.github.
 ### Challenge
 
 Recently I discovered code wars. It has some fun learning challenges. Today the challenge is to solve some of the code war challenges.
+I have decided to give this blog a bit of a break and just solve challanges. In this article I will share a view I solved. The reset I will
+not be sharing. 
 
 ### Solution :white_check_mark:
 
