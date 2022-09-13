@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 49/100 - vim as a rust IDE"
-date:   2022-13-10 21:00:00 +0100
+date:   2022-10-13 21:00:00 +0100
 categories: rust
 ---
 
@@ -87,8 +87,22 @@ Again it looks promising, but it does not work either, so I give up and do some 
     {% endhighlight %}
 
 However this is not what I'm trying to achive, this won't run like a rust application. So I looked further and found [wasmedge-quickjs](https://github.com/second-state/wasmedge-quickjs).
+With this solution you also require wasmedge installed to run. So the code
 
+    {% highlight rust %}
+    use wasmedge_quickjs::*;
 
+    fn main() {
+        let mut ctx = Context::new();
+        let code = r#"print('hello quickjs')"#;
+        let r = ctx.eval_global_str(code);
+        println!("return value:{:?}", r);
+    }
+    {% endhighlight %}
+
+is compiled using `$ cargo build --target wasm32-wasi --release` and can then be run using `wasmedge --dir .:. target/wasm32-wasi/release/wasmedge_quickjs.wasm`
+
+This is a somewhat working solution but I will probabyl explore this some more in the future. For now the challenge for today is done. 
 
 See [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2015-day1) for today's simple snippet. 
 
