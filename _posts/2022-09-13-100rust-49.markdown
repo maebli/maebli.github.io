@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 49/100 - vim as a rust IDE"
+title:  "Rust challenge 49/100 - rust javascript bindings"
 date:   2022-09-13 21:00:00 +0100
 categories: rust
 ---
@@ -30,9 +30,11 @@ Today the challenge will be simple. Use rust bindings to create a hello world. A
 ### Solution :white_check_mark:
 
 ![](/assets/img/ferris1.jpeg)
+
 *Ferris the crab from the rust programming language drawn as marvel comic character. Created using stable diffusion*
 
 ![](/assets/img/ferris2.png)
+
 *Ferris the crab from the rust programming language drawn as gta character.*
 
 We will use code pilot from github to generate the javascript binding. With the promt `/* bind javascript */` the first prompt is as follows
