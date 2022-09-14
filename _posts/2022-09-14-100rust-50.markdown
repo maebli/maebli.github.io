@@ -46,7 +46,6 @@ This was failry simple but fun. The hard work was done by the (teloxide cargo)[h
         let bot = Bot::from_env().auto_send();
 
         teloxide::repl(bot, |message: Message, bot: AutoSend<Bot>| async move {
-            /* create an array of text */
             let random_number = rand::thread_rng().gen_range(0..100);
             bot.send_message(message.chat.id,format!("{}",random_number)).await?;
             respond(())
