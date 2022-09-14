@@ -26,6 +26,8 @@ I haven't posted in a while but I want to get started again.
 
 Today the challenge is to create a telegram bot that displays a random number between 0 and 100.
 
+[](/assets/img/ferris3.png)
+
 ### Solution :white_check_mark:
 
 
@@ -39,18 +41,17 @@ This was failry simple but fun. The hard work was done by the (teloxide cargo)[h
     #[tokio::main]
     async fn main() {
 
-    pretty_env_logger::init();
-    log::info!("Starting throw dice bot...");
+        pretty_env_logger::init();
 
-    let bot = Bot::from_env().auto_send();
+        let bot = Bot::from_env().auto_send();
 
-    teloxide::repl(bot, |message: Message, bot: AutoSend<Bot>| async move {
-        /* create an array of text */
-        let random_number = rand::thread_rng().gen_range(0..100);
-        bot.send_message(message.chat.id,format!("{}",random_number)).await?;
-        respond(())
-    })
-        .await;
+        teloxide::repl(bot, |message: Message, bot: AutoSend<Bot>| async move {
+            /* create an array of text */
+            let random_number = rand::thread_rng().gen_range(0..100);
+            bot.send_message(message.chat.id,format!("{}",random_number)).await?;
+            respond(())
+        })
+            .await;
     }
 
 	{% endhighlight %}
