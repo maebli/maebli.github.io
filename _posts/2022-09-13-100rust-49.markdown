@@ -106,5 +106,5 @@ is compiled using `$ cargo build --target wasm32-wasi --release` and can then be
 
 This is a somewhat working solution but I will probabyl explore this some more in the future. For now the challenge for today is done. 
 
-See [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2015-day1) for today's simple snippet. 
+See [github](https://github.com/maebli/100rustsnippets/tree/master/binding-javascript) for today's simple snippet. 
 
