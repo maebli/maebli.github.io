@@ -27,7 +27,7 @@ I haven't posted in a while but I want to get started again.
 Today the challenge is to parse and extract information from a yaml. And not just any yaml, all the yamls in the repos
 [things network lorawan devices](https://github.com/TheThingsNetwork/lorawan-devices). Bonus: make some statistics from the files. Lets get started.
 
-![](/assets/img/ferris4.png)
+![](/assets/img/ferris4.jpg)
 
 ### Solution :white_check_mark:
 
