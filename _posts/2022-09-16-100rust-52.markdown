@@ -34,8 +34,8 @@ See [github](https://github.com/maebli/100rustsnippets/tree/master/app) for the 
 
 Most imporant steps in summary: 
 
-(1) `cargo generate --git https://github.com/rust-embedded/cortex-m-quickstart`
-(2.1) start with debugging : `qemu-system-arm   -cpu cortex-m3   -machine lm3s6965evb   -nographic   -semihosting-config enable=on,target=native   -gdb tcp::3333   -S   -kernel target/thumbv7m-none-eabi/debug/examples/hello`
-(2.2) connect to debugging session from second shell : `gdb -q target/thumbv7m-none-eabi/debug/examples/hello`
-(3) running :  `qemu-system-arm   -cpu cortex-m3   -machine lm3s6965evb enable=on,target=native   -kernel target/thumbv7m-none-eabi/debug/examples/hello`
+1. `cargo generate --git https://github.com/rust-embedded/cortex-m-quickstart`
+2. start with debugging : `qemu-system-arm   -cpu cortex-m3   -machine lm3s6965evb   -nographic   -semihosting-config enable=on,target=native   -gdb tcp::3333   -S   -kernel target/thumbv7m-none-eabi/debug/examples/hello`
+3. connect to debugging session from second shell : `gdb -q target/thumbv7m-none-eabi/debug/examples/hello` 
+4. running :  `qemu-system-arm   -cpu cortex-m3   -machine lm3s6965evb enable=on,target=native   -kernel target/thumbv7m-none-eabi/debug/examples/hello`
 
