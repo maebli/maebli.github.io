@@ -82,4 +82,4 @@ This is fairly simple, the result is seen here. This was a lot of fun and could 
     {% endhighlight %}
 
 
-See the repo on [github](https://github.com/maebli/100rustsnippets/tree/master/dupdel)
+See the repo on [github](https://github.com/maebli/100rustsnippets/tree/master/dupdel). Intrestingly enough I found [this](https://github.com/sahib/rmlint) article which  describes typical pitfalls and  found [this](https://github.com/sahib/rmlint) repos  that is apprently one of the best tools for this task. 
