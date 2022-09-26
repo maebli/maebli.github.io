@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 56/100 - running rust on esp32"
+title:  "Rust challenge 56/100 - first steps with stm32wl and rust"
 date:   2022-09-25 18:30:00 +0100
 categories: rust
 ---
