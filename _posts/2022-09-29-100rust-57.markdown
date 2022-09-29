@@ -23,7 +23,7 @@ The rules of the game are explained [in my original](https://maebli.github.io/ru
 ## 57th Challenge
 ### Challenge
 
-Build on yesterday's example and use the buzzer of the generic node buzz!
+Build on yesterday's example and use the buzzer of the generic node buzz! 📣
 
 ![](/assets/img/genericnode.png)
 
