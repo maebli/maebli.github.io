@@ -103,9 +103,9 @@ The datasheet of the buzzer `MLT-7525` shows that the oscillation frequency is `
     {% endhighlight %}
 
 
-And here we have it the result running on the target.
+And here we have it the result running on the target:
 
-<div style="width:100%;height:0px;position:relative;padding-bottom:178.218%;"><iframe src="https://streamable.com/e/kxsmcw" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
+<iframe src="https://streamable.com/e/kxsmcw" width="200" height="356" frameborder="0" allowfullscreen></iframe>
 
  See the repo on [as a fork of the original repos](https://github.com/maebli/stm32wlxx-hal). 
 
