@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Rust challenge 56/100 - first steps with stm32L0 and rust"
-date:   2022-09-26 18:30:00 +0100
+title:  "Rust challenge 57/100 - making the generic node buzz"
+date:   2022-09-29 18:30:00 +0100
 categories: rust
 ---
 
@@ -10,7 +10,7 @@ categories: rust
 <!-- MarkdownTOC autolink="true" -->
 
 - [What is this :grey_question:](#what-is-this-grey_question)
-- [56th Challenge](#56th-challenge)
+- [57th Challenge](#57th-challenge)
     - [Challenge](#challenge)
     - [Solution :white_check_mark:](#solution-white_check_mark)
 
@@ -20,12 +20,10 @@ categories: rust
 
 The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
 
-## 56th Challenge
+## 57th Challenge
 ### Challenge
 
-Use yesterdays preperation and run an example on things network generic node
-
-
+Build on yesterday's example and use the buzzer of the generic node buzz!
 
 ![](/assets/img/genericnode.png)
 
@@ -74,38 +72,41 @@ The template, looks like this, when running `tree -L 3`
     {% endhighlight %}
 
 
-Now we need an ST-Link to flash the device. We remove the two jumpers on the Nucelo STM32L0 so we can use the ST Link on the nucleo to flash the generic node. Hooking things up is simple, just check the datasheet of the nucleo and of the generic node and connect VCC,GND, NRST, SWD CLK.
+To run tests we run `DEFMT_LOG=info cargo test -p testsuite --target thumbv7em-none-eabi --bin pka`.
 
-Next We try the info example to get the board info by running `DEFMT_LOG=trace cargo run-ex info`  and the output prints some information about the board, namly its package and its UID from which some production info could be read for example. 
+To keep things simple, we will add an additional example, instead of doing something complicated. The buzzer is a "Piezo speaker - provides audible feedback." According to the [documentation](https://www.genericnode.com/docs/sensor-edition/hardware/se-board/)
+it is connected to `PA15 - internally connected to the piezo speaker`. The schematic can be found under [following link](https://github.com/TheThingsIndustries/generic-node-se/blob/develop/Hardware/sch/sch-stm32wl.pdf). The relevant part looks as follows. 
+
+![](/assets/img/buzzer.png)
+
+The datasheet of the buzzer `MLT-7525` shows that the oscillation frequency is `2700Hz` which you can listen to on[youtube](https://www.youtube.com/watch?v=eGZvKFEDAE8) - it sounds annoying. 
+![](/assets/img/buzzer2.png). So we must toggle the output at the resonant frequency of `2700 Hz`, which means we need to toggle the GPIO every `185e-6` seconds. This means we toggle -> delay_us(185)permantently to activate the buzzer if we do it very simply and in a blocking manner.
 
     {% highlight bash %}
-    $ DEFMT_LOG=trace cargo run-ex info
+
+    Michaels-MBP-10:stm32 michael$ DEFMT_LOG=trace cargo run-ex buzzer
+        Blocking waiting for file lock on build directory
        Compiling defmt-macros v0.3.2
        Compiling defmt v0.3.2
        Compiling panic-probe v0.3.0
        Compiling defmt-rtt v0.3.2
        Compiling stm32wlxx-hal v0.6.1 (/Volumes/data/4_github/learn-rust/100-rust-snippets/stm32/hal)
        Compiling examples v0.1.0 (/Volumes/data/4_github/learn-rust/100-rust-snippets/stm32/examples)
-        Finished dev [optimized + debuginfo] target(s) in 7.09s
-         Running `probe-run --chip STM32WLE5JCIx --connect-under-reset target/thumbv7em-none-eabi/debug/examples/info`
-    (HOST) INFO  flashing program (9 pages / 9.00 KiB)
+        Finished dev [optimized + debuginfo] target(s) in 10.33s
+         Running `probe-run --chip STM32WLE5JCIx --connect-under-reset target/thumbv7em-none-eabi/debug/examples/buzzer`
+    (HOST) INFO  flashing program (11 pages / 11.00 KiB)
     (HOST) INFO  success!
     ────────────────────────────────────────────────────────────────────────────────
-    Flash size: 256 KiB
-    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:15
-    Package: Ok(UFQFPN48)
-    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:16
-    UID64: Uid64 { uid: 3635363406995733 }
-    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:17
-    UID: Uid { uid: [3080236, 1110528013, 540422710] }
-    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:18
-    ────────────────────────────────────────────────────────────────────────────────
-    (HOST) INFO  device halted without error
+    INFO  Starting buzzer
+    └─ buzzer::__cortex_m_rt_main @ examples/examples/buzzer.rs:27
+
     {% endhighlight %}
 
 
- See the repo on [github](https://github.com/maebli/100rustsnippets/tree/master/stm32wl). The setup looks something like the following:
+And here we have it the result running on the target.
 
- ![](/assets/img/genericnode2.jpg)
+<div style="width:100%;height:0px;position:relative;padding-bottom:178.218%;"><iframe src="https://streamable.com/e/kxsmcw" frameborder="0" width="100%" height="100%" allowfullscreen style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden;"></iframe></div>
+
+ See the repo on [as a fork of the original repos](https://github.com/maebli/stm32wlxx-hal). 
 
 
