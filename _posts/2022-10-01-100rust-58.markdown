@@ -102,10 +102,6 @@ So the leds are connected to `PB5` (red) `PB6` (green) and `PB7` (blue).
     {% endhighlight %}
 
 
-And here we have it the result running on the target:
-
-<iframe src="https://streamable.com/e/kxsmcw" width="200" height="356" frameborder="0" allowfullscreen></iframe>
-
  See the repo on [as a fork of the original repos](https://github.com/maebli/stm32wlxx-hal).  For the lazy, here is the source embedded into this page, this was extremely simple as it is basically a copy of the existing example gpio-blink
 
     {% highlight rust %}
@@ -160,4 +156,4 @@ And here we have it the result running on the target:
 
 And here is what it looks like:
 
-![](/assets/img/rgbdemo.png)
+![](/assets/img/rgbdemo.gif)
