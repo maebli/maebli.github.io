@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Rust challenge 57/100 - making the generic node buzz"
-date:   2022-09-29 18:30:00 +0100
+title:  "Rust challenge 58/100 - making the generic node light up"
+date:   2022-09-01 18:30:00 +0100
 categories: rust
 ---
 
@@ -10,7 +10,7 @@ categories: rust
 <!-- MarkdownTOC autolink="true" -->
 
 - [What is this :grey_question:](#what-is-this-grey_question)
-- [57th Challenge](#57th-challenge)
+- [58th Challenge](#58th-challenge)
     - [Challenge](#challenge)
     - [Solution :white_check_mark:](#solution-white_check_mark)
 
@@ -20,10 +20,10 @@ categories: rust
 
 The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
 
-## 57th Challenge
+## 58th Challenge
 ### Challenge
 
-Build on yesterday's example and use the buzzer of the generic node to make a buzz! 📣
+Build on yesterday's example and use the rgb led to make things light up! 
 Here is a picture of the generic node again. Its a piece of hardware with an STM32WL5x and has a bunch of sensors and actuators
 as well as the possibility to use LoRaWAN.
 
@@ -74,33 +74,30 @@ The template, looks like this, when running `tree -L 3`
     {% endhighlight %}
 
 
-To run tests we run `DEFMT_LOG=info cargo test -p testsuite --target thumbv7em-none-eabi --bin pka`.
+To keep things simple, we will add an additional example, instead of doing something complicated, same as last time. The led is an "Piezo speaker - provides audible feedback." According to the [documentation](https://www.genericnode.com/docs/sensor-edition/hardware/se-board/)
 
-To keep things simple, we will add an additional example, instead of doing something complicated. The buzzer is a "Piezo speaker - provides audible feedback." According to the [documentation](https://www.genericnode.com/docs/sensor-edition/hardware/se-board/)
-it is connected to `PA15 - internally connected to the piezo speaker`. The schematic can be found under [following link](https://github.com/TheThingsIndustries/generic-node-se/blob/develop/Hardware/sch/sch-stm32wl.pdf). The relevant part looks as follows. 
+![](/assets/img/rgb.png)
 
-![](/assets/img/buzzer.png)
+So the leds are connected to `PB5` (red) `PB6` (green) and `PB7` (blue).
 
-The datasheet of the buzzer `MLT-7525` shows that the oscillation frequency is `2700Hz` which you can listen to on[youtube](https://www.youtube.com/watch?v=eGZvKFEDAE8) - it sounds annoying. 
-![](/assets/img/buzzer2.png). So we must toggle the output at the resonant frequency of `2700 Hz`, which means we need to toggle the GPIO every `185e-6` seconds. This means we toggle -> delay_us(185)permantently to activate the buzzer if we do it very simply and in a blocking manner.
 
     {% highlight bash %}
 
-    Michaels-MBP-10:stm32 michael$ DEFMT_LOG=trace cargo run-ex buzzer
+    $ DEFMT_LOG=trace cargo run-ex gpio-rgbled
         Blocking waiting for file lock on build directory
        Compiling defmt-macros v0.3.2
        Compiling defmt v0.3.2
        Compiling panic-probe v0.3.0
        Compiling defmt-rtt v0.3.2
-       Compiling stm32wlxx-hal v0.6.1 (/Volumes/data/4_github/learn-rust/100-rust-snippets/stm32/hal)
-       Compiling examples v0.1.0 (/Volumes/data/4_github/learn-rust/100-rust-snippets/stm32/examples)
-        Finished dev [optimized + debuginfo] target(s) in 10.33s
-         Running `probe-run --chip STM32WLE5JCIx --connect-under-reset target/thumbv7em-none-eabi/debug/examples/buzzer`
+       Compiling stm32wlxx-hal v0.6.1 (/Volumes/data/4_github/learn-rust/stm32wlxx-hal/hal)
+       Compiling examples v0.1.0 (/Volumes/data/4_github/learn-rust/stm32wlxx-hal/examples)
+        Finished dev [optimized + debuginfo] target(s) in 13.03s
+         Running `probe-run --chip STM32WLE5JCIx --connect-under-reset target/thumbv7em-none-eabi/debug/examples/gpio-rgbled`
     (HOST) INFO  flashing program (11 pages / 11.00 KiB)
     (HOST) INFO  success!
     ────────────────────────────────────────────────────────────────────────────────
-    INFO  Starting buzzer
-    └─ buzzer::__cortex_m_rt_main @ examples/examples/buzzer.rs:27
+    INFO  Starting blinky
+    └─ gpio_rgbled::__cortex_m_rt_main @ examples/examples/gpio-rgbled.rs:35
 
     {% endhighlight %}
 
@@ -109,24 +106,22 @@ And here we have it the result running on the target:
 
 <iframe src="https://streamable.com/e/kxsmcw" width="200" height="356" frameborder="0" allowfullscreen></iframe>
 
- See the repo on [as a fork of the original repos](https://github.com/maebli/stm32wlxx-hal).  For the lazy, here is the source embedded into this page:
+ See the repo on [as a fork of the original repos](https://github.com/maebli/stm32wlxx-hal).  For the lazy, here is the source embedded into this page, this was extremely simple as it is basically a copy of the existing example gpio-blink
 
     {% highlight rust %}
-    // Sounds a buzzer, will work only for TTN Generic node with STM32WL5x
+    // Turns the RGB Led red,green,blue,white,off in a loop
+    // will work only for TTN Generic node with STM32WL5x
     // see https://github.com/TheThingsIndustries/generic-node-se
-    // The datasheet of the buzzer `MLT-7525` shows that the oscillation frequency is `2700Hz` so the period
-    // is around 185us
 
     #![no_std]
     #![no_main]
 
     use defmt_rtt as _; // global logger
     use panic_probe as _; // panic handler
-
     use stm32wlxx_hal::{
         self as hal,
         cortex_m::{self, delay::Delay},
-        gpio::{pins, Output, PinState, PortA},
+        gpio::{pins, Output, PinState, PortB},
         pac,
         util::new_delay,
     };
@@ -136,20 +131,33 @@ And here we have it the result running on the target:
         let mut dp: pac::Peripherals = defmt::unwrap!(pac::Peripherals::take());
         let cp: pac::CorePeripherals = defmt::unwrap!(pac::CorePeripherals::take());
 
-        let gpioa: PortA = PortA::split(dp.GPIOA, &mut dp.RCC);
-        let mut buzzer: Output<pins::A15> =
-            cortex_m::interrupt::free(|cs| Output::default(gpioa.a15, cs));
+        let gpiob: PortB = PortB::split(dp.GPIOB, &mut dp.RCC);
+        let (mut red_led, mut green_led, mut blue_led): (Output<pins::B5>, Output<pins::B6>, Output<pins::B7>) =
+            cortex_m::interrupt::free(|cs| {
+                (
+                    Output::default(gpiob.b5, cs),
+                    Output::default(gpiob.b6, cs),
+                    Output::default(gpiob.b7, cs),
+                )
+            });
 
         let mut delay: Delay = new_delay(cp.SYST, &dp.RCC);
 
-        defmt::info!("Starting buzzer");
+        defmt::info!("Starting blinky");
 
         loop {
             for &level in &[PinState::High, PinState::Low] {
-                buzzer.set_level(level);
-                delay.delay_us(185);
+                red_led.set_level(level);
+                delay.delay_ms(600);
+                green_led.set_level(level);
+                delay.delay_ms(600);
+                blue_led.set_level(level);
+                delay.delay_ms(600);
             }
         }
     }
     {% endhighlight %}
 
+And here is what it looks like:
+
+![](/assets/img/rgbdemo.png)
