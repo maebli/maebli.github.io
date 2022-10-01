@@ -156,4 +156,4 @@ So the leds are connected to `PB5` (red) `PB6` (green) and `PB7` (blue).
 
 And here is what it looks like:
 
-![](/assets/img/rgbdemo.gif)
+![](/assets/img/rbgdemo.gif)
