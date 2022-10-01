@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 58/100 - making the generic node light up"
-date:   2022-09-01 18:30:00 +0100
+date:   2022-10-01 15:30:00 +0100
 categories: rust
 ---
 
