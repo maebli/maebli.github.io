@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 59/100 - talking to the generic node's humidity and temperature sensore"
-date:   2022-10-03 22:30:00 +0100
+date:   2022-10-02 22:30:00 +0100
 categories: rust
 ---
 
