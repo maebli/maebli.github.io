@@ -74,7 +74,7 @@ The template, looks like this, when running `tree -L 3`
     {% endhighlight %}
 
 
-To keep things simple, we will add an additional example, instead of doing something complicated, same as last time. The led is an "Piezo speaker - provides audible feedback." According to the [documentation](https://www.genericnode.com/docs/sensor-edition/hardware/se-board/)
+To keep things simple, we will add an additional example, instead of doing something complicated, same as last time. The led is actually 3 leds (RGB) According to the [documentation](https://www.genericnode.com/docs/sensor-edition/hardware/se-board/)
 
 ![](/assets/img/rgb.png)
 
