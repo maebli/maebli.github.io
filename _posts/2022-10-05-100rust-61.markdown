@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 61/100 - reading the generic node's accleration sensor"
-date:   2022-10-05 22:30:00 +0100
+date:   2022-10-05 20:30:00 +0100
 categories: rust
 ---
 
