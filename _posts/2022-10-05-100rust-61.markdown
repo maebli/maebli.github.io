@@ -1,0 +1,94 @@
+---
+layout: post
+title:  "Rust challenge 61/100 - reading the generic node's accleration sensor"
+date:   2022-10-05 22:30:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [61st Challenge](#61st-challenge)
+    - [Challenge](#challenge)
+    - [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 61st Challenge
+### Challenge
+
+Now lets read the next sensor, the accleration sensor :)
+
+### Solution :white_check_mark:
+
+Lets start from a template again, same folder as yesterday. 
+
+    {% highlight bash %}
+    cargo generate \
+    --git https://github.com/stm32-rs/stm32wlxx-hal\
+    --name stm32
+    {% endhighlight %}
+
+
+The sensor looks as follows on the generic node. Its on the same i2c bus so powering the bus and initalizing the bus will be the same. The slave address is however `0x33` now and we have to read the datasheet to see how we can talk to this little guy. The little guy, LIS2DH12, is an ST chip and described as `MEMS digital output motion sensor: ultra-low-power high-performance 3-axis "femto" accelerometer`
+
+![](/assets/img/acclerationsensor.png)
+
+
+I want to just read out the accleration values in all directions, I'm hopeing the default configuration will allow for it. The following is an extract from the register map I'm going to read. 
+
+![](/assets/img/registermap.png) 
+
+If the `MSb` of the `SUB` field is `1`, the `SUB` (register address) is automatically increased to allow multiple data read/writes. We will not do this, so we will just leave the `Msb` at `0`
+
+![](/assets/img/typical-i2c.png).
+
+So first guess is we send `0x33,0xF` to get the `WHO_AM_I` register value. However, trying this, yields a NAK. Reading the application notes shows we have to do the following start up sequence.
+The address is actually supposed to be `0x19` to upper 7bits only when communicating and  and 0x33 / 0x32 includes the LSB bit which defines if it is a read or write.
+
+
+    {% highlight rust %}
+     #[test]
+        fn lis2dh12_measurement(ta: &mut TestArgs) {
+
+            defmt::warn!("A LIS2DH12 sensor must be connected to the board on pins A9 (SCL) & A10 (SDA) for this test to work");
+
+            let mut response =[0u8];
+
+            // Read the WHO_AM_I register
+            let result = ta.i2c.write_read(0x19, &[0x0F], &mut response);
+
+            match result {
+                Ok(()) => {
+                    assert!(response[0] == 0x33);
+                    defmt::info!("WHO_AM_I response as expected = {:x} ",response)
+                },
+                Err(e) => defmt::error!("I2C error: {:x}. response: {}", e, response),
+            }
+
+        }
+    }
+    {% endhighlight %}
+
+When compiling and running `DEFMT_LOG=info cargo test -p testsuite --target thumbv7em-none-eabi --bin gn_i2c` we get the temperature and the humidity and additionality also the `WHO_AM_I` response
+
+
+    {% highlight bash %}
+      ────────────────────────────────────────────────────────────────────────────────
+    (1/2) running `lis2dh12_measurement`...
+    └─ gn_i2c::tests::__defmt_test_entry @ src/gn_i2c.rs:71
+    WARN  A LIS2DH12 sensor must be connected to the board on pins A9 (SCL) & A10 (SDA) for this test to work
+    └─ gn_i2c::tests::lis2dh12_measurement @ src/gn_i2c.rs:73
+    INFO  WHO_AM_I response as expected = [33] 
+    └─ gn_i2c::tests::lis2dh12_measurement @ src/gn_i2c.rs:83
+    (2/2) running `shtc3_measurement`...
+    {% endhighlight %}
+
+
+Check out [my fork](https://github.com/maebli/stm32wlxx-hal) of the original repos for the new additonal test of the generic node. 
