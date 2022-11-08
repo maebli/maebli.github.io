@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 62/100 - reading the generic node's accleration sensor"
+title:  "Rust challenge 62/100 - find the middle of points"
 date:   2022-11-08 20:42:00 +0100
 categories: rust
 ---
