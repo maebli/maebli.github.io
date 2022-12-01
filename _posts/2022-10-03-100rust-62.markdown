@@ -23,7 +23,7 @@ The rules of the game are explained [in my original](https://maebli.github.io/ru
 ## 63d Challenge
 ### Challenge
 
-Find the center of multiple co-ordinate points.
+Solve today's AOC challange.🎅🦀
 
 ### Solution :white_check_mark:
 
