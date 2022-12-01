@@ -56,8 +56,9 @@ Here's my solution, took me a bit longer than expected- I'm out of practice it s
         });
 
         calories.sort();
-        
-        (calories.pop().unwrap(),calories.pop().unwrap(),calories.pop().unwrap())
+        (calories.pop().unwrap_or(0),
+         calories.pop().unwrap_or(0),
+         calories.pop().unwrap_or(0))
 
     }
 
