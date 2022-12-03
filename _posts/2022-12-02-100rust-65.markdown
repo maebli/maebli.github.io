@@ -97,7 +97,3 @@ Here's my solution for part 1, part two coming soon
     }
 
     {% endhighlight %}
-
-To see the source see [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2022-day3) 
-
-See the [playground link](https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=3f8cd81417f45dca7f890ac95ac8cd9b)
