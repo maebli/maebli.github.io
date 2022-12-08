@@ -58,7 +58,6 @@ Here's my solution, today was really easy in my opinion :)
 
     fn init_crates<'a>(stacks: &'a mut HashMap<u64,Vec<char>>, input:&str) -> &'a mut HashMap<u64,Vec<char>> {
 
-        // append char to input
         let input = format!("{} ", input);
         let x = input.chars()
              .tuples().map(|(_,b,_,_)| b)
