@@ -29,7 +29,7 @@ Solve today's AOC challange.🎅🦀
 
 Here's my solution, today was really easy in my opinion :)
 
-    {% highlight bash %}
+    {% highlight rust %}
     fn main() {
         let x = include_str!("../input.txt").lines()
                     .map(|line| {
