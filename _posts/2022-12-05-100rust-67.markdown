@@ -29,8 +29,8 @@ Solve today's AOC challange.🎅🦀
 
 Here's my solution, today was really easy in my opinion :)
 
-    {% highlight bash %}
-     use std::collections::HashMap;
+    {% highlight rust %}
+      use std::collections::HashMap;
 
     use itertools::Itertools;
 
