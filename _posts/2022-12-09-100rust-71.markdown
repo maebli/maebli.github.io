@@ -30,122 +30,250 @@ Solve today's AOC challange.🎅🦀
 Here's my solution:
 
     {% highlight rust %}
-     fn main() {
+     use std::{collections::HashSet, borrow::{Borrow, BorrowMut}};
 
-        let res1 = Map2D::from(include_str!("../input.txt")).count_visible_trees();
-        println!("Result 1: {}", res1);
+    fn main() {
+       
+        let mut rope1 = Rope{
+            history: HashSet::new(),
+            positions: vec![Position{x: 0, y: 0};10],
+        };
+
+        include_str!("../input.txt")
+                .lines()
+                .map(parse_steps)
+                .map(|x| rope1.move_rope(x.unwrap()))
+                .for_each(drop);
         
-        let res2 = Map2D::from(include_str!("../input.txt")).max_scenic_score();
-        println!("Result 2: {}", res2);
+        println!("Length of rope 1 {}",rope1.history.len());
+
+        let mut rope2 = Rope{
+            history: HashSet::new(),
+            positions: vec![Position{x: 0, y: 0};2],
+        };
+
+        include_str!("../input.txt")
+                .lines()
+                .map(parse_steps)
+                .map(|x| rope2.move_rope(x.unwrap()))
+                .for_each(drop);
+        
+        println!("Length of rope 2{}",rope2.history.len());
+
     }
 
 
-    struct Map2D {
-        data: Vec<Vec<u64>>,
+    #[derive(Debug,PartialEq,Clone)]
+    enum Direction {
+        Up,
+        Down,
+        Left,
+        Right,
     }
 
-    impl Map2D {
+    #[derive(Debug, PartialEq)]
+    struct Motion {
+        steps: Vec<Step>
+    }
 
-       fn from(input: &str) -> Self {
-           let x = input.lines()
-                                       .map(|line| line.trim()
-                                                             .chars()
-                                                             .map(|c| c.to_digit(10)
-                                                             .unwrap() as u64)
-                                                             .collect())
-                                       .collect();
-           Self { data: x }
-       }
+    #[derive(Debug, PartialEq,Clone)]
+    struct Step {
+        direction: Direction,
+    }
 
-       fn is_visible(&self, x: usize, y: usize) -> bool {
-           
-           if x == 0 || y == 0 || x == self.data.len() - 1 || y == self.data[x].len() - 1 {
-               return true;
-           }
-           let l=*self.data[x][..y].iter().max().unwrap() < self.data[x][y];
-           let r=*self.data[x][y+1..].iter().max().unwrap() < self.data[x][y];
-           let t=self.data[..x].iter().map(|v| v[y]).max().unwrap() < self.data[x][y];
-           let b=self.data[x+1..].iter().map(|v| v[y]).max().unwrap() < self.data[x][y];
-           l||r||t||b
-       }
+    #[derive(Debug, PartialEq,Clone,Hash,Eq)]
+    struct Position {
+        x: i64,
+        y: i64,
+    }
+    #[derive(Debug, PartialEq,Eq,Clone)]
+    struct Rope {
+        history: HashSet<Position>,
+        positions: Vec<Position>,
+    }
 
-       fn scenic_score(&self, x: usize, y: usize) -> u64 {
-            
-            if x == 0 || y == 0 || x == self.data.len() - 1 || y == self.data[x].len() - 1 {
-                return 0;
-            }
+    impl Position {
 
-            let len= self.data[x].len();
-            let l:u64 = 1+self.data[x][1..y].iter().rev().map_while(|&v| if v < self.data[x][y] { Some(v) } else { None }).count() as u64;
-            let r:u64 = 1+self.data[x][y+1..len-1].iter().map_while(|&v| if v < self.data[x][y] { Some(v) } else { None }).count() as u64;
-            let t:u64 = 1+self.data[1..x].iter().rev().map(|v| v[y]).map_while(|v| if v < self.data[x][y] { Some(v) } else { None }).count() as u64;
-            let b:u64 = 1+self.data[x+1..len-1].iter().map(|v| v[y]).map_while(|v| if v < self.data[x][y] { Some(v) } else { None }).count() as u64;
-            l*r*t*b
-       }
-     
-       fn count_visible_trees(&self) -> usize {
-           self.data.iter()
-                    .enumerate()
-                    .map(|(x, row)| row.iter().enumerate()
-                    .filter(|(y, _)| self.is_visible(x, *y))
-                    .count())
-                    .sum()
-       }
-
-       fn max_scenic_score(&self) -> u64 {
-           self.data.iter()
-                    .enumerate()
-                    .map(|(x, row)| row.iter().enumerate()
-                    .map(|(y, _)| self.scenic_score(x, y))
-                    .max()
-                    .unwrap())
-                    .max()
-                    .unwrap()
+        fn get_distance(a:&Position,b:&Position) -> (i64,i64)  {
+            (
+                (a.x- b.x).abs() , 
+                (a.y- b.y).abs()
+            )
         }
 
-     
+        fn head_is_not_touching_tail(a:&Position,b:&Position) -> bool {
+            let (delta_x, delta_y) = Self::get_distance(a,b);
+            delta_x > 1 || delta_y > 1
+        }
     }
+
+    impl Rope {
+        
+        fn move_rope(&mut self, steps: Vec<Step>) {
+
+            for step in steps {
+
+                let mut head = self.positions.first().unwrap().clone();
+
+                match step.direction {
+                    Direction::Up => head.y += 1,
+                    Direction::Down => head.y -= 1,
+                    Direction::Left => head.x -= 1,
+                    Direction::Right => head.x += 1,
+                }
+                self.positions[0]=head;
+
+                self.positions.iter()
+                              .enumerate()
+                              .map(|i| (i.0,i.0+1))
+                              .collect::<Vec<(_,_)>>()
+                              .iter()
+                              .for_each(|(a,b)| {
+                                    let head = self.positions.get(*a).unwrap();
+                                    if let Some(tail) = self.positions.get(*b){
+                                        
+                                        let mut tail = tail.clone();
+                                        if Position::head_is_not_touching_tail(&head,&tail) {
+                            
+                                            let (delta_x, delta_y) = Position::get_distance(&head,&tail);
+                        
+                                            if delta_x >= 1 {
+                                                tail.x += (head.x - tail.x).clamp(-1,1);
+                                            }
+                                            if delta_y >= 1 {
+                                                tail.y += (head.y - tail.y).clamp(-1,1);
+                                            }
+                                        }
+                                        self.positions[*b] = tail;
+                                    }
+
+                              });
+                self.history.insert(self.positions.last().unwrap().clone());
+            }
+            
+        }
+
+            
+
+    }
+
+
+    fn parse_steps(input:&str) -> Option<Vec<Step>> {
+
+        let distance = input[2..].parse::<u64>().ok()?;
+        let direction = match input.chars().nth(0)?{
+            'U' => Direction::Up,
+            'D' => Direction::Down,
+            'L' => Direction::Left,
+            'R' => Direction::Right,
+            _ => panic!("Invalid direction"),
+        };
+
+        Some(vec![Step{direction}; distance as usize])
+    }
+
 
     #[cfg(test)]
     mod tests {
 
-        use crate::*;
-
-        const TEST_INPUT: &str = 
-       "30373
-        25512
-        65332
-        33549
-        35390";
-
+        use super::*;
 
         #[test]
-        fn test_genrate_map() {
-            let map = Map2D::from(TEST_INPUT);
-            assert_eq!(map.data.len(), 5);
-            assert_eq!(map.data[0].len(), 5);
-            println!("{:?}", map.data);
+        fn motion_parsing() {
+
+            let _rope = Rope{
+                history: HashSet::new(),
+                positions: vec![Position{x: 0, y: 0};2],
+            };
+            
+            assert_eq!(parse_steps("D 142"), Some(vec![Step{direction: Direction::Down}; 142]));
+
         }
 
         #[test]
-        fn test_height_map() {
-            assert_eq!(Map2D::from(TEST_INPUT).count_visible_trees(), 21);
+        fn rope_movement() {
+
+            let mut rope = Rope{
+                history: HashSet::new(),
+                positions: vec![Position{x: 0, y: 0};2],
+            };
+
+            rope.move_rope(parse_steps("R 1").unwrap());
+            assert_eq!(*rope.positions.first().unwrap(), Position{x: 1, y: 0});
+            assert_eq!(*rope.positions.last().unwrap(), Position{x: 0, y: 0});
+
+            rope.move_rope(parse_steps("R 1").unwrap());
+            assert_eq!(*rope.positions.first().unwrap(), Position{x:2, y: 0});
+            assert_eq!(*rope.positions.last().unwrap(), Position{x: 1, y: 0});
+
+            rope.move_rope(parse_steps("R 1").unwrap());
+            assert_eq!(*rope.positions.first().unwrap(), Position{x: 3, y: 0});
+            assert_eq!(*rope.positions.last().unwrap(), Position{x: 2, y: 0});
+
+            rope.move_rope(parse_steps("R 1").unwrap());
+            assert_eq!(*rope.positions.first().unwrap(), Position{x: 4, y: 0});
+            assert_eq!(*rope.positions.last().unwrap(), Position{x: 3, y: 0});
+
+            rope.move_rope(parse_steps("U 1").unwrap());
+            assert_eq!(*rope.positions.first().unwrap(), Position{x:4, y: 1});
+            assert_eq!(*rope.positions.last().unwrap(), Position{x: 3, y: 0});
+
+            rope.move_rope(parse_steps("U 1").unwrap());
+            assert_eq!(*rope.positions.first().unwrap(), Position{x:4, y: 2});
+            assert_eq!(*rope.positions.last().unwrap(), Position{x: 4, y: 1});
+
+        }
+        
+        #[test]
+        fn test_move_counter(){
+
+            let mut rope = Rope{
+                history: HashSet::new(),
+                positions: vec![Position{x: 0, y: 0};2],
+            };
+            
+            rope.move_rope(parse_steps("R 4").unwrap());
+            rope.move_rope(parse_steps("U 4").unwrap());
+            rope.move_rope(parse_steps("L 3").unwrap());
+            rope.move_rope(parse_steps("D 1").unwrap());
+            rope.move_rope(parse_steps("R 4").unwrap());
+            rope.move_rope(parse_steps("D 1").unwrap());
+            rope.move_rope(parse_steps("L 5").unwrap());
+            rope.move_rope(parse_steps("R 2").unwrap());
+
+            assert_eq!(rope.history.len(),13);
+
+        } 
+
+        #[test]
+        fn test_head_is_not_touching(){
+
+            assert_eq!(Position::head_is_not_touching_tail(&Position{x:0,y:0}, &Position{x:0,y:0}),false);
+            assert_eq!(Position::head_is_not_touching_tail(&Position{x:1,y:0}, &Position{x:0,y:0}),false);
+            assert_eq!(Position::head_is_not_touching_tail(&Position{x:0,y:1}, &Position{x:0,y:0}),false);
+            assert_eq!(Position::head_is_not_touching_tail(&Position{x:1,y:1}, &Position{x:0,y:0}),false);
+            assert_eq!(Position::head_is_not_touching_tail(&Position{x:2,y:0}, &Position{x:0,y:0}),true);
+
         }
 
         #[test]
-        fn test_is_visible(){
-            assert_eq!(Map2D::from(TEST_INPUT).is_visible(0, 0), true);
-            assert_eq!(Map2D::from(TEST_INPUT).is_visible(0, 1), true);
-            assert_eq!(Map2D::from(TEST_INPUT).is_visible(1, 1), true);
-            assert_eq!(Map2D::from(TEST_INPUT).is_visible(1, 2), true);
-            assert_eq!(Map2D::from(TEST_INPUT).is_visible(2, 2), false);
-        }
+        fn test_get_distance(){
 
-        #[test]
-        fn test_scenic_scores(){
-            assert_eq!(Map2D::from(TEST_INPUT).scenic_score(1,2),4);
-            assert_eq!(Map2D::from(TEST_INPUT).scenic_score(3,2),8);
+            let mut rope = Rope{
+                history: HashSet::new(),
+                positions: vec![Position{x: 0, y: 0};2],
+            };
+        
+            include_str!("../test_input.txt").lines()
+                 .map(parse_steps)
+                 .map(|x| rope.move_rope(x.unwrap()))
+                 .for_each(drop);
+            
+            assert_eq!(rope.history.len(), 13);
+        
         }
-
     }
+
+
+
     {% endhighlight %}
