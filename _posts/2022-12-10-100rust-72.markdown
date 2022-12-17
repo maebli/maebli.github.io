@@ -27,7 +27,7 @@ Solve today's AOC challange.🎅🦀
 
 ### Solution :white_check_mark:
 
-Here's my solution, today was hard.. the Idea was easy, but implemnting it was hard. 
+Here's my solution:
 
     {% highlight rust %}
     fn main() {
