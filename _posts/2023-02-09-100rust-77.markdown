@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 77/100 - aoc 2023 day1"
-date:   2023-01-12 23:05:00 +0100
+date:   2023-12-1 23:05:00 +0100
 categories: rust
 ---
 
