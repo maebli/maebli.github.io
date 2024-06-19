@@ -173,7 +173,7 @@ Dependencies that were mentioned in the talk related to RTOS:
 | `embassy`     | [embassy](https://crates.io/crates/embassy) | An async, more rigid alternative to traditional Rust async frameworks.                |
 | `RTIC v2`     | [rtic](https://crates.io/crates/rtic)       | Version 2 of the Real-Time Interrupt-driven Concurrency framework, preferred for its async support. |
 | `Bern RTOS`   | No Link Available                           | A Swiss-made real-time operating system noted for its cool and efficient performance.|
-| `Tock`        | [tock](https://crates.io/crates/tock)       | A highly sandboxed OS; complex and large, ideal for managing intricate systems like train controls.  |
+| `Tock`        | [tock](https://github.com/tock/tock)       | A highly sandboxed OS; complex and large, ideal for managing intricate systems like train controls.  |
 
 Dependencies that were mentioned related to debugging / tracing:
 
@@ -229,7 +229,7 @@ Here are some important things to know about rust embedded development.
 
 ###### Setup Clippy  / Lint to be more strict can help
 
-`.clippy.toml` for settings of clippy following settings can be helpful
+`.clippy.toml for settings of clippy following settings can be helpful
    
     {% highlight toml %}
     allow-unwrap-in-tests = true
