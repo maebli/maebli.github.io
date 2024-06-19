@@ -45,8 +45,8 @@ To get things flashed and get debugging with probe.rs. I am going to try differe
 
 But first I install all the required dependencies. 
 
-    {% highlight rust %}
-    p# install compilation targets
+    {% highlight bash %}
+    # install compilation targets
     rustup target add thumbv6m-none-eabi
     rustup target add --toolchain nightly thumbv6m-none-eabi
     # necessary linker
@@ -67,7 +67,7 @@ An we are ready to go!
 
 I have various probes I am going to test with. An ST-Link [v2 clone](https://www.st.com/en/development-tools/st-link-v2.html), an [st-link nucleo](https://www.st.com/en/development-tools/stsw-link009.html), a [segger basic](https://www.segger.com/products/debug-probes/j-link/models/j-link-base/) and a [rusty-probe](https://github.com/probe-rs/rusty-probe)
 
-    {% highlight rust %}
+    {% highlight bash %}
     probe-rs list
     {% endhighlight %}
 
@@ -77,7 +77,7 @@ Listing the three probes is not an issue on `Mac OS 14.5`. I plug the probes, I 
 
 Next I want to run some code on the chips so I clone the [repository](https://github.com/bedroombuilds/pico-usb) and I do `cargo run`. 
 
-    {% highlight rust %}
+    {% highlight bash %}
     git clone https://github.com/maebli/pico-usb // my personal fork
     cd rp2040-blink
     probe-rs run --chip RP2040 target/thumbv6m-none-eabi/debug/rp2040-blink
@@ -211,14 +211,15 @@ And others
 
 ###### General 
 
-Here are some important things to know about rust embedded development. Rust 1.0 came out in 2015, embedded_hal 1.0 only recently. 
+Here are some important things to know about rust embedded development.
 
+- Rust 1.0 came out in 2015, embedded_hal 1.0 only recently. 
 - embedded development is done with `no_std` , meaning things like Smart pointers and Display traits are not included i.e. "batteries not included". The box type is also not included but may be added with ``core::alloc`
 - `PAC/HAL/BSP`: often contain unsafe code
     - `BSP`: implements hardware layer
     - `HAL`: "only" traits, this way it works on all uP, mostly works, has improved a lot. Interrupts are still hard to abstract, injecting an interrupt into code is hard
     - `PAC`: is specific to a micro controller and generated directly from the micro controller's description (usually in SVD or similar format). A PAC provides low-level register access that is faithful to the micro controller's specification, allowing developers direct interaction with the hardware through Rust's type system, which ensures memory safety and concurrency.
-- Targets have varying level of support. Best supported are ARM / RISC. There is a platform support page that puts support in different categories. Tier-1 are the best supported. https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-1-with-host-tools
+- Targets have varying level of support. Best supported are ARM / RISC. There is a platform support page that puts support in different categories. [Tier-1 are the best.]https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-1-with-host-tools)
 
 
 - read embedded-hal docs 
