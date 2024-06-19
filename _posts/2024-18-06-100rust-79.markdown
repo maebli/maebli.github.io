@@ -1,0 +1,345 @@
+---
+layout: post
+title:  "Rust challenge 79/100 - probe.rs"
+date:   2023-12-2 14:39:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [79th Challenge](#79th-challenge)
+    - [Challenge](#challenge)
+    - [Solution :white_check_mark:](#solution-white_check_mark)
+        - [Hardware Setup](#hardware-setup)
+            - [Listing available probes](#listing-available-probes)
+            - [RP2040 compatible debuggers](#rp2040-compatible-debuggers)
+            - [Debugging with VS Code](#debugging-with-vs-code)
+        - [Software Setup](#software-setup)
+            - [Understanding the dependencies](#understanding-the-dependencies)
+                - [RP2040 code dependencies](#rp2040-code-dependencies)
+                - [Host code dependencies](#host-code-dependencies)
+            - [Developing for embedded targets in rust](#developing-for-embedded-targets-in-rust)
+                - [General](#general)
+                - [Setup Clippy  / Lint to be more strict can help](#setup-clippy--lint-to-be-more-strict-can-help)
+                - [Typestate pattern](#typestate-pattern)
+                - [Traits](#traits)
+                - [some embedded files in a crate that are not normally found in a rust workspace](#some-embedded-files-in-a-crate-that-are-not-normally-found-in-a-rust-workspace)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 79th Challenge
+### Challenge
+
+Prepare for the [rust workshop](https://rustfest.ch/workshops/rust-on-microcontrollers/) hosted by [rustfest.ch](rustfest.ch) and summarize what was learnt. 
+
+### Solution :white_check_mark:
+
+To get things flashed and get debugging with probe.rs. I am going to try different things starting with the probe. 
+
+But first I install all the required dependencies. 
+
+    {% highlight rust %}
+    p# install compilation targets
+    rustup target add thumbv6m-none-eabi
+    rustup target add --toolchain nightly thumbv6m-none-eabi
+    # necessary linker
+    cargo install flip-link
+    # Useful to creating UF2 images for the RP2040 USB Bootloader
+    cargo install elf2uf2-rs --locked
+    # Useful for flashing over the SWD pins using a supported JTAG probe
+    # this contains  cargo-embed too. Also available via homebrew
+    cargo install cargo-binstall
+    cargo binstall probe-rs-tools
+    {% endhighlight %}
+    {% highlight rust %}
+
+An we are ready to go!
+
+#### Hardware Setup
+
+##### Listing available probes
+
+I have various probes I am going to test with. An ST-Link [v2 clone](https://www.st.com/en/development-tools/st-link-v2.html), an [st-link nucleo](https://www.st.com/en/development-tools/stsw-link009.html), a [segger basic](https://www.segger.com/products/debug-probes/j-link/models/j-link-base/) and a [rusty-probe](https://github.com/probe-rs/rusty-probe)
+
+    {% highlight rust %}
+    probe-rs list
+    {% endhighlight %}
+
+Listing the three probes is not an issue on `Mac OS 14.5`. I plug the probes, I run `probe-rs` (see documentation at [https://probe.rs/](https://probe.rs/)) list and I see them.
+
+##### RP2040 compatible debuggers
+
+Next I want to run some code on the chips so I clone the [repository](https://github.com/bedroombuilds/pico-usb) and I do `cargo run`. 
+
+    {% highlight rust %}
+    git clone https://github.com/maebli/pico-usb // my personal fork
+    cd rp2040-blink
+    probe-rs run --chip RP2040 target/thumbv6m-none-eabi/debug/rp2040-blink
+    {% endhighlight %}
+
+Somehow I have issues. It turns out, that st-link is vendor locked and can only be used to debug and flash st products. I found this out on the porbe-rs matrix channel. Rusty-probe initially does not work but soon it works due to `SWDIO`and `SWCLK` being swapped. Further the segger basic also works, however, I had to connect like I showed in [one of my first posts](https://maebli.github.io/pico/hardware/2021/02/17/raspberry-pi.html). For the rusty-probe I just need `GND`, `SWIO` and `SWCLK` and I can debug. 
+
+
+##### Debugging with VS Code
+
+To debug within `VS Code` I installed the VS Code extension and created two debug settings (see repos, and also here):
+
+    {% highlight json %}
+    {
+        // Use IntelliSense to learn about possible attributes.
+        // Hover to view descriptions of existing attributes.
+        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "probe-rs-debug",
+                "request": "launch",
+                "name": "debug-rp2040-rtic-usb-serial-blinky",
+                "cwd": "${workspaceFolder}",
+                "connectUnderReset": false,
+                "chip": "RP2040",
+                "flashingConfig": {
+                    "flashingEnabled": true,
+                    "haltAfterReset": true
+                },
+                "coreConfigs": [
+                    {
+                        "coreIndex": 0,
+                        "programBinary": "rp2040-rtic-usb-serial-blinky/target/thumbv6m-none-eabi/debug/rp2040-rtic-usb-serial-blinky"
+                    }
+                ]
+            },
+            {
+                "type": "probe-rs-debug",
+                "request": "launch",
+                "name": "debug-rp2040-blink",
+                "cwd": "${workspaceFolder}",
+                "connectUnderReset": false,
+                "chip": "RP2040",
+                "flashingConfig": {
+                    "flashingEnabled": true,
+                    "haltAfterReset": true
+                },
+                "coreConfigs": [
+                    {
+                        "coreIndex": 0,
+                        "programBinary": "rp2040-blink/target/thumbv6m-none-eabi/debug/rp2040-blink"
+                    }
+                ]
+            }
+        ]
+    }
+    {% endhighlight %}
+
+With these I was able to debug. Debugging the host code was the same as debugging any other existing program. I found the com port created by Pi used in the host application by listing the devices 
+available and then diffing when plugging the RP2040 in and out. 
+
+
+#### Software Setup
+
+There are two repos that are mentioned in the workshop. One is [https://github.com/mike-kfed/embedded_drivers](https://github.com/mike-kfed/embedded_drivers) and the other is the already mentioned [https://github.com/bedroombuilds/pico-usb](https://github.com/bedroombuilds/pico-usb)
+
+##### Understanding the dependencies
+
+The dependencies and a URL to the crates documentation page is listed bellow. 
+
+###### RP2040 code dependencies
+
+| Crate          | Link                                         | Description                                                                                   |
+|----------------|----------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `cortex-m`     | [cortex-m](https://crates.io/crates/cortex-m) | Low-level access to Cortex-M processors, providing functionality like registers and interrupts. |
+| `cortex-m-rt`  | [cortex-m-rt](https://crates.io/crates/cortex-m-rt) | Startup and runtime features for Cortex-M microcontrollers.                                    |
+| `embedded-hal` | [embedded-hal](https://crates.io/crates/embedded-hal) | Hardware abstraction layer for embedded systems, defining traits for hardware interfacing.     |
+| `defmt`        | [defmt](https://crates.io/crates/defmt)       | A highly efficient logging framework for embedded systems, designed for resource-constrained devices. |
+| `defmt-rtt`    | [defmt-rtt](https://crates.io/crates/defmt-rtt) | Implements the RTT (Real-Time Transfer) transport layer for the `defmt` logging framework.     |
+| `panic-probe`  | [panic-probe](https://crates.io/crates/panic-probe) | A panic handler for embedded systems that logs panic messages using probe-based debugging.     |
+| `rp-pico`      | [rp-pico](https://crates.io/crates/rp-pico)   | Board support package for the Raspberry Pi Pico board, providing low-level access to its features. |
+| `usb-device`   | [usb-device](https://crates.io/crates/usb-device) | A platform-agnostic USB device library, allowing the creation of USB devices.                  |
+| `usbd-serial`  | [usbd-serial](https://crates.io/crates/usbd-serial) | USB serial port implementation for the `usb-device` library.                                   |
+| `rp2040-hal`   | [rp2040-hal](https://crates.io/crates/rp2040-hal) | Hardware abstraction layer for the RP2040 microcontroller, used in Raspberry Pi Pico and similar boards. |
+| `rp2040-boot2` | [rp2040-boot2](https://crates.io/crates/rp2040-boot2) | Low-level boot configuration for RP2040 microcontrollers.                                      |
+| `sparkfun-pro-micro-rp2040` | [sparkfun-pro-micro-rp2040](https://crates.io/crates/sparkfun-pro-micro-rp2040) | Board support package for the SparkFun Pro Micro RP2040 board. |                                
+
+Dependencies that were mentioned in the talk related to RTOS:
+
+| Crate          | Link                                         | Description                                                                                   |
+|----------------|----------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `embassy`     | [embassy](https://crates.io/crates/embassy) | An async, more rigid alternative to traditional Rust async frameworks.                |
+| `RTIC v2`     | [rtic](https://crates.io/crates/rtic)       | Version 2 of the Real-Time Interrupt-driven Concurrency framework, preferred for its async support. |
+| `Bern RTOS`   | No Link Available                           | A Swiss-made real-time operating system noted for its cool and efficient performance.|
+| `Tock`        | [tock](https://crates.io/crates/tock)       | A highly sandboxed OS; complex and large, ideal for managing intricate systems like train controls.  |
+
+Dependencies that were mentioned related to debugging / tracing:
+
+| Crate               | Link                                              | Description                                                                                   |
+|---------------------|---------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `defmt`             | [defmt](https://crates.io/crates/defmt)           | A highly efficient logging framework for embedded systems.                                    |
+| `defmt-rtt`         | [defmt-rtt](https://crates.io/crates/defmt-rtt)   | Implements the RTT (Real-Time Transfer) transport layer for the `defmt` logging framework.    |
+| `ufmt`              | [ufmt](https://crates.io/crates/ufmt)             | A minimal, `#![no_std]` compatible formatting library, designed for resource-constrained environments. |
+| `modular-bitfield`  | [modular-bitfield](https://crates.io/crates/modular-bitfield) | Provides macros to define bitfields in a modular way for improved code safety and readability. |
+| `heapless`          | [heapless](https://crates.io/crates/heapless)     | Enables the use of static memory allocation for data structures like Vec and HashMap, with `ufmt` implementation support. |
+
+
+And others
+
+| Crate          | Link                                         | Description                                                                                   |
+|----------------|----------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `kebab-case`    | [kebab-case](https://crates.io/crates/kebab-case) | A utility crate for converting strings to kebab-case, commonly used in URLs and IDs.            |
+| `nom`           | [nom](https://crates.io/crates/nom)             | A parser combinator library that allows for easy string parsing and protocol analysis.         |
+
+
+###### Host code dependencies
+
+| Crate         | Link                                        | Description                                                                 |
+|---------------|---------------------------------------------|-----------------------------------------------------------------------------|
+| `serialport`  | [serialport](https://crates.io/crates/serialport) | Provides an interface for working with serial ports in Rust.                |
+| `anyhow`      | [anyhow](https://crates.io/crates/anyhow)   | Provides flexible error handling with 'anyhow::Error', a trait object based error system. |
+| `defmt`       | [defmt](https://crates.io/crates/defmt)     | A highly efficient logging framework for embedded systems.                  |
+| `heapless`    | [heapless](https://crates.io/crates/heapless) | Enables the use of static memory allocation for data structures like Vec and HashMap. |
+| `postcard`    | [postcard](https://crates.io/crates/postcard) | A no_std, zero-allocation serialization library based on Serde.             |
+| `serde`       | [serde](https://crates.io/crates/serde)     | A serialization/deserialization framework that is both powerful and generic.|
+
+
+
+##### Developing for embedded targets in rust
+
+###### General 
+
+Here are some important things to know about rust embedded development. Rust 1.0 came out in 2015, embedded_hal 1.0 only recently. 
+
+- embedded development is done with `no_std` , meaning things like Smart pointers and Display traits are not included i.e. "batteries not included". The box type is also not included but may be added with ``core::alloc`
+- `PAC/HAL/BSP`: often contain unsafe code
+    - `BSP`: implements hardware layer
+    - `HAL`: "only" traits, this way it works on all uP, mostly works, has improved a lot. Interrupts are still hard to abstract, injecting an interrupt into code is hard
+    - `PAC`: is specific to a micro controller and generated directly from the micro controller's description (usually in SVD or similar format). A PAC provides low-level register access that is faithful to the micro controller's specification, allowing developers direct interaction with the hardware through Rust's type system, which ensures memory safety and concurrency.
+- Targets have varying level of support. Best supported are ARM / RISC. There is a platform support page that puts support in different categories. Tier-1 are the best supported. https://doc.rust-lang.org/nightly/rustc/platform-support.html#tier-1-with-host-tools
+
+
+- read embedded-hal docs 
+    - [section for driver authors](https://docs.rs/embedded-hal/latest/embedded_hal/spi/index.html#for-driver-authors)
+    - search [crates.io](crate.io) using "embedded-hal"
+    - search for projects on github with "embedded-hal" referenced
+
+###### Setup Clippy  / Lint to be more strict can help
+
+    {% highlight toml %}
+    .clippy.toml for settings of clippy following settings can be helpful
+    allow-unwrap-in-tests = true
+    allow-unexpect-in-tests = true
+    {% highlight%}
+
+some additional helpful lints are:
+
+    [lints.clippy]
+    unwrap_used = "deny"
+    unwrap_in_result = "deny"
+    panic = "deny"
+    expect_used = "deny"
+    unimplemented = "deny"
+    suspicious = {level "deny", priority = -1}
+    style = { level = "deny", priority = -1}
+    complexity = { level = "deny", priority = -1}
+    perf = { level = "deny", priority = -1}
+
+
+
+###### Typestate pattern
+
+With this, method / pattern can be bound to states. It is checked at compile time that state allows function / transition.  The example that was given was the following:
+
+    struct Mario;
+    struct SuperMario;
+
+    impl Mario {
+        fn die(self) { drop(self) ; }
+        fn grow(self) -> SuperMario {
+            SuperMario::from(self)
+        }
+    }
+
+
+    impl SuperMario {
+        fn shrink(self) -> Mario {
+            Mario::from(self)
+        }
+    }
+
+
+With this method, super mario cannot die. It is clear at compile time. 
+
+Note: Methods should also be testable with another method
+
+
+###### Traits
+
+trait bounds (refresher):
+
+(a) with "where" for a lot of trait bounds
+(b) with "dyn" for few e.g. "delay: &mut dyn DelaysMs<u16>"
+
+
+see also rust by example
+
+- Rust has no inheritance, only traits
+- important for embedded Hal, if we want to implement an i2c, we implement a trait for it
+- default traits can be overridden
+- critical section used for adding for example stuff that the HAL does not support like two CS for SPI
+
+*challenge*: write drivers that are platform-agnostic. 
+
+
+Usually trait bounds are defined for the implementation not for the struct, even though it is possible. 
+
+Associated type for traits
+
+        trait Animal {
+            Error = i32; ////<-- associated type
+            fn eat
+        }
+
+
+###### some embedded files in a crate that are not normally found in a rust workspace
+
+- build.rs <- script to read the linker file
+- memory.x  <- linker file
+- .cargo, this is where the `probe-rs run --chip`is hidden! makes thing magically run with cargo run
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
