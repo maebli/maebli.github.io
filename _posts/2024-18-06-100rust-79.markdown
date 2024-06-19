@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 79/100 - probe.rs"
+title:  "Rust challenge 79/100 - embedded workshop @ rustfest"
 date:   2023-12-2 14:39:00 +0100
 categories: rust
 ---
