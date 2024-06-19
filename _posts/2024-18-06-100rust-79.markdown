@@ -229,7 +229,8 @@ Here are some important things to know about rust embedded development.
 
 ###### Setup Clippy  / Lint to be more strict can help
 
-    .clippy.toml for settings of clippy following settings can be helpful
+`.clippy.toml` for settings of clippy following settings can be helpful
+   
     {% highlight toml %}
     allow-unwrap-in-tests = true
     allow-unexpect-in-tests = true
