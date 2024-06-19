@@ -58,7 +58,6 @@ But first I install all the required dependencies.
     cargo install cargo-binstall
     cargo binstall probe-rs-tools
     {% endhighlight %}
-    {% highlight rust %}
 
 An we are ready to go!
 
@@ -233,10 +232,11 @@ Here are some important things to know about rust embedded development. Rust 1.0
     .clippy.toml for settings of clippy following settings can be helpful
     allow-unwrap-in-tests = true
     allow-unexpect-in-tests = true
-    {% highlight%}
+    {% endhighlight %}
 
 some additional helpful lints are:
 
+    {% highlight toml %}
     [lints.clippy]
     unwrap_used = "deny"
     unwrap_in_result = "deny"
@@ -247,13 +247,14 @@ some additional helpful lints are:
     style = { level = "deny", priority = -1}
     complexity = { level = "deny", priority = -1}
     perf = { level = "deny", priority = -1}
-
+    {% endhighlight %}
 
 
 ###### Typestate pattern
 
 With this, method / pattern can be bound to states. It is checked at compile time that state allows function / transition.  The example that was given was the following:
 
+    {% highlight rust %}
     struct Mario;
     struct SuperMario;
 
@@ -270,7 +271,7 @@ With this, method / pattern can be bound to states. It is checked at compile tim
             Mario::from(self)
         }
     }
-
+    {% endhighlight %}
 
 With this method, super mario cannot die. It is clear at compile time. 
 
@@ -299,11 +300,12 @@ Usually trait bounds are defined for the implementation not for the struct, even
 
 Associated type for traits
 
+    {% highlight rust %}
         trait Animal {
             Error = i32; ////<-- associated type
             fn eat
         }
-
+    {% endhighlight %}
 
 ###### some embedded files in a crate that are not normally found in a rust workspace
 
