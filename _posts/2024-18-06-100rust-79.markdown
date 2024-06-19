@@ -228,8 +228,8 @@ Here are some important things to know about rust embedded development. Rust 1.0
 
 ###### Setup Clippy  / Lint to be more strict can help
 
-    {% highlight toml %}
     .clippy.toml for settings of clippy following settings can be helpful
+    {% highlight toml %}
     allow-unwrap-in-tests = true
     allow-unexpect-in-tests = true
     {% endhighlight %}
@@ -243,7 +243,7 @@ some additional helpful lints are:
     panic = "deny"
     expect_used = "deny"
     unimplemented = "deny"
-    suspicious = {level "deny", priority = -1}
+    suspicious = {level = "deny", priority = -1}
     style = { level = "deny", priority = -1}
     complexity = { level = "deny", priority = -1}
     perf = { level = "deny", priority = -1}
