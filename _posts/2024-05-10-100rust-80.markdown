@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rust challenge 80/100 - Running Rust on the Raspberry PiPico"
-date:   2024-10-05 20:00:00 +0100
+date:   2024-05-10 20:00:00 +0100
 categories: rust
 ---
 
@@ -42,4 +42,6 @@ cd waveshare-rp2040-lcd-0-9-6-template
 
 The raspberry pi pico is hooked up to a pico debugger over SWO 3 wire interface. Its powered via USB-C.
 
+And there we have it
 
+![](/assets/img/raspberry-pi-pico-lcd.jpg)
