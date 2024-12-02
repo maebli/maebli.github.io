@@ -23,7 +23,7 @@ The rules of the game are explained [in my original](https://maebli.github.io/ru
 Like every year, I am going to participate in the [Advent of Code](https://adventofcode.com/). 
 Lets get started with [advent of code](https://adventofcode.com/2024/day/2)
 
-![aoc2024 day 2](/assets/img/aoc2024day2.png)
+![aoc2024 day 2](/assets/img/aoc2024d2.png)
 
 ### Solution :white_check_mark:
 
