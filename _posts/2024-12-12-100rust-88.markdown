@@ -29,93 +29,192 @@ Part two as annyoing.
 ### Solution :white_check_mark:
 
 ```rust
+use std::collections::HashMap;
+use itertools::Itertools;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-struct Point {
-    x: u64,
-    y: u64,
-    z: u64,
-}
 
-#[derive(Debug, Clone)]
-struct Movement {
-    dx: i64,
-    dy: i64,
-    dz: i64,
-}
-
-#[derive(Debug, Clone)]
-struct CloudMap{
-    points: Vec<Point>,
-    trailheads: Vec<Point>,
-    collected_tops: Vec<Point>,
-}
+const POSSIBLE_EDGES: [(i32, i32); 4] = [(0, 1), (0, -1), (1, 0), (-1, 0)];
 
 fn main() {
+
     let input = include_str!("input.txt");
-
-    let mut x = 0;
+    let mut x = 0; 
     let mut y = 0;
-    let mut map = input.chars().fold(CloudMap{ points: vec![] , trailheads: vec![], collected_tops:vec![]}, |mut map, c| {
+    
+    let field = input.chars().fold(HashMap::new(), |mut acc:HashMap<(i32,i32),char>, c| {
         match c {
-            height if height.is_numeric() => {
-                let z = height.to_string().parse::<u64>().unwrap();
-                assert!(z<= 9);
-                map.points.push(Point{x, y, z});
-
-                if z == 0 {
-                    map.trailheads.push(Point{x, y, z});
-                }
+            c if c.is_alphabetic() => {
+                acc.insert((x, y), c);
                 x += 1;
-            }
-            '\n' => {
-                x = 0;
-                y += 1;
-            }
-            _ => {
-                x += 1;
-            } 
+            },
+            '\n' => { x = 0; y += 1; },
+            _ => { x += 1; },
         }
-        map
+        acc
     });
+    
+    let mut x = 0; 
+    let mut y = 0;
 
-    let out = map.trailheads.iter().map(|trailhead| trailhead_score(trailhead, & mut map.clone())).sum::<u64>();
+    let regions = input.chars().fold(HashMap::new(), |mut acc:HashMap<char, Vec<Vec<(i32, i32)>>>, c| {
+        match c {
+            c if c.is_alphabetic() => {
+                let regions = acc.entry(c).or_insert(Vec::new());
+                let mut region = Vec::new();
+                region.push((x, y));
+                regions.push(region);
+                x += 1;
+            },
+            '\n' => { x = 0; y += 1; },
+            _ => { x += 1; },
+        }
+        acc
+    });
+    
+    let regions_merged: HashMap<char, Vec<Vec<(i32, i32)>>> = regions.into_iter().map(|(key, regions)| {
+        let merged = merge_regions(regions);
+        (key, merged)
+    }).collect();
 
-    println!("{}", out);
+
+    let mut res = 0;
+    let mut res2 = 0;
+    for regions in regions_merged {
+        for region in regions.1.iter() {
+            let area = find_area(&region);
+            let perimeter = find_perimeter(&region);
+            res = res + area*perimeter;
+            let discounted_perimeter = find_sides(regions.0,&region,field.clone());
+            res2 = res2 + area*discounted_perimeter;
+        }
+    }
+    println!("Result1: {}", res);
+    println!("Result2: {}", res2);
 
 }
 
-fn trailhead_score(trailhead: &Point, map: & mut CloudMap) -> u64 {
+fn merge_regions(regions: Vec<Vec<(i32, i32)>>) -> Vec<Vec<(i32, i32)>> {
+    let mut merged = vec![];
+    let mut unmerged = regions;
 
-    //if trailhead.z == 9 && map.collected_tops.iter().all(|p| *p != *trailhead) { ( PART 1)
-    if trailhead.z == 9 {
-        map.collected_tops.push(trailhead.clone());
-        return 1;
+    while let Some(current_region) = unmerged.pop() {
+        let mut found_merge = false;
+        
+        for existing_region in merged.iter_mut() {
+            if should_merge(&current_region, existing_region) {
+                existing_region.extend(current_region.iter().cloned());
+                found_merge = true;
+                break;
+            }
+        }
+        
+        if !found_merge {
+            merged.push(current_region);
+        }
     }
 
-    let mut score = 0;
+    let mut changed = true;
+    while changed {
+        changed = false;
+        let mut i = 0;
+        while i < merged.len() {
+            let mut j = i + 1;
+            while j < merged.len() {
+                if should_merge(&merged[i], &merged[j]) {
+                    let region_j = merged.remove(j);
+                    merged[i].extend(region_j);
+                    changed = true;
+                } else {
+                    j += 1;
+                }
+            }
+            i += 1;
+        }
+    }
 
-    let legal_deltas= vec![
-        Movement{dx: 0, dy: 1, dz: 1},
-        Movement{dx: 1, dy: 0, dz: 1},
-        Movement{dx: 0, dy: -1, dz: 1},
-        Movement{dx: -1,dy: 0, dz: 1},
+    for region in merged.iter_mut() {
+        region.sort_unstable();
+        region.dedup();
+    }
+
+    merged
+}
+
+fn should_merge(region1: &Vec<(i32, i32)>, region2: &Vec<(i32, i32)>) -> bool {
+    region1.iter().any(|p1| {
+        region2.iter().any(|p2| are_neighbors(*p1, *p2))
+    })
+}
+
+fn are_neighbors(p1: (i32, i32), p2: (i32, i32)) -> bool {
+    POSSIBLE_EDGES.iter().any(|(dx, dy)| {
+        p1.0 + dx == p2.0 && p1.1 + dy == p2.1
+    })
+}
+
+fn find_area(region: &Vec<(i32, i32)>) -> i32 {
+    region.len() as i32
+}
+
+fn find_perimeter(region: &Vec<(i32, i32)>) -> i32 {
+    region.iter().map(|p| {
+        POSSIBLE_EDGES.iter().filter(|(dx, dy)| {
+            !region.contains(&(p.0 + dx, p.1 + dy))
+        }).count() as i32
+    }).sum()
+}
+
+fn find_sides(region_id:char,region: &Vec<(i32, i32)>,field:HashMap<(i32,i32),char>) -> i32 {
+    let neighbor_directions_inc_diag = vec![
+        (-1,0),(-1,-1),(0,-1),(1,-1),
+        (1,0),(1,1),(0,1),(-1,1)
     ];
 
-    for delta in legal_deltas {
-        let new_trailhead = Point{
-            x: (trailhead.x as i64 + delta.dx) as u64,
-            y: (trailhead.y as i64 + delta.dy) as u64,
-            z: trailhead.z + delta.dz as u64,
-        }; 
-        if map.points.iter().any(|p| *p == new_trailhead) {
-            score += trailhead_score(&new_trailhead, map);
+    let mut corners = 0;
+
+    for p in region.iter() {
+
+        let neighbors = neighbor_directions_inc_diag.iter().map(|(dx, dy)| {
+            (p.0 + dx, p.1 + dy)
+        }).map(|p| {
+            if field.contains_key(&p) {
+                return (p,field.get(&p).unwrap());
+            }else {
+                return (p,&'*');
+            }
+        }).collect::<Vec<((i32,i32),&char)>>();
+
+
+        let mut pattern = neighbors.iter().map(|(p,neighbor_id)| {
+            if *neighbor_id == &region_id {
+                return 1;
+            }
+            0
+        }).collect::<Vec<i32>>();
+
+
+        pattern.push(pattern[0]);
+
+        let corner_pattern =pattern 
+            .iter()
+            .tuple_windows::<(_, _, _)>()
+            .step_by(2);
+        
+    
+        for (a,b,c) in corner_pattern {
+            match (a,b,c) {
+                (1,0,1) => corners += 1,
+                (0,1,0) => corners += 1,
+                (0,0,0) => corners += 1,
+                _ => (),
+            }
         }
+
     }
-    score
+
+    corners
+
 }
-
-
 
 ```
 
