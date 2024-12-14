@@ -11,6 +11,7 @@ categories: rust
   - [What is this :grey\_question:](#what-is-this-grey_question)
   - [89th Challenge](#89th-challenge)
     - [Challenge](#challenge)
+    - [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 ## What is this :grey_question: 
 
@@ -23,7 +24,6 @@ The rules of the game are explained [in my original](https://maebli.github.io/ru
 Today I'm doing day13, as I should. [advent of code](https://adventofcode.com/2024/day/13). 
 So I thought I was clever and started with dijkstra, but that was too slow. So I had to solve it analytically. 
 
-```rust
 
 ### Solution :white_check_mark:
 
