@@ -1,0 +1,184 @@
+---
+layout: post
+title:  "Rust challenge 89/100 - aoc2024 day 14"
+date:   2024-12-10 20:00:00 +0100
+categories: rust
+---
+
+
+#  Table of content
+- [Table of content](#table-of-content)
+  - [What is this :grey\_question:](#what-is-this-grey_question)
+  - [89th Challenge](#89th-challenge)
+    - [Challenge](#challenge)
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 89th Challenge
+### Challenge
+
+
+Today I'm doing day13, as I should. [advent of code](https://adventofcode.com/2024/day/13). 
+So I thought I was clever and started with dijkstra, but that was too slow. So I had to solve it analytically. 
+
+```rust
+
+### Solution :white_check_mark:
+
+```rust
+use pathfinding::directed::{bfs, dijkstra::dijkstra};
+use std::{result, str::FromStr};
+
+fn parse_parts(s: &str, delimiter: char, indices: (usize, usize)) -> (u64, u64) {
+    let parts: Vec<&str> = s.split(' ').collect();
+
+    let first = parts[indices.0]
+        .split(delimiter)
+        .last()
+        .unwrap()
+        .replace(",", "")
+        .parse::<u64>()
+        .expect("Invalid first value");
+    let second = parts[indices.1]
+        .split(delimiter)
+        .last()
+        .unwrap()
+        .replace(",", "")
+        .parse::<u64>()
+        .expect("Invalid second value");
+
+    (first, second)
+}
+
+impl FromStr for Delta {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let (dx, dy) = parse_parts(s, '+', (2, 3));
+        Ok(Delta(dx, dy))
+    }
+}
+
+impl FromStr for Pos {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let (x, y) = parse_parts(s, '=', (1, 2));
+        Ok(Pos(x, y))
+    }
+}
+
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+struct Delta(u64, u64);
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+struct Pos(u64, u64);
+
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+struct ClawMachine {
+    buttons: Vec<Delta>,
+    prize: Pos,
+    current_pos: Pos,
+    moves: u64,
+}
+
+impl ClawMachine {
+    fn successors(&self) -> Vec<(ClawMachine, usize)> {
+
+        if self.moves > 1000 {
+            return vec![];
+        }
+
+        let Pos(x, y) = self.current_pos;
+
+        let mut claw_machine_a = self.clone();
+        let mut claw_machine_b = self.clone();
+
+        claw_machine_a.current_pos = Pos(x + self.buttons[0].0, y + self.buttons[0].1);
+        claw_machine_b.current_pos =  Pos(x + self.buttons[1].0, y + self.buttons[1].1);
+
+        claw_machine_a.moves += 1;
+        claw_machine_b.moves += 1;
+        
+        vec![(claw_machine_a,3),(claw_machine_b,1)]
+    }
+}
+
+fn main() {
+    let input = include_str!("input.txt");
+
+    let claw_machines =
+        input
+            .lines()
+            .collect::<Vec<_>>()
+            .chunks(4)
+            .fold(vec![], |mut claw_machines, input| {
+                claw_machines.push(ClawMachine {
+                    buttons: vec![input[0].parse().unwrap(), input[1].parse().unwrap()],
+                    prize: input[2].parse().unwrap(),
+                    current_pos: Pos(0, 0),
+                    moves:0
+                });
+                claw_machines
+            });
+
+    println!("{:?}",&claw_machines);
+
+    // initial solution using dijkstra that is slow..
+    // let mut solution1= 0;
+    // for c in &claw_machines{
+    //     println!("calculating claw machine {:?}",c);
+    //     let result = dijkstra(c, |p| p.successors(), |p| p.prize == p.current_pos);
+    //     if let Some(result) = result {
+    //         println!("{:?}",result.1);
+    //         solution1+=result.1;
+    //     }else {
+    //         println!("no result found");
+    //     }
+    // }
+    // println!("{:?}",solution1);
+
+    // for part two this will be too slow. But solving it analytically should be simple, the cost function is
+    // ax+bx = px
+    // ay+by = py
+    // c= 3*a+b 
+    // solve =>
+    // a = (-b_x * p_y + b_y * p_x) / (a_x * b_y - a_y * b_x)
+    // b = (a_x * p_y - a_y * p_x) / (a_x * b_y - a_y * b_x)
+    // min cost = 3*a+b
+
+    let mut solution2 = 0;
+    for c in &claw_machines {
+
+        let a_x = c.buttons[0].0 as i128 ;
+        let a_y = c.buttons[0].1 as i128 ;
+        let b_x = c.buttons[1].0 as i128;
+        let b_y = c.buttons[1].1 as i128;
+        let p_x = c.prize.0 as i128;
+        let p_y = c.prize.1 as i128;
+
+        let a = (-b_x * p_y + b_y * p_x) / (a_x * b_y - a_y * b_x);
+        let b = (a_x * p_y - a_y * p_x) / (a_x * b_y - a_y * b_x);
+        let min_cost = 3*a+b;
+
+        // check that its a valid solution
+        if a_x*a+b_x*b != p_x || a_y*a+b_y*b != p_y {
+            println!("invalid solution");
+            continue;
+        }
+
+        println!("a: {:?}, b: {:?}, min_cost: {:?}",a,b,min_cost);
+        solution2+=min_cost;
+        
+    }
+
+    println!("{:?}",solution2);
+
+ 
+
+}
+
+```
+
+
