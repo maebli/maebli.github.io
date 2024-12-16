@@ -70,8 +70,7 @@ fn successors(
                 dir: new_dir,
             };
             if arena.is_legal(&new_v.pos) {
-                // change to let score = if &d == &v.dir { 0 } else { 1 }; for part 1
-                let score = if &d == &v.dir { 0 } else { 1 };
+                let score = if &d == &v.dir { 1} else { 1001 };
                 Some((new_v, score))
             } else {
                 None
@@ -130,11 +129,7 @@ fn main() {
     );
 
     match result {
-        Some((path, cost)) => {
-            println!(
-                "Path found! Cost: {}",
-                cost * 1000 + (path.len() - 1) as i32
-            );
+        Some((_, cost)) => {
             println!("{:?}", cost);
         }
         None => {
