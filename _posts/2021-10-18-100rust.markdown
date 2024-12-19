@@ -9,11 +9,12 @@ categories: rust
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [Why Rust?](#why-rust)
-- [100 day Challenge](#100-day-challenge)
-- [First challenge](#first-challenge)
-	- [Challenge](#challenge)
-	- [Solution](#solution)
+- [Table of content](#table-of-content)
+	- [Why Rust?](#why-rust)
+	- [100 part challenge](#100-part-challenge)
+	- [First challenge](#first-challenge)
+		- [Challenge](#challenge)
+		- [Solution](#solution)
 
 <!-- /MarkdownTOC -->
 
@@ -24,9 +25,10 @@ categories: rust
 Like many before me, I have gained interest in the rust programming language. My main interest comes from the fact that it can be used for embedded programming. There is a lot of activity on the topic, see [Embedded Rust](https://www.rust-lang.org/what/embedded) for more information. Before I feel comfortable diving into this world, I want to learn the basics. 
 
 
-## 100 day Challenge
+## 100 part challenge
 
-That is why I'm starting a 100 day 100 snippet challenge in rust, to motivate myself. Rules of this are:
+Initially I had written here to do this in 100 days. I have had times on and off of increased and decreased motivation and dedication to this project.
+However, in 2024, three years after I started this project, I have decided to finish it. I have 4 challenges left to do.
 
 * 1 unique code snippet per day for 100 days
 * Come up with a challenge
