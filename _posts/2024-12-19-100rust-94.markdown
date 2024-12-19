@@ -25,69 +25,55 @@ Once again, the pathfinding crate does the heavy lifting. In all honesty, this f
 ### Solution
 
 ```rust
-use pathfinding::prelude::dijkstra;
-use std::{collections::HashSet, vec};
+use pathfinding::prelude::{count_paths};
+
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-struct Pos(i32, i32);
-
-impl From<&str> for Pos ****{
-    fn from(s: &str) -> Self {
-        let mut parts = s.split(',');
-        let x = parts.next().unwrap().parse().unwrap();
-        let y = parts.next().unwrap().parse().unwrap();
-        Pos(x, y)
-    }
-}
-
-#[derive(Debug)]
-struct Field {
-    obstacles: HashSet<Pos>,
-    start: Pos,
-    end: Pos,
-}
-
-impl Field {
-    fn legal_move(&self, pos: Pos) -> bool {
-        pos.0 >= 0
-            && pos.0 <= self.end.0
-            && pos.1 >= 0
-            && pos.1 <= self.end.1
-            && !self.obstacles.contains(&pos)
-    }
-}
+struct Pos(usize);
 
 impl Pos {
-    fn successors(&self, field: &Field) -> Vec<(Pos, usize)> {
-        let mut moves = vec![];
-        for &(dx, dy) in &[(0, 1), (0, -1), (1, 0), (-1, 0)] {
-            let new_pos = Pos(self.0 + dx, self.1 + dy);
-            if field.legal_move(new_pos) {
-                moves.push(new_pos);
+    fn successors(&self,parts:&Vec<&str>,full:&str) -> Vec<Pos> {
+        let max_length_parts = parts.iter().map(|x| x.len()).max().unwrap();
+        let mut result = Vec::new();
+        for i in 1..max_length_parts+1{
+            let next = full.get(self.0..self.0+i);
+            if let Some(next) = next {
+                for part in parts.iter(){
+                    if next == *part {
+                        result.push(Pos(self.0+i));
+                    }
+                }
             }
         }
-        moves.into_iter().map(|p| (p, 1)).collect()
+        result
     }
 }
 
 fn main() {
     let input = include_str!("input.txt");
-    let x = input.lines().map(|l| Pos::from(l)).collect::<Vec<_>>();
-    let mut obstacles = x.into_iter().rev().collect::<Vec<_>>();
 
-    let mut field = Field {
-        obstacles: vec![].into_iter().collect(),
-        start: Pos(0, 0),
-        end: Pos(70, 70),
-    };
+    let mut split_input = input.split("\n\n");
 
-    let mut next_byte = Pos(0, 0);
-    while let Some(_) = dijkstra(&field.start, |p| p.successors(&field), |p| *p == field.end) {
-        next_byte = obstacles.pop().unwrap().clone();
-        field.obstacles.insert(next_byte);
+    let parts = split_input.next().unwrap().split(", ").collect::<Vec<_>>();
+
+    println!("{:?}", parts);
+
+    let mut possible_count = 0;
+    let mut possibility_count = 0; 
+    for line in split_input.next().unwrap().lines(){
+
+        let n = count_paths(Pos(0), |p| p.successors(&parts,&line), |p| p.0 == line.len());
+
+        if n > 0 {
+            possible_count += 1;
+        }
+        possibility_count += n;
+
     }
 
-    println!("{:?}", next_byte);
+    println!("Possible count: {}", possible_count);
+    println!("Possibility count: {}", possibility_count);
+
 }
 
 
