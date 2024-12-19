@@ -138,7 +138,7 @@ fn main() {
             });
         if i == 99 {
             let quandrant_product = quadrant_counts.iter().fold(1, |acc, &count| acc * count);
-            assert_eq!(quandrant_product, 219512160);
+            println!("Quadrant product: {}", quandrant_product);
         }
 
         println!("Time: {}", i);
