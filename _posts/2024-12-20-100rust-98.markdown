@@ -27,7 +27,7 @@ Today's challenge is day 22 of advent of code 2024.
 
 Today's challenge was relatively straight forward [day 22 of advent of code 2024](https://adventofcode.com/2024/day/22). But it could probably have been done more memory efficient. 
 
-The funciton "evolve_repeated_loop" seems something that could have been done nicely with [tail recursion](https://en.wikipedia.org/wiki/Tail_call). However
+The function "evolve_repeated_loop" seems something that could have been done nicely with [tail recursion](https://en.wikipedia.org/wiki/Tail_call). However
 `Rust – tail-call optimization may be done in limited circumstances, but is not guaranteed` - wikipedia
 
 I was initally intending to this in Ocaml, where this [feature is supported](https://abitofocaml.weebly.com/131-tail-recursion.html)
