@@ -31,7 +31,8 @@ The crate counts traingles. So I counted traingles with and without 't' **at the
 Note, because each node counts traingles for its self and the other nodes, I had to divide by 3. 
 
 For the second part I'm not exactly sure what I did yet. I didn't find functions that count maximum cliques so I looked ath other functions in graphrs. 
-I found the function `generalized_degree`
+I found the function `generalized_degree` and I found a condition for its output that matches maximum clique size of the graph. 
+I'm not sure why though, and I'm not sure if it works on other inputs as well.
 
 
 
