@@ -1,0 +1,119 @@
+---
+layout: post
+title:  "Rust challenge 36/100 - advent of code 2021 day 6 part 1 & 2"
+date:   2021-12-06 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-12-06-100rust-36
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [36th Challenge](#36th-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+		- [rotate_left\(..\)](#rotate_left)
+		- [include_str!\(""\)](#include_str)
+		- [bench\(\)](#bench)
+		- [let mut state = \[0u64; 9\];](#let-mut-state--0u64-9)
+		- [x.or_insert\(0\)](#xor_insert0)
+		- [x.for_each\(\)](#xfor_each)
+		- [use itertools::{iterate, Itertools};](#use-itertoolsiterate-itertools)
+
+<!-- /MarkdownTOC -->
+
+![](/assets/img/aoc.png)
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 36th Challenge
+### Challenge
+
+Today I'm solving today's [AoC day 6 2021](https://adventofcode.com/2021/day/6).
+
+
+### Solution :white_check_mark:
+
+Ok, maybe slightly different approach of learning today. I'm going to look at the functions used by other rust solutions before starting. If I don't know them I will learn their meaning
+before I start. Lets take a look at the [Reddit Mega Thread for Day 6](https://www.reddit.com/r/adventofcode/comments/r9z49j/2021_day_6_solutions/).
+
+Skimming through the thread I found the following functional calls, seems nothing too special going on today. Maybe I need to add the whole scope into my search.
+
+#### rotate_left(..)
+
+	{% highlight rust %}
+	fn main() {
+
+	    let mut n = 0x12345678u32;
+	    
+	    for _ in 0..9 {
+
+	        println!("{:#x}",n);
+	        n=n.rotate_left(4);
+	    }
+	}
+
+	/* outputs :
+	0x12345678
+	0x23456781
+	0x34567812
+	0x45678123
+	0x56781234
+	0x67812345
+	0x78123456
+	0x81234567
+	0x12345678 */ 
+	{% endhighlight %}
+
+
+#### include_str!("")
+
+This adds a string literal into the code source. I prefer to just create one in my code with `const INPUT:&str..`
+
+#### bench()
+
+Used to benchmark a method, if you're interested in the speed of your code which I'm currently not.
+
+
+#### let mut state = [0u64; 9];
+
+Initalizing an array with `u64`int length `9`.
+
+
+#### x.or_insert(0)
+
+See the [rust doc](https://doc.rust-lang.org/std/collections/hash_map/enum.Entry.html).
+
+	{% highlight rust %}
+	use std::collections::HashMap;
+
+	let mut map: HashMap<&str, u32> = HashMap::new();
+
+	map.entry("poneyland").or_insert(3);
+	assert_eq!(map["poneyland"], 3);
+
+	*map.entry("poneyland").or_insert(10) *= 2;
+	assert_eq!(map["poneyland"], 6);
+	{% endhighlight %}
+
+
+#### x.for_each()
+
+Like most languages, rust has a for_each iteration method. See [Stackoverflow thread on when to use for_each](https://stackoverflow.com/questions/28651259/modifying-self-in-iter-mut-map-aka-mutable-functional-collection-operat).
+
+
+#### use itertools::{iterate, Itertools};
+
+This is a handy dandy toolbox for powerful iterator operations. I defentely want to invest some time to get to know the scope of the lib. 
+
+
+Ok that didn't help much. The first part was easy but I implemented it badly keeping track of every fishes individual clock rather than the number of fishes with a given clock.
+I ended up cheating off of the answer of [Github User yorhodes](https://github.com/yorhodes/advent-of-code/blob/master/2021/day6/src/main.rs) after trying recursive approach, filter
+approach and what not but always trying to keep track of every fish ... oh well better luck next time.
+
+Oh well better luck next time. 

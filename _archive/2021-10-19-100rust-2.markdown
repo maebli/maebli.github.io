@@ -1,0 +1,62 @@
+---
+layout: post
+title:  "Rust challenge 2/100 - Parsing hex"
+date:   2021-10-19 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-10-19-100rust-2
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this?](#what-is-this)
+- [2nd Challenge](#2nd-challenge)
+	- [Challenge](#challenge)
+	- [Solution](#solution)
+
+<!-- /MarkdownTOC -->
+
+## What is this?
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html).
+Also, I just found a cool new Repository for learning [Rustlings](https://github.com/rust-lang/rustlings/)
+
+	"The task is simple. Most exercises contain an error that keeps them from compiling, and it's up to you to fix it!"
+
+New, task, do one rustling per day. 
+
+## 2nd Challenge
+### Challenge
+
+I will try to make a challenge based on the chapter I'm reading in [the rust book](https://doc.rust-lang.org/book/). I read the chapter on `Strings` so the challenge
+is to parse an arbitrary hex String `0124342` using only the String type and String slices.
+
+
+### Solution
+
+Rust stores strings in UTF-8 encoding. UTF-8 is backward-compatible with ASCII which I'm accustomed to, and uses one byte `u8` per ASCII character. This should make things simple.
+To convert an ASCII to a number we subtract `0x30` to convert a lower case letter to a number we subtract `0x57` and `0x37` for lower case. 
+
+
+	{% highlight rust %}
+	fn main() {
+	    let hex: String = String::from("0123456789ABCDEFabcdef");
+
+	    for b in hex.bytes(){
+	        println!("ascii hex byte {} => integer {}", b, ascii_hex_to_u8(b));
+	    }
+	}
+
+	fn ascii_hex_to_u8(c: u8) -> u8 {
+	    match c {
+	        c if c >= b'0' && c <= b'9' => c - b'0',
+	        c if c >= b'a' && c <= b'f' => c - b'a' + 10,
+	        c if c >= b'A' && c <= b'F' => c - b'A' + 10,
+	        _ => panic!()
+	    }
+	}
+	{% endhighlight %}
+
+[Permalink running on Playground](https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=24fc659b4a242692cf060a5208224829)

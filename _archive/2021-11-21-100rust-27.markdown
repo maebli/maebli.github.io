@@ -1,0 +1,112 @@
+---
+layout: post
+title:  "Rust challenge 27/100 - advent of code 2020 day 2  part 2"
+date:   2021-11-21 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-11-21-100rust-27
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [27th Challenge](#27th-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+![](/assets/img/aoc.png)
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 27th Challenge
+### Challenge
+
+I have never part taken in Advent of Code. This year I might. To get used to the idea I'm solving last year's second challenge. Solve [AoC day 2 2020](ttps://adventofcode.com/2020/day/2).
+This is the second part which adds some more generic-ness to the orignal challenge posted yesterday. 
+
+### Solution :white_check_mark:
+
+	{% highlight rust %}
+	fn main() {
+	    let answer1 = INPUT.lines()
+	        .filter(|&x| Entry::new(x).check_sled_rental())
+	        .count();
+
+	    let answer2 = INPUT.lines()
+	        .filter(|&x| Entry::new(x).check_toboggan_rental())
+	        .count();
+
+	    println!("answer1:{} answer2:{}",answer1,answer2);
+	}
+
+	struct Entry {
+	    left:usize,
+	    right:usize,
+	    letter:char,
+	    password:String,
+	}
+
+	impl Entry{
+
+	    fn check_toboggan_rental(&self) -> bool {
+	        self.password.chars().nth(self.left - 1).unwrap().eq(&self.letter) ^
+	            self.password.chars().nth(self.right -1 ).unwrap().eq(&self.letter)
+	    }
+
+	    fn check_sled_rental(&self) -> bool {
+
+	        let num = self.password
+	            .chars()
+	            .filter(|c| c.eq(&self.letter))
+	            .count();
+
+	        num >= self.left && num <= self.right
+	    }
+
+	    fn new(line:&str) -> Entry{
+
+	        let mut s:Vec<&str> = line
+	            .split(' ')
+	            .collect();
+
+	        let range = s
+	            .remove(0)
+	            .split_once('-')
+	            .unwrap();
+
+	        let min:usize = range
+	            .0
+	            .parse()
+	            .unwrap();
+
+	        let max:usize = range
+	            .1
+	            .parse()
+	            .unwrap();
+
+	        let letter = s
+	            .remove(0)
+	            .trim_end_matches(":")
+	            .chars()
+	            .nth(0)
+	            .unwrap();
+
+	        let password = s.remove(0);
+
+	        Entry{ left: min, right: max, letter, password: String::from(password) }
+	    }
+	}
+
+
+
+	const INPUT:&str = "1-3 a: abcde
+	1-3 b: cdefg
+	2-9 c: ccccccccc";
+	{% endhighlight %}
+
+
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-2020-2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=614d82523cece6c2c6e17e3da814410d). 

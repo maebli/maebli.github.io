@@ -1,0 +1,75 @@
+---
+layout: post
+title:  "Rust challenge 25/100 - advent of code 2020 day 1"
+date:   2021-11-17 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-11-17-100rust-25
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [25th Challenge](#25th-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+![](/assets/img/aoc.png)
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 25th Challenge
+### Challenge
+
+I have never part taken in Advent of Code. This year I might. To get used to the idea I'm solving last year's first challenge. Solve [AoC Report Repair day 1 2020](ttps://adventofcode.com/2020/day/1).
+
+### Solution :white_check_mark:
+
+	{% highlight rust %}
+	fn main() {
+	    let mut x:Vec<u32> = INPUT.split('\n')
+	        .filter(|&x| !x.is_empty())
+	        .map(|x| x.parse().unwrap())
+	        .collect();
+
+	    x.sort();
+
+	    while x.len()>1 {
+	        let mut next = x.pop().unwrap();
+	        let mut i = x.len() - 1;
+	        let mut current: u32 = 2020;
+	        while next + current >= 2020 {
+
+	            current = *x.get(i).unwrap();
+
+	            if next + current == 2020 {
+	                println!("{:?}*{:?}={:?}", next, current, next * current);
+	            }
+	            if i == 0 {
+	                break;
+	            }
+
+	            i = i - 1;
+	        }
+	    }
+
+
+	}
+
+	const INPUT:&str="1721
+	979
+	366
+	299
+	675
+	1456
+	";
+
+	{% endhighlight %}
+
+
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aco-1-2020) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=673db217a0a926cd0c0e0c2e020319b7). 

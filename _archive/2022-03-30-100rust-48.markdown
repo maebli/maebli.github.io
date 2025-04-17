@@ -1,0 +1,77 @@
+---
+layout: post
+title:  "Rust challenge 48/100 - vim as a rust IDE"
+date:   2022-03-30 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2022-03-30-100rust-48
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [48th Challenge](#48th-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 48th Challenge
+### Challenge
+
+Learn to use neovim to as an alternative IDE as opposed to Intellj. I have been teaching myself VIM and have sen lots of examples of developers using vim to program rust. 
+
+
+### Solution :white_check_mark:
+
+![](/assets/img/vimide.png)
+
+I chose to try this myself with the following setup:
+(1) Use Neovim
+(2) Use https://vim-bootstrap.com/ for settingn my config file for rust
+
+	{% highlight rust %}
+    fn main() {
+        let ans1: i32 = INPUT
+            .chars()
+            .map(|x| match x {
+                '(' => 1,
+                ')' => -1,
+                _ => 0,
+            })
+            .sum();
+
+        println!("{}", ans1);
+
+        let ans2 = INPUT
+            .chars()
+            .enumerate()
+            .fold((-1i32, 0i32), |mut acc, inst| {
+                match inst.1 {
+                    '(' => acc.1 = acc.1 as i32 + 1,
+                    ')' => acc.1 = acc.1 as i32 - 1,
+                    _ => {}
+                }
+                if acc.1 < 0 && acc.0 == -1 {
+                    acc.0 = inst.0 as i32 + 1
+                }
+                acc
+            })
+            .0;
+
+        println!("{}", ans2);
+    }
+
+    const INPUT:&str=
+    "()(((()))(())
+    ";
+	{% endhighlight %}
+
+See [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2015-day1) for today's simple snippet. 
+

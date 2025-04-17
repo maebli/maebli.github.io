@@ -1,0 +1,123 @@
+---
+layout: post
+title:  "Rust challenge 65/100 - aoc 2022 day3"
+date:   2022-12-03 15:05:00 +0100
+categories: rust
+redirect_from:
+  - /post/2022-12-02-100rust-65
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [65th Challenge](#65th-challenge)
+    - [Challenge](#challenge)
+    - [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 65th Challenge
+### Challenge
+
+Solve today's AOC challange.🎅🦀
+
+### Solution :white_check_mark:
+
+Here's my solution 
+
+    {% highlight rust %}
+     use std::collections::{HashSet};
+    use itertools::{Itertools};
+
+    fn main() {
+
+        let answer:u64 = include_str!("../input.txt").lines()
+                .map(find_only_uniqe_item_in_rucksack)
+                .map(get_priority_of_item)
+                .sum();
+        
+        println!("solution 1: {}", answer);
+
+        let answer:u64 = include_str!("../input.txt").lines()
+                .tuples()
+                .map(find_badge_of_group)
+                .map(get_priority_of_item)
+                .sum();
+
+        println!("solution 2: {}", answer);
+    }
+
+    fn  find_badge_of_group(group:(&str,&str,&str))-> u8 {
+        let e1 : HashSet<char> = group.0.chars().collect();
+        let e2 : HashSet<char> = group.1.chars().collect();
+        let e3 : HashSet<char> = group.2.chars().collect();
+        e1.intersection(&e2)
+            .copied()
+            .collect::<HashSet<_>>()
+            .intersection(&e3)
+            .copied()
+            .next()
+            .unwrap_or_else(|| panic!("no intersection found"))
+            as u8
+    }
+    fn find_only_uniqe_item_in_rucksack(rucksack:&str) -> u8 {
+
+        let left_compartment:HashSet<char> = rucksack[..(rucksack.len()-1)/2+1].chars().collect();
+        let right_compartment:HashSet<char> = rucksack[(rucksack.len()-1)/2+1..].chars().collect();
+        
+        *left_compartment.intersection(&right_compartment)
+                        .next()
+                        .unwrap_or_else(|| panic!("No unique item found in rucksack: {}", rucksack))
+                        as u8
+    }
+
+    fn get_priority_of_item(item:u8) -> u64{
+        match item {
+            x if item >= b'A' && item <= b'Z' => (x - b'A' + 27).into(),
+            x if item >= b'a' && item <= b'z' => (x - b'a' + 1).into(),
+            _ => panic!("Invalid item")
+        }
+
+    }
+
+    #[cfg(test)]
+    mod tests {
+
+        use super::*;
+
+        #[test]
+        fn test_that_if_single_item_found_in_both_compoartents_correctly_found() {
+            let test_input:Vec<(&str,u8)> = vec![
+                ("vJrwpWtwJgWrhcsFMMfFFhFp",b'p'),
+                ("jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",b'L'),
+                ("PmmdzqPrVvPwwTWBwg",b'P'),
+                ("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",b'v'),
+                ("ttgJtRGJQctTZtZT",b't'),
+                ("CrZsJsPPZsGzwwsLwLmpwMDw",b's')
+            ];
+            let _ = test_input.iter()
+                        .inspect(|x|assert_eq!(find_only_uniqe_item_in_rucksack(x.0),x.1))
+                        .collect::<Vec<_>>();
+        }
+
+        #[test]
+        fn test_priority_calc_of_item() {
+            let test_input:Vec<(u8,u64)> = vec![
+                (b'A',27),
+                (b'a',1),
+                (b'Z',52),
+                (b'z',26)
+            ];
+            let _ = test_input.iter()
+                            .inspect(|x|assert!(get_priority_of_item(x.0)==x.1))
+                            .collect::<Vec<_>>();
+        }
+
+    }
+    {% endhighlight %}

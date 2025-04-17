@@ -1,0 +1,112 @@
+---
+layout: post
+title:  "Rust challenge 32/100 - advent of code 2021 day 2 part 1 & 2"
+date:   2021-12-02 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-12-02-100rust-32
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [32nd Challenge](#32nd-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+![](/assets/img/aoc.png)
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 32nd Challenge
+### Challenge
+
+Today I'm solving today's [AoC day 2 2021](https://adventofcode.com/2021/day/2). Only got around to doing this 
+after work :sweat:.
+
+
+### Solution :white_check_mark:
+
+It has become a bit verbose, but its quite readable, here goes.
+
+	{% highlight rust %}
+	fn main() {
+
+	    let parsed_input:Vec<(&str, i32)> = INPUT.lines()
+	        .map(|x|{x.split_once(" ").unwrap()})
+	        .map(|x|{(x.0,x.1.parse::<i32>().unwrap())})
+	        .collect();
+
+	    let mut pos = Position{ x: 0, y: 0 };
+
+	    pos.y += parsed_input.iter()
+	        .filter(|x|{x.0 == "up"})
+	        .fold(0,|acc, c| { acc + c.1 });
+
+	    pos.y -= parsed_input.iter()
+	        .filter(|x|{x.0 == "down"})
+	        .fold(0,|acc, c| { acc + c.1 });
+
+	    pos.x += parsed_input.iter()
+	        .filter(|x|{x.0 == "forward"})
+	        .fold(0,|acc, c| { acc + c.1 });
+
+	    pos.print();
+
+	    let aim_delta:Vec<i32> = parsed_input.iter()
+	        .map(|x| { match x.0 {
+	            "up" => -x.1,
+	            "down" => x.1,
+	            _ => 0
+	        }})
+	        .collect();
+
+	    let out:Vec<i32> = parsed_input.iter()
+	        .map(|x|{ match x.0 {
+	            "forward" => x.1,
+	            _ => 0
+	        }})
+	        .collect();
+
+	     let pos = out.iter()
+	         .zip(aim_delta.iter())
+	         .fold((0,Position{x:0,y:0}),|mut acc, x|{
+	             acc.1.x += x.0;
+	             acc.1.y += acc.0*x.0;
+	             acc.0 -= x.1;
+	             acc
+	         }).1;
+
+	    pos.print();
+
+	}
+
+	struct Position{
+	    x:i32,
+	    y:i32
+	}
+
+	impl Position{
+	    fn print(&self){
+	        println!(" x = {} , y = {}, depth = {}, x * depth = {}",self.x,self.y,-self.y,-self.x*self.y);
+	    }
+	}
+
+
+	const INPUT:&str = "forward 5
+	down 5
+	forward 8
+	up 3
+	down 8
+	forward 2";
+	{% endhighlight %}
+
+
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/aoc-2021-day2) and see the live demo in [playground](https://play.rust-lang.org/?version=stable&edition=2021&gist=21f800bb34fcc1d5682fce7c36a8ed72). 
+
+My favorite solution [can be seen by clicking here.](https://www.reddit.com/r/adventofcode/comments/r6zd93/comment/hmyw5es/?utm_source=share&utm_medium=web2x&context=3)
+

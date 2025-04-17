@@ -1,0 +1,111 @@
+---
+layout: post
+title:  "Rust challenge 22/100 - encrypt / decrypt in wasm"
+date:   2021-11-10 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-11-03-100rust-22
+---
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [22nd Challenge](#22nd-challenge)
+	- [Challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+![](/assets/img/encrypt.jpeg)
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 22nd Challenge
+### Challenge
+
+Encrypt plaintext into aes128 encrypted text and back again, note this is currently useless as I am using a static key and IV.
+
+
+### Solution :white_check_mark:
+
+
+	{% highlight rust %}
+	#[wasm_bindgen]
+	pub fn encrypt(plaintext: &str)  -> String {
+	    let key = hex!("000102030405060708090a0b0c0d0e0f");
+	    let iv = hex!("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff");
+	    type Aes128Cbc = Cbc<Aes128, Pkcs7>;
+	    let cipher = Aes128Cbc::new_from_slices(&key, &iv).unwrap();
+	    let ciphertext = cipher.encrypt_vec(plaintext.as_bytes());
+	    hex::encode(ciphertext)
+	}
+
+
+	#[wasm_bindgen]
+	pub fn decrypt(encrypted: &str)  -> String {
+	    let key = hex!("000102030405060708090a0b0c0d0e0f");
+	    let iv = hex!("f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff");
+	    type Aes128Cbc = Cbc<Aes128, Pkcs7>;
+	    let cipher = Aes128Cbc::new_from_slices(&key, &iv).unwrap();
+	    let decrypted = cipher.decrypt_vec(hex::decode(&encrypted).unwrap().as_ref());
+	    match decrypted{
+	        Ok(_) => String::from_utf8(decrypted.unwrap()).unwrap(),
+	        Err(x) => format!("{}",x)
+	    }
+	}
+	{% endhighlight %}
+
+With a simple `html` the web assembly is tested. 
+
+	{% highlight html %}
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <title>Title</title>
+	</head>
+	<body>
+	<script type="module">
+	    import init, {encrypt,decrypt} from "./pkg/wasm_encrypt.js";
+		      init()
+		        .then(() => {
+	                var input = "hello";
+	                var output = encrypt(input);
+	                console.log(output);
+	                var output2 = decrypt(output);
+	                console.log(output2);
+		        });
+	</script>
+	</body>
+	</html>
+	{% endhighlight %}
+
+
+<script type="module">
+  import init, {encrypt,decrypt} from "{{ site.baseurl }}{% link assets/js/wasm_encrypt.js %}";
+  init()
+  document.getElementById('encrypt').addEventListener('click', () => {
+  var x=encrypt(document.getElementById('inputstring').value);
+  document.getElementById("encryptedtext").value=x;
+	});
+	document.getElementById('decrypt').addEventListener('click', () => {
+  var x=decrypt(document.getElementById('encryptedtext').value);
+  document.getElementById("decryptedtext").value=x;
+	});
+</script>
+<form>
+<label for="inputstring">Input String:</label><br>
+<textarea rows="5" cols="80" id="inputstring"></textarea><br>
+<input id="encrypt" type="button" value="encrypt" />
+<input id="decrypt" type="button" value="decrypt" />
+</form><br>
+Encrypted Payload:<br>
+<textarea rows="5" cols="80" id="encryptedtext"></textarea><br>
+Decrypted Payload:<br>
+<textarea rows="5" cols="80" id="decryptedtext"></textarea><br>
+<br>
+
+To see the full source see [github](https://github.com/maebli/100rustsnippets/tree/master/wasm-encrypt).

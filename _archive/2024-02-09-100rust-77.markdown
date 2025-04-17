@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "Rust challenge 77/100 - aoc 2023 day1"
+date:   2023-12-1 23:05:00 +0100
+categories: rust
+redirect_from:
+  - /post/2024-02-09-100rust-77
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [77th Challenge](#77th-challenge)
+    - [Challenge](#challenge)
+    - [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 77th Challenge
+### Challenge
+
+Last years AoC done and I am a bit overwehlmed that its already restarted. But I want to get into some blogging again. 
+Today's challenge was simple but the verbosity of the code shows I'm a bit rusty. 
+
+### Solution :white_check_mark:
+
+
+
+    {% highlight rust %}
+        fn main() {
+        const INPUT: &str = include_str!("input.txt");
+
+        let input_num = INPUT
+            .replace("one", "on1e")
+            .replace("two", "t2o")
+            .replace("three", "t3e")
+            .replace("four", "f4r")
+            .replace("five", "f5e")
+            .replace("six", "s6x")
+            .replace("seven", "s7n")
+            .replace("eight", "e8t")
+            .replace("nine", "n9e");
+
+            
+        let out = input_num.lines().fold(0, |acc, x| {
+            let a = x
+                .chars()
+                .find(|&c| c > '0' && c <= '9')
+                .unwrap()
+                .to_digit(10)
+                .unwrap() as i32;
+            let b = x
+                .chars()
+                .rfind(|&c| c > '0' && c <= '9')
+                .unwrap()
+                .to_digit(10)
+                .unwrap() as i32;
+            acc + a * 10 + b
+        });
+        println!("{}", out);
+        }
+    
+    {% endhighlight %}
+

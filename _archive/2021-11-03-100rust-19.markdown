@@ -1,0 +1,131 @@
+---
+layout: post
+title:  "Rust challenge 19/100 - Porting LoRaWAN project part 4"
+date:   2021-11-05 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-11-03-100rust-19
+---
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [19th Challenge](#19th-challenge)
+	- [challenge](#challenge)
+	- [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original post](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 19th Challenge
+### challenge
+
+Today's challenge is continuation of a [previous challenge](https://maebli.github.io/rust/2021/11/05/100rust-18.html).
+The task is to extend the existing project with tests
+
+
+### Solution :white_check_mark:
+
+Adding documentation when you are creating a binary was done using `cargo doc --bins --open --document-private-items`. 
+See [stack-overflow thread](https://stackoverflow.com/questions/68728262/cargo-doc-does-not-generate-documentation-for-private-items-in-a-project-that-is) for more detailed information.
+
+The new solution looks like this and the documentation is very pretty that is generated
+
+
+	{% highlight rust %}
+	//! Functionality Calculating Airtime of LoRaWAN Packets
+	//!
+	//! This ports [](https://github.com/brocaar/lorawan/blob/master/airtime/airtime.go)
+	//!
+	//! This implements the formula as defined by:
+	//! [](/https://www.semtech.com/uploads/documents/LoraDesignGuide_STD.pdf)
+	//!
+	use std::cmp::max;
+	pub type CodingRate=u32;
+
+
+	/// List of all available coding rates
+	pub enum CodingRates{
+	    CodingRate45,
+	    CodingRate46,
+	    CodingRate47,
+	    CodingRate48
+	}
+
+	/// LoRaWAN Modulation Information
+	pub struct Modulation {
+	    pub(crate) spreading_factor:u64,
+	    pub(crate) bandwidth:u64
+	}
+
+	///  Information required to calculate Airtime
+	pub struct FrameMetaInformation {
+	    pub(crate) payload_length:u64,
+	    pub(crate) preamble_length:u64,
+	    pub(crate) is_header_enabled:bool,
+	    pub(crate) is_low_data_rate_optimization_enabled:bool,
+	    pub(crate) modulation:Modulation,
+	    pub(crate) coding_rate:CodingRates,
+
+	}
+
+	impl CodingRates{
+	    fn value(&self) -> CodingRate {
+	        match self{
+	            CodingRates::CodingRate45 => 1,
+	            CodingRates::CodingRate46 => 2,
+	            CodingRates::CodingRate47 => 3,
+	            CodingRates::CodingRate48 => 4,
+	        }
+	    }
+	}
+
+	/// # Airtime Calculation
+	///   This calculates how long it will take for a packet to be sent
+	///   depending on the Frame Meta Data
+	///
+	/// # Example
+	///   ~~~
+	///   let f = FrameMetaInformation{
+	///         payload_length: 13,
+	///         preamble_length: 0,
+	///         is_header_enabled: true,
+	///         is_low_data_rate_optimization_enabled: false,
+	///         modulation: Modulation {
+	///             spreading_factor: 12,
+	///             bandwidth: 0
+	///         },
+	///         coding_rate: CodingRates::CodingRate45
+	///     };
+	///     assert_eq!(23,f.get_payload_symbol_count())
+	///     ~~~
+	impl FrameMetaInformation{
+
+	    pub(crate) fn get_airtime(&self) -> u64{
+	        (self.get_preamble_duration() +
+	            self.modulation.get_symbol_duration() * self.get_payload_symbol_count() as f64) as u64
+	    }
+
+	    fn get_preamble_duration(&self) -> f64{
+	        self.modulation.get_preamble_duration(self.preamble_length)
+	    }
+
+	    fn get_payload_symbol_count(&self) -> u64 {
+	        let de = self.is_low_data_rate_optimization_enabled as u64;
+	        let h = (!self.is_low_data_rate_optimization_enabled) as u64;
+
+	        let a = (8 * self.payload_length + 28 + 16 - 20 * h) as f64;
+	        let b = (4 * (self.modulation.spreading_factor - 2 * de)) as f64;
+	        let c = (self.coding_rate.value() as f64) + 4.0;
+
+	        8 + max(((a / b).ceil() * c) as u64, 0)
+	    }
+
+	}
+	{% endhighlight %}
+
+To get a good feel for it see / clone [github](https://github.com/maebli/100rustsnippets/tree/master/lorawan-project-structure-2). You can see the [tests in action on rust playground](https://play.rust-lang.org/?version=stable&edition=2018&gist=fd2be0ca105830b47046f7f67fa958a0)

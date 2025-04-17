@@ -1,0 +1,113 @@
+---
+layout: post
+title:  "Rust challenge 56/100 - first steps with stm32L0 and rust"
+date:   2022-09-26 18:30:00 +0100
+categories: rust
+redirect_from:
+  - /post/2022-09-25-100rust-56
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [What is this :grey_question:](#what-is-this-grey_question)
+- [56th Challenge](#56th-challenge)
+    - [Challenge](#challenge)
+    - [Solution :white_check_mark:](#solution-white_check_mark)
+
+<!-- /MarkdownTOC -->
+
+## What is this :grey_question: 
+
+The rules of the game are explained [in my original](https://maebli.github.io/rust/2021/10/18/100rust.html). 
+
+## 56th Challenge
+### Challenge
+
+Use yesterdays preperation and run an example on things network generic node
+
+
+
+![](/assets/img/genericnode.png)
+
+### Solution :white_check_mark:
+
+Lets start from a template again, same folder as yesterday. 
+
+    {% highlight bash %}
+    cargo generate \
+    --git https://github.com/stm32-rs/stm32wlxx-hal\
+    --name stm32
+    {% endhighlight %}
+
+The template, looks like this, when running `tree -L 3`
+
+    {% highlight bash %}
+    .
+    ├── CHANGELOG.md
+    ├── Cargo.lock
+    ├── Cargo.toml
+    ├── LICENSE-APACHE
+    ├── LICENSE-MIT
+    ├── README.md
+    ├── examples
+    │   ├── Cargo.toml
+    │   ├── examples
+    │   └── src
+    ├── hal
+    │   ├── Cargo.toml
+    │   └── src
+    ├── lora-e5-bsp
+    │   ├── Cargo.toml
+    │   ├── README.md
+    │   └── src
+    ├── memory.x
+    ├── nucleo-wl55jc-bsp
+    │   ├── Cargo.toml
+    │   ├── README.md
+    │   └── src
+    ├── rustfmt.toml
+    └── testsuite
+        ├── Cargo.toml
+        ├── README.md
+        ├── runall.py
+        └── src
+    {% endhighlight %}
+
+
+Now we need an ST-Link to flash the device. We remove the two jumpers on the Nucelo STM32L0 so we can use the ST Link on the nucleo to flash the generic node. Hooking things up is simple, just check the datasheet of the nucleo and of the generic node and connect VCC,GND, NRST, SWD CLK.
+
+Next We try the info example to get the board info by running `DEFMT_LOG=trace cargo run-ex info`  and the output prints some information about the board, namly its package and its UID from which some production info could be read for example. 
+
+    {% highlight bash %}
+    $ DEFMT_LOG=trace cargo run-ex info
+       Compiling defmt-macros v0.3.2
+       Compiling defmt v0.3.2
+       Compiling panic-probe v0.3.0
+       Compiling defmt-rtt v0.3.2
+       Compiling stm32wlxx-hal v0.6.1 (/Volumes/data/4_github/learn-rust/100-rust-snippets/stm32/hal)
+       Compiling examples v0.1.0 (/Volumes/data/4_github/learn-rust/100-rust-snippets/stm32/examples)
+        Finished dev [optimized + debuginfo] target(s) in 7.09s
+         Running `probe-run --chip STM32WLE5JCIx --connect-under-reset target/thumbv7em-none-eabi/debug/examples/info`
+    (HOST) INFO  flashing program (9 pages / 9.00 KiB)
+    (HOST) INFO  success!
+    ────────────────────────────────────────────────────────────────────────────────
+    Flash size: 256 KiB
+    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:15
+    Package: Ok(UFQFPN48)
+    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:16
+    UID64: Uid64 { uid: 3635363406995733 }
+    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:17
+    UID: Uid { uid: [3080236, 1110528013, 540422710] }
+    └─ info::__cortex_m_rt_main @ examples/examples/info.rs:18
+    ────────────────────────────────────────────────────────────────────────────────
+    (HOST) INFO  device halted without error
+    {% endhighlight %}
+
+
+ See the repo on [github](https://github.com/maebli/100rustsnippets/tree/master/stm32wl). The setup looks something like the following:
+
+ ![](/assets/img/genericnode2.jpg)
+
+

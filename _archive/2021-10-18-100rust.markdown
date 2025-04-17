@@ -1,0 +1,102 @@
+---
+layout: post
+title:  "Learning Rust"
+date:   2021-10-18 21:00:00 +0100
+categories: rust
+redirect_from:
+  - /post/2021-10-18-100rust
+---
+
+
+#  Table of content
+<!-- MarkdownTOC autolink="true" -->
+
+- [Table of content](#table-of-content)
+	- [Why Rust?](#why-rust)
+	- [100 part challenge](#100-part-challenge)
+	- [First challenge](#first-challenge)
+		- [Challenge](#challenge)
+		- [Solution](#solution)
+
+<!-- /MarkdownTOC -->
+
+![](/assets/img/challenge.jpeg)
+
+## Why Rust?
+
+Like many before me, I have gained interest in the rust programming language. My main interest comes from the fact that it can be used for embedded programming. There is a lot of activity on the topic, see [Embedded Rust](https://www.rust-lang.org/what/embedded) for more information. Before I feel comfortable diving into this world, I want to learn the basics. 
+
+
+## 100 part challenge
+
+Initially I had written here to do this in 100 days. I have had times on and off of increased and decreased motivation and dedication to this project.
+However, in 2024, three years after I started this project, I have decided to finish it. I have 4 challenges left to do.
+
+* 1 unique code snippet per day for 100 days
+* Come up with a challenge
+* Solve the challenge
+* Upload and present
+* ???
+* Profit
+
+
+## First challenge
+
+
+### Challenge
+
+Screen scrape a random recipe name from `chefkoch.de` and display its name on the terminal
+
+From the site [](https://www.chefkoch.de/rezepte/was-koche-ich-heute/) random recipes are displayed, so what I must do is
+
+Lets test with bash, what needs to be done to screen scrape the right stuff
+
+	
+	
+	{% highlight bash %}
+	#!/bin/bash
+	curl -s https://www.chefkoch.de/rezepte/was-koche-ich-heute/|grep -Eo "(http|https)://www.chefkoch.de/rezepte/[a-zA-Z0-9./?=_%:-]*" | sort -u|cut -d/ -f6|cut -d. -f1|tr - " "|tail -1
+	{% endhighlight %}
+
+Will give us a menu suggestion
+
+	Gefuellte Muschelnudeln
+
+Do this in rust.
+
+### Solution
+
+First we need to download the web page `reqwest` crate seems suitable for this job. Next the document is parsed with `select` and filtered.
+
+
+	{% highlight rust %}
+	use select::document::Document;
+	use select::predicate::Name;
+
+	fn main() -> Result<(), Box<dyn std::error::Error>> {
+	    /* Fetch the website with GET Request */
+	    let body =
+	        reqwest::blocking::get("https://www.chefkoch.de/rezepte/was-koche-ich-heute/")?.text()?;
+	    /* Parse the HTML txt, extract the urls and filter the relevant ones */
+	    let yum = Document::from(body.as_str())
+	        .select(Name("a"))
+	        .filter_map(|n| n.attr("href"))
+	        .filter(|x| x.contains("www.chefkoch.de/rezepte/"))
+	        .next()
+	        .unwrap()
+	        .split("/")
+	        .last()
+	        .unwrap()
+	        .replace(".html", "")
+	        .replace("-", " ");
+	    println!("{}", yum);
+	    Ok(())
+	}
+	{% endhighlight %}
+
+
+Next question, where can I have live demos of my code? For now I'll upload it to my github page, see [](https://github.com/maebli/100rustsnippets/blob/master/web-scrapper/src/main.rs)
+
+
+
+
