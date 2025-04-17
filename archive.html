@@ -2,35 +2,14 @@
 layout: page
 title: "100 Rust Challenge Archive"
 permalink: /archive/
-pagination:
-  enabled: true
-  collection: 'posts'
-  per_page: 20
-  permalink: '/archive/page/:num/'
 ---
 
 <h1>100 Rust Challenge Archive</h1>
 <ul>
-  {% for post in paginator.posts %}
+  {% for post in site.archive %}
     <li>
       <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
       <span>{{ post.date | date: "%b %d, %Y" }}</span>
     </li>
   {% endfor %}
 </ul>
-
-<div class="pagination">
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | relative_url }}">Previous</a>
-  {% endif %}
-  {% for page in (1..paginator.total_pages) %}
-    {% if page == paginator.page %}
-      <span>{{ page }}</span>
-    {% else %}
-      <a href="{{ paginator.paginate_path | replace: ':num', page | relative_url }}">{{ page }}</a>
-    {% endif %}
-  {% endfor %}
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | relative_url }}">Next</a>
-  {% endif %}
-</div>
