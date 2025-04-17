@@ -34,6 +34,7 @@ plugins:
   - jekyll-sitemap
   - jemoji
   - jekyll-paginate
+  - jekyll-redirect-from
 
 social_links:
     linkedin: aebli
