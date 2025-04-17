@@ -6,10 +6,10 @@ permalink: /archive/
 
 <h1>100 Rust Challenge Archive</h1>
 <ul>
-  {% assign archive_posts = site.static_files | where_exp: "item", "item.path contains '_archive/' and item.extname == '.markdown'" %}
-  {% for post in archive_posts %}
+  {% for post in site.archive %}
     <li>
-      <a href="{{ post.path | relative_url }}">{{ post.name }}</a>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <span>{{ post.date | date: "%b %d, %Y" }}</span>
     </li>
   {% endfor %}
 </ul>

@@ -58,7 +58,10 @@ google_analytics: G-QP4ZSMHQP9
 paginate: 10
 paginate_path: "/page:num/"
 
-
+collections:
+  archive:
+    output: true
+    permalink: /archive/:name/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
