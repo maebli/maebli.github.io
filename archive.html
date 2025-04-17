@@ -1,0 +1,15 @@
+---
+layout: page
+title: "100 Rust Challenge Archive"
+permalink: /archive/
+---
+
+<h1>100 Rust Challenge Archive</h1>
+<ul>
+  {% assign archive_posts = site.static_files | where_exp: "item", "item.path contains '_archive/' and item.extname == '.markdown'" %}
+  {% for post in archive_posts %}
+    <li>
+      <a href="{{ post.path | relative_url }}">{{ post.name }}</a>
+    </li>
+  {% endfor %}
+</ul>
