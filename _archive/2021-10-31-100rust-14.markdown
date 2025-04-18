@@ -4,17 +4,18 @@ title:  "Rust challenge 14/100 - Project Euler Challange "
 date:   2021-11-01 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2021/10/31/100rust-14
+  - /rust/2021/11/01/100rust-14
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this?](#what-is-this)
-- [14th Challenge](#14th-challenge)
-	- [Challenge](#challenge)
-	- [Solution](#solution)
+- [Table of content](#table-of-content)
+	- [What is this?](#what-is-this)
+	- [14th Challenge](#14th-challenge)
+		- [Challenge](#challenge)
+		- [Solution](#solution)
 
 <!-- /MarkdownTOC -->
 

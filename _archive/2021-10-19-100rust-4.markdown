@@ -4,18 +4,19 @@ title:  "Rust challenge 4/100 - LoRaWAN PHYPayload Join-Request Parsing"
 date:   2021-10-21 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2021/10/19/100rust-4
+  - /rust/2021/10/21/100rust-4
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this?](#what-is-this)
-- [4th Challenge](#4th-challenge)
-	- [Challenge](#challenge)
-		- [MIC Calculation](#mic-calculation)
-	- [Solution](#solution)
+- [Table of content](#table-of-content)
+	- [What is this?](#what-is-this)
+	- [4th Challenge](#4th-challenge)
+		- [Challenge](#challenge)
+			- [MIC Calculation](#mic-calculation)
+		- [Solution](#solution)
 
 <!-- /MarkdownTOC -->
 

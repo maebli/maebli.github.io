@@ -4,17 +4,18 @@ title:  "Rust challenge 23/100 - euler challange 7"
 date:   2021-11-13 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2021/11/12/100rust-23
+  - /rust/2021/11/13/100rust-23
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [23rd Challenge](#23rd-challenge)
-	- [Challenge](#challenge)
-	- [Solution :white_check_mark:](#solution-white_check_mark)
+- [Table of content](#table-of-content)
+	- [What is this :grey\_question:](#what-is-this-grey_question)
+	- [23rd Challenge](#23rd-challenge)
+		- [Challenge](#challenge)
+		- [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 

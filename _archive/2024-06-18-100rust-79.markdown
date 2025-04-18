@@ -4,31 +4,32 @@ title:  "Rust challenge 79/100 - embedded workshop @ rustfest"
 date:   2024-6-19 14:39:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2024/06/18/100rust-79
+  - /rust/2024/06/19/100rust-79
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [79th Challenge](#79th-challenge)
+- [Table of content](#table-of-content)
+  - [What is this :grey\_question:](#what-is-this-grey_question)
+  - [79th Challenge](#79th-challenge)
     - [Challenge](#challenge)
-    - [Solution :white_check_mark:](#solution-white_check_mark)
-        - [Hardware Setup](#hardware-setup)
-            - [Listing available probes](#listing-available-probes)
-            - [RP2040 compatible debuggers](#rp2040-compatible-debuggers)
-            - [Debugging with VS Code](#debugging-with-vs-code)
-        - [Software Setup](#software-setup)
-            - [Understanding the dependencies](#understanding-the-dependencies)
-                - [RP2040 code dependencies](#rp2040-code-dependencies)
-                - [Host code dependencies](#host-code-dependencies)
-            - [Developing for embedded targets in rust](#developing-for-embedded-targets-in-rust)
-                - [General](#general)
-                - [Setup Clippy  / Lint to be more strict can help](#setup-clippy--lint-to-be-more-strict-can-help)
-                - [Typestate pattern](#typestate-pattern)
-                - [Traits](#traits)
-                - [some embedded files in a crate that are not normally found in a rust workspace](#some-embedded-files-in-a-crate-that-are-not-normally-found-in-a-rust-workspace)
+    - [Solution :white\_check\_mark:](#solution-white_check_mark)
+      - [Hardware Setup](#hardware-setup)
+        - [Listing available probes](#listing-available-probes)
+        - [RP2040 compatible debuggers](#rp2040-compatible-debuggers)
+        - [Debugging with VS Code](#debugging-with-vs-code)
+      - [Software Setup](#software-setup)
+        - [Understanding the dependencies](#understanding-the-dependencies)
+          - [RP2040 code dependencies](#rp2040-code-dependencies)
+          - [Host code dependencies](#host-code-dependencies)
+        - [Developing for embedded targets in rust](#developing-for-embedded-targets-in-rust)
+          - [General](#general)
+          - [Setup Clippy  / Lint to be more strict can help](#setup-clippy---lint-to-be-more-strict-can-help)
+          - [Typestate pattern](#typestate-pattern)
+          - [Traits](#traits)
+          - [some embedded files in a crate that are not normally found in a rust workspace](#some-embedded-files-in-a-crate-that-are-not-normally-found-in-a-rust-workspace)
 
 <!-- /MarkdownTOC -->
 

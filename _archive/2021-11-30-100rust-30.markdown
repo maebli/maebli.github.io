@@ -4,17 +4,18 @@ title:  "Rust challenge 30/100 - advent of code 2020 day 3  part 1 and 2 (fixed)
 date:   2021-11-29 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2021/11/30/100rust-30
+  - /rust/2021/11/29/100rust-30
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [29th Challenge](#29th-challenge)
-	- [Challenge](#challenge)
-	- [Solution :white_check_mark:](#solution-white_check_mark)
+- [Table of content](#table-of-content)
+	- [What is this :grey\_question:](#what-is-this-grey_question)
+	- [30th Challenge](#30th-challenge)
+		- [Challenge](#challenge)
+		- [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 ![](/assets/img/aoc.png)

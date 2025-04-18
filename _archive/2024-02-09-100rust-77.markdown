@@ -4,17 +4,18 @@ title:  "Rust challenge 77/100 - aoc 2023 day1"
 date:   2023-12-1 23:05:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2024/02/09/100rust-77
+  - /rust/2023/12/01/100rust-77
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [77th Challenge](#77th-challenge)
+- [Table of content](#table-of-content)
+  - [What is this :grey\_question:](#what-is-this-grey_question)
+  - [77th Challenge](#77th-challenge)
     - [Challenge](#challenge)
-    - [Solution :white_check_mark:](#solution-white_check_mark)
+    - [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 

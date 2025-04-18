@@ -4,17 +4,18 @@ title:  "Rust challenge 34/100 - advent of code 2021 day 4 part 1&2"
 date:   2021-12-04 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2021/12/05/100rust-34
+  - /rust/2021/12/04/100rust-34
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [34th Challenge](#34th-challenge)
-	- [Challenge](#challenge)
-	- [Solution :white_check_mark:](#solution-white_check_mark)
+- [Table of content](#table-of-content)
+	- [What is this :grey\_question:](#what-is-this-grey_question)
+	- [34th Challenge](#34th-challenge)
+		- [Challenge](#challenge)
+		- [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 ![](/assets/img/aoc.png)

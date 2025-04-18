@@ -4,17 +4,18 @@ title:  "Rust challenge 56/100 - first steps with stm32L0 and rust"
 date:   2022-09-26 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2022/09/25/100rust-56
+  - /rust/2022/09/26/100rust-56
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [56th Challenge](#56th-challenge)
+- [Table of content](#table-of-content)
+  - [What is this :grey\_question:](#what-is-this-grey_question)
+  - [56th Challenge](#56th-challenge)
     - [Challenge](#challenge)
-    - [Solution :white_check_mark:](#solution-white_check_mark)
+    - [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 

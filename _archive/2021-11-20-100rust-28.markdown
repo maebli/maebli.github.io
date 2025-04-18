@@ -4,17 +4,18 @@ title:  "Rust challenge 28/100 - Debugging"
 date:   2021-11-25 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2021/11/20/100rust-28
+  - /rust/2021/11/25/100rust-28
 ---
 
 
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [28th Challenge](#28th-challenge)
-	- [Challenge :bug::hammer:](#challenge-bughammer)
-	- [Solution :white_check_mark:](#solution-white_check_mark)
+- [Table of content](#table-of-content)
+	- [What is this :grey\_question:](#what-is-this-grey_question)
+	- [28th Challenge](#28th-challenge)
+		- [Challenge :bug::hammer:](#challenge-bughammer)
+		- [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 ## What is this :grey_question: 
