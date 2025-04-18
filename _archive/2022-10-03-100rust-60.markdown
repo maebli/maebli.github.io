@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 60/100 - reading the generic node's humidity and temperature sensor"
+title:  "Rust challenge 60/100 - reading the generic node's sensors"
 date:   2022-10-03 22:30:00 +0100
 categories: rust
 redirect_from:
@@ -11,10 +11,11 @@ redirect_from:
 #  Table of content
 <!-- MarkdownTOC autolink="true" -->
 
-- [What is this :grey_question:](#what-is-this-grey_question)
-- [59th Challenge](#59th-challenge)
+- [Table of content](#table-of-content)
+  - [What is this :grey\_question:](#what-is-this-grey_question)
+  - [59th Challenge](#59th-challenge)
     - [Challenge](#challenge)
-    - [Solution :white_check_mark:](#solution-white_check_mark)
+    - [Solution :white\_check\_mark:](#solution-white_check_mark)
 
 <!-- /MarkdownTOC -->
 

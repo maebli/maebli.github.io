@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rust challenge 52/100 - cross compiling for cortex-m3 machine lm3s6965evb and running on QEMU"
+title:  "Rust challenge 52/100 - x-compiling for cortex-m3 lm3s6965evb on QEMU"
 date:   2022-09-15 18:30:00 +0100
 categories: rust
 redirect_from:
