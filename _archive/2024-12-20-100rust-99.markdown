@@ -4,7 +4,7 @@ title:  "Rust challenge 99/100 - aoc2024 day 23"
 date:   2024-12-23 13:08:00 +0100
 categories: rust
 redirect_from:
-  - /rust/2024/12/20/100rust-99
+  - /rust/2024/12/23/100rust-99
 ---
 
 
