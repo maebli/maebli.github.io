@@ -4,12 +4,26 @@ title: "100 Rust Challenge Archive"
 permalink: /archive/
 ---
 
-<h1>100 Rust Challenge Archive</h1>
+<style>
+  .post-title {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
+  .post-date {
+    color: #828282;
+    font-size: 0.9em;
+    margin-left: 10px;
+  }
+</style>
+
 <ul>
   {% for post in site.archive %}
     <li>
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <span>{{ post.date | date: "%b %d, %Y" }}</span>
+      <a href="{{ post.url | relative_url }}" class="post-title" title="{{ post.title }}">{{ post.title }}</a>
+      <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
     </li>
   {% endfor %}
 </ul>
