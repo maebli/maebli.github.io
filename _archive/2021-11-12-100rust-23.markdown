@@ -4,7 +4,7 @@ title:  "Rust challenge 23/100 - euler challange 7"
 date:   2021-11-13 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-11-12-100rust-23
+  - /rust/2021/11/12/100rust-23
 ---
 
 

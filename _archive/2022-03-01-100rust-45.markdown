@@ -4,7 +4,7 @@ title:  "Rust challenge 45/100 - a new day a new challenge "
 date:   2022-03-01 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-03-01-100rust-45
+  - /rust/2022/03/01/100rust-45
 ---
 
 

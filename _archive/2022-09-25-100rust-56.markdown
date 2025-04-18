@@ -4,7 +4,7 @@ title:  "Rust challenge 56/100 - first steps with stm32L0 and rust"
 date:   2022-09-26 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-25-100rust-56
+  - /rust/2022/09/25/100rust-56
 ---
 
 

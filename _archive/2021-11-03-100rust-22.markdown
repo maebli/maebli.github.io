@@ -4,7 +4,7 @@ title:  "Rust challenge 22/100 - encrypt / decrypt in wasm"
 date:   2021-11-10 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-11-03-100rust-22
+  - /rust/2021/11/03/100rust-22
 ---
 
 #  Table of content

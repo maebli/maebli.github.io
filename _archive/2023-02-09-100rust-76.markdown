@@ -4,7 +4,7 @@ title:  "Rust challenge 76/100 - aoc 2022 day14"
 date:   2023-02-09 12:05:00 +0100
 categories: rust
 redirect_from:
-  - /post/2023-02-09-100rust-76
+  - /rust/2023/02/09/100rust-76
 ---
 
 

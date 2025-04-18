@@ -4,7 +4,7 @@ title:  "Rust challenge 57/100 - making the generic node buzz"
 date:   2022-09-29 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-29-100rust-57
+  - /rust/2022/09/29/100rust-57
 ---
 
 

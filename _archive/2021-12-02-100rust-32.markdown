@@ -4,7 +4,7 @@ title:  "Rust challenge 32/100 - advent of code 2021 day 2 part 1 & 2"
 date:   2021-12-02 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-12-02-100rust-32
+  - /rust/2021/12/02/100rust-32
 ---
 
 

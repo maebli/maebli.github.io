@@ -4,7 +4,7 @@ title:  "Rust challenge 64/100 - aoc 2022 day2"
 date:   2022-12-02 17:05:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-12-02-100rust-64
+  - /rust/2022/12/02/100rust-64
 ---
 
 

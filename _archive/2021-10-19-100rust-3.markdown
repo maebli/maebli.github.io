@@ -4,7 +4,7 @@ title:  "Rust challenge 3/100 - Complex Number"
 date:   2021-10-20 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-10-19-100rust-3
+  - /rust/2021/10/19/100rust-3
 ---
 
 

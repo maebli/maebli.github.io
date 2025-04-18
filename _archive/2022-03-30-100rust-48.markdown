@@ -4,7 +4,7 @@ title:  "Rust challenge 48/100 - vim as a rust IDE"
 date:   2022-03-30 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-03-30-100rust-48
+  - /rust/2022/03/30/100rust-48
 ---
 
 

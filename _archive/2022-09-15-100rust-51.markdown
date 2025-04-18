@@ -4,7 +4,7 @@ title:  "Rust challenge 51/100 - parsing yaml"
 date:   2022-09-15 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-15-100rust-51
+  - /rust/2022/09/15/100rust-51
 ---
 
 

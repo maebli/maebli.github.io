@@ -4,7 +4,7 @@ title:  "Rust challenge 79/100 - embedded workshop @ rustfest"
 date:   2024-6-19 14:39:00 +0100
 categories: rust
 redirect_from:
-  - /post/2024-06-18-100rust-79
+  - /rust/2024/06/18/100rust-79
 ---
 
 

@@ -4,7 +4,7 @@ title:  "Rust challenge 49/100 - rust javascript bindings"
 date:   2022-09-13 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-13-100rust-49
+  - /rust/2022/09/13/100rust-49
 ---
 
 

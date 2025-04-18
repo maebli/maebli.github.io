@@ -4,7 +4,7 @@ title:  "Rust challenge 2/100 - Parsing hex"
 date:   2021-10-19 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-10-19-100rust-2
+  - /rust/2021/10/19/100rust-2
 ---
 
 

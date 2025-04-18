@@ -4,7 +4,7 @@ title:  "Rust challenge 62/100 - find the middle of points"
 date:   2022-11-08 20:42:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-10-03-100rust-62
+  - /rust/2022/10/03/100rust-62
 ---
 
 

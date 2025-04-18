@@ -4,7 +4,7 @@ title:  "Rust challenge 53/100 - running rust on pi-pico"
 date:   2022-09-15 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-17-100rust-53
+  - /rust/2022/09/17/100rust-53
 ---
 
 

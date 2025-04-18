@@ -4,7 +4,7 @@ title:  "Rust challenge 47/100 - hector tutorial "
 date:   2022-03-23 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-03-23-100rust-47
+  - /rust/2022/03/23/100rust-47
 ---
 
 

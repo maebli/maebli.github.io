@@ -4,7 +4,7 @@ title:  "Rust challenge 7/100 - Fibonacci"
 date:   2021-10-24 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-10-24-100rust-7
+  - /rust/2021/10/24/100rust-7
 ---
 
 

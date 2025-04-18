@@ -4,7 +4,7 @@ title:  "Rust challenge 6/100- Insertion Sort"
 date:   2021-10-23 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-10-22-100rust-6
+  - /rust/2021/10/22/100rust-6
 ---
 
 

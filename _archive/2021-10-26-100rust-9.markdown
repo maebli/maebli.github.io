@@ -4,7 +4,7 @@ title:  "Rust challenge 9/100 - Celcius to Farenheit"
 date:   2021-10-26 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-10-26-100rust-9
+  - /rust/2021/10/26/100rust-9
 ---
 
 

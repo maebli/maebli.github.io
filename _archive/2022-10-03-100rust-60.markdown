@@ -4,7 +4,7 @@ title:  "Rust challenge 60/100 - reading the generic node's humidity and tempera
 date:   2022-10-03 22:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-10-03-100rust-60
+  - /rust/2022/10/03/100rust-60
 ---
 
 

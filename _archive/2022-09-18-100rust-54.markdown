@@ -4,7 +4,7 @@ title:  "Rust challenge 54/100 - duplicate file finder"
 date:   2022-09-18 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-18-100rust-54
+  - /rust/2022/09/18/100rust-54
 ---
 
 

@@ -4,7 +4,7 @@ title:  "Rust challenge 71/100 - aoc 2022 day9"
 date:   2022-12-09 15:05:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-12-09-100rust-71
+  - /rust/2022/12/09/100rust-71
 ---
 
 

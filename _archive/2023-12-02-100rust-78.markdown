@@ -4,7 +4,7 @@ title:  "Rust challenge 78/100 - aoc 2023 day2"
 date:   2023-12-2 14:39:00 +0100
 categories: rust
 redirect_from:
-  - /post/2023-12-02-100rust-78
+  - /rust/2023/12/02/100rust-78
 ---
 
 

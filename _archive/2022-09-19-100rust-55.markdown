@@ -4,7 +4,7 @@ title:  "Rust challenge 55/100 - running rust on esp32"
 date:   2022-09-19 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-19-100rust-55
+  - /rust/2022/09/19/100rust-55
 ---
 
 

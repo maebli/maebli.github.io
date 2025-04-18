@@ -4,7 +4,7 @@ title:  "Rust challenge 58/100 - making the generic node light up"
 date:   2022-10-01 15:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-10-01-100rust-58
+  - /rust/2022/10/01/100rust-58
 ---
 
 

@@ -4,7 +4,7 @@ title:  "Rust challenge 52/100 - cross compiling for cortex-m3 machine lm3s6965e
 date:   2022-09-15 18:30:00 +0100
 categories: rust
 redirect_from:
-  - /post/2022-09-16-100rust-52
+  - /rust/2022/09/16/100rust-52
 ---
 
 

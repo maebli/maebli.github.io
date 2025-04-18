@@ -4,7 +4,7 @@ title:  "Rust challenge 30/100 - advent of code 2020 day 3  part 1 and 2 (fixed)
 date:   2021-11-29 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-11-30-100rust-30
+  - /rust/2021/11/30/100rust-30
 ---
 
 

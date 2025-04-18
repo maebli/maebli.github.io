@@ -4,7 +4,7 @@ title:  "Rust challenge 20/100 - crc16 in webassembly"
 date:   2021-11-05 21:00:00 +0100
 categories: rust
 redirect_from:
-  - /post/2021-11-03-100rust-20
+  - /rust/2021/11/03/100rust-20
 ---
 
 #  Table of content
