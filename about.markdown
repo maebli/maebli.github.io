@@ -11,7 +11,7 @@ permalink: /about/
   gap: 20px;
 }
 .profile-image {
-  width: 200px;
+  width: 100px;
   height: auto;
   border-radius: 5px;
 }
