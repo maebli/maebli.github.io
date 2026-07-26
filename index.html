@@ -1,6 +1,45 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
+layout: default
+description: "Michael Aebli — development engineer in the utilities industry. Notes on embedded development, Rust, and the M-Bus protocol."
 ---
+
+<div class="home">
+  <div class="intro">
+    <p>
+      I'm Michael, a development engineer in the utilities industry. I write here
+      about embedded development, Rust, and the occasional protocol rabbit hole.
+    </p>
+  </div>
+
+  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+
+  {%- if site.posts.size > 0 -%}
+  <h2 class="post-list-heading">Posts</h2>
+  <ul class="post-list">
+    {%- for post in site.posts -%}
+    <li>
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
+      <h3>
+        <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+      </h3>
+    </li>
+    {%- endfor -%}
+  </ul>
+  {%- endif -%}
+
+  {%- assign challenge = site.archive | sort: "date" -%}
+  {%- if challenge.size > 0 -%}
+  <a class="card" href="{{ '/archive/' | relative_url }}">
+    <h3>The 100 Rust Challenge</h3>
+    <p>
+      {{ challenge.size }} entries, {{ challenge.first.date | date: "%b %Y" }} –
+      {{ challenge.last.date | date: "%b %Y" }} — one small Rust problem at a time.
+      Browse or search the archive.
+    </p>
+  </a>
+  {%- endif -%}
+
+  <p class="rss-subscribe">
+    Subscribe <a href="{{ '/feed.xml' | relative_url }}">via RSS</a>.
+  </p>
+</div>

@@ -20,26 +20,51 @@
 
 title: Michael Aebli's Pages
 description: >- # this means to ignore newlines until "baseurl:"
-  This is Michael's Blog.
+  Notes on embedded development, Rust, and the M-Bus protocol, by Michael Aebli.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: https://maebli.github.io
+lang: en
 github_username:  maebli
 linkedin_username: aebli
-author: maebli
+author: Michael Aebli
+
+# Used by jekyll-seo-tag for the JSON-LD publisher logo. The default social
+# preview image is set under `defaults` below, because jekyll-seo-tag reads the
+# image from the page only — it has no site-level fallback.
+logo: /assets/img/icon-192.png
+
+# NOTE: deliberately no `twitter:` block. jekyll-seo-tag emits
+# `twitter:site="@"` and a bogus `twitter:creator` from the author name
+# whenever `site.twitter` exists but has no username.
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
   - jekyll-sitemap
   - jemoji
   - jekyll-paginate
   - jekyll-redirect-from
 
+# jekyll-feed only picks up _posts by default. This adds a second feed for the
+# (completed) 100 Rust Challenge collection at /feed/archive.xml.
+feed:
+  # Default is 10; the challenge is a finished, static set, so serve all of it.
+  posts_limit: 100
+  collections:
+    archive:
+      path: "/feed/archive.xml"
+
 social_links:
     linkedin: aebli
     
 defaults:
+  # Site-wide social preview image. Any post can override it with `image:`.
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/og-default.png
   - scope:
       path: "assets/img"
     values:
@@ -48,6 +73,14 @@ defaults:
       path: "assets/js"
     values:
       js: true
+  # Archive posts open with a code block, so the excerpt jekyll-seo-tag would
+  # otherwise fall back to is raw Rust. Give the collection a sane description.
+  - scope:
+      type: "archive"
+    values:
+      description: >-
+        Part of the 100 Rust Challenge — one small Rust problem at a time,
+        with the solution worked through in full.
 
 disqus:
   shortname: maebli-github-io

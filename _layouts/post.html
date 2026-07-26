@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="post h-entry" itemscope itemtype="https://schema.org/BlogPosting">
 
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
@@ -11,28 +11,66 @@ layout: default
         {{ page.date | date: date_format }}
       </time>
       {%- if page.modified_date -%}
-        ~ 
+        ~
         {%- assign mdate = page.modified_date | date_to_xmlschema -%}
         <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
           {{ mdate | date: date_format }}
         </time>
       {%- endif -%}
-      {%- if page.author -%}
-        • {% for author in page.author %}
-          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
-            {%- if forloop.last == false %}, {% endif -%}
-        {% endfor %}
-      {%- endif -%}</p>
+      {%- assign post_author = page.author | default: site.author -%}
+      {%- if post_author %} •
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <span class="p-author h-card" itemprop="name">{{ post_author }}</span>
+        </span>
+      {%- endif -%}
+    </p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
 
-  <a href="/archive/" class="archive-button">Archive</a>
+  <footer class="post-footer">
+    {% include share-buttons.html %}
 
-  {% include share-buttons.html %}
+    <div class="byline">
+      <img src="{{ '/assets/img/me.png' | relative_url }}" alt="" width="48" height="48">
+      <p>
+        Written by <strong>{{ site.author }}</strong>, a development engineer in the
+        utilities industry — mostly embedded work and Rust.
+        {%- if site.github_username %}
+        <a href="https://github.com/{{ site.github_username }}">GitHub</a> ·
+        {%- endif %}
+        {%- if site.linkedin_username %}
+        <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}/">LinkedIn</a> ·
+        {%- endif %}
+        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      </p>
+    </div>
+
+    {%- if page.previous or page.next %}
+    <nav class="post-nav" aria-label="More posts">
+      {%- if page.previous %}
+      <a class="post-nav-prev" href="{{ page.previous.url | relative_url }}">
+        <span>← Previous</span>{{ page.previous.title | strip | escape }}
+      </a>
+      {%- endif %}
+      {%- if page.next %}
+      <a class="post-nav-next" href="{{ page.next.url | relative_url }}">
+        <span>Next →</span>{{ page.next.title | strip | escape }}
+      </a>
+      {%- endif %}
+    </nav>
+    {%- endif %}
+
+    <p>
+      {%- if page.collection == 'archive' %}
+      <a href="{{ '/archive/' | relative_url }}" class="archive-button">← All 100 Rust Challenge entries</a>
+      {%- else %}
+      <a href="{{ '/archive/' | relative_url }}" class="archive-button">100 Rust Challenge archive</a>
+      {%- endif %}
+    </p>
+  </footer>
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>

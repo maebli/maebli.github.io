@@ -1,0 +1,29 @@
+{%- comment -%}
+Overrides minima's head.html to add favicons and theme-colour. Keep the rest in
+sync with the theme when upgrading minima.
+{%- endcomment -%}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="icon" href="{{ '/assets/img/icon-32.png' | relative_url }}" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="{{ '/assets/img/icon-180.png' | relative_url }}">
+  <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#17191d" media="(prefers-color-scheme: dark)">
+
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- feed_meta -%}
+  {%- comment -%}
+  feed_meta only advertises the main feed; the collection feed needs its own link.
+  {%- endcomment -%}
+  <link type="application/atom+xml" rel="alternate"
+        href="{{ '/feed/archive.xml' | absolute_url }}"
+        title="100 Rust Challenge">
+
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+</head>

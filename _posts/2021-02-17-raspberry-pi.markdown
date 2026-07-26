@@ -3,6 +3,9 @@ layout: post
 title:  "First Steps with Raspberry Pi Pico"
 date:   2021-02-17 21:00:00 +0100
 categories: pico hardware
+description: >-
+  Getting started with the Raspberry Pi Pico — setting up the SDK, building the
+  first examples, and notes from working through the official getting-started guide.
 ---
 
 

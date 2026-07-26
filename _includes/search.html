@@ -1,0 +1,11 @@
+<div class="search">
+  <input type="search" id="search-input" class="search-box" autocomplete="off"
+         spellcheck="false"
+         aria-label="{{ include.label | default: 'Search posts' }}"
+         placeholder="{{ include.placeholder | default: 'Search posts…' }}"
+         data-index="{{ '/search.json' | relative_url }}">
+  <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+  <ul class="search-results" id="search-results"></ul>
+</div>
+
+<script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>

@@ -2,13 +2,29 @@
 layout: page
 title: "100 Rust Challenge Archive"
 permalink: /archive/
+description: "All 100 entries of the 100 Rust Challenge — one small Rust problem at a time, from 2021 to 2024."
 ---
 
-<ul>
-  {% for post in site.archive %}
+{%- assign by_date = site.archive | sort: "date" -%}
+{%- assign posts = by_date | reverse -%}
+
+<p>
+  {{ posts | size }} entries, {{ by_date.first.date | date: "%b %Y" }} –
+  {{ by_date.last.date | date: "%b %Y" }}. One small Rust problem at a time.
+  <a href="{{ '/feed/archive.xml' | relative_url }}">RSS</a>.
+</p>
+
+{% include search.html placeholder="Search the archive…" label="Search the archive" %}
+
+{%- assign years = posts | group_by_exp: "p", "p.date | date: '%Y'" -%}
+{%- for year in years %}
+  <h2 class="archive-year" id="y{{ year.name }}">{{ year.name }}</h2>
+  <ul class="archive-list">
+    {%- for post in year.items %}
     <li>
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <span>{{ post.date | date: "%b %d, %Y" }}</span>
+      <span class="archive-date">{{ post.date | date: "%b %-d" }}</span>
+      <a href="{{ post.url | relative_url }}">{{ post.title | strip }}</a>
     </li>
-  {% endfor %}
-</ul>
+    {%- endfor %}
+  </ul>
+{%- endfor %}
