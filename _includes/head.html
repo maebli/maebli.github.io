@@ -14,7 +14,12 @@ sync with the theme when upgrading minima.
   <meta name="theme-color" content="#17191d" media="(prefers-color-scheme: dark)">
 
   {%- seo -%}
-  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  {%- comment -%}
+  Cache-bust on build time. Without this, /assets/main.css is served with
+  max-age=600 and no version, so a stylesheet change can be masked by a stale
+  copy — which looks like "the CSS just doesn't work".
+  {%- endcomment -%}
+  <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   {%- feed_meta -%}
   {%- comment -%}
   feed_meta only advertises the main feed; the collection feed needs its own link.

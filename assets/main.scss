@@ -341,13 +341,16 @@ pre {
   font-size: $base-font-size;
   font-family: inherit;
   color: var(--text);
-  background-color: var(--bg);
+  // Slightly off the page background so it reads as a control; a white box on a
+  // white page is easy to miss entirely.
+  background-color: var(--card-bg);
   border: 1px solid var(--border-strong);
   border-radius: 6px;
 
   &:focus {
     outline: none;
     border-color: var(--link);
+    background-color: var(--bg);
   }
 }
 
